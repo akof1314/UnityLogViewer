@@ -20,16 +20,16 @@ namespace LogViewer
         {
             InitializeComponent();
             this.Config = config;
-            if (this.Config.NumContextLines > 0)
-            {
-                checkShowContextLines.Checked = true;
-                comboNumLines.SelectedIndex = this.Config.NumContextLines - 1;
-            }
-            else
-            {
-                checkShowContextLines.Checked = false;
-                comboNumLines.SelectedIndex = 0;
-            }
+            //if (this.Config.NumContextLines > 0)
+            //{
+            //    checkShowContextLines.Checked = true;
+            //    comboNumLines.SelectedIndex = this.Config.NumContextLines - 1;
+            //}
+            //else
+            //{
+            //    checkShowContextLines.Checked = false;
+            //    comboNumLines.SelectedIndex = 0;
+            //}
 
             checkShowContextLines_CheckedChanged(this, null);
         }
@@ -43,14 +43,14 @@ namespace LogViewer
         /// <param name="e"></param>
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            if (checkShowContextLines.Checked == true)
-            {
-                Config.NumContextLines = comboNumLines.SelectedIndex + 1;
-            }
-            else
-            {
-                Config.NumContextLines = 0;
-            }
+            //if (checkShowContextLines.Checked == true)
+            //{
+            //    Config.NumContextLines = comboNumLines.SelectedIndex + 1;
+            //}
+            //else
+            //{
+            //    Config.NumContextLines = 0;
+            //}
 
             this.DialogResult = DialogResult.OK;
         }
@@ -73,14 +73,14 @@ namespace LogViewer
         /// <param name="e"></param>
         private void checkShowContextLines_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkShowContextLines.Checked == true)
-            {
-                comboNumLines.Enabled = true;
-            }
-            else
-            {
-                comboNumLines.Enabled = false;
-            }
+            //if (checkShowContextLines.Checked == true)
+            //{
+            //    comboNumLines.Enabled = true;
+            //}
+            //else
+            //{
+            //    comboNumLines.Enabled = false;
+            //}
         }
     }
 }

@@ -13,6 +13,10 @@ namespace LogViewer
         public long Offset { get; set; } = 0;
         public List<ushort> SearchMatches { get; set; } = new List<ushort>();
         public bool IsContextLine { get; set; } = false;
+        public long StackTraceOffset { get; set; } = 0;
+        public int StackTraceCharCount { get; set; } = 0;
+        public bool IsCrLine { get; set; } = false;
+        public int LogType { get; set; } = 0;
         #endregion
     }
 }

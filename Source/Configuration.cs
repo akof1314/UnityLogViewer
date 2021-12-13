@@ -15,7 +15,7 @@ namespace LogViewer
         public string HighlightColour { get; set; } = "Lime";
         public string ContextColour { get; set; } = "LightGray";
         public int MultiSelectLimit { get; set; } = 1000;
-        public int NumContextLines { get; set; } = 0;
+        public int NumContextLines { get; set; } = 0; // 上下文的最大数
         private const string FILENAME = "LogViewer.toml";
         #endregion
 

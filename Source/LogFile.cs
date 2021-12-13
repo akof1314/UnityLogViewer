@@ -22,8 +22,8 @@ namespace LogViewer
         public delegate void SearchCompleteEvent(LogFile lf, string fileName, TimeSpan duration, long matches, int numSearchTerms, bool cancelled);
         public delegate void CompleteEvent(LogFile lf, string fileName, TimeSpan duration, bool cancelled);
         public delegate void BoolEvent(string fileName, bool val);
-        public delegate void MessageEvent(string fileName, string message);
-        public delegate void ProgressUpdateEvent(int percent);
+        public delegate void MessageEvent(LogFile lf, string fileName, string message);
+        public delegate void ProgressUpdateEvent(LogFile lf, int percent);
         #endregion
 
         #region Events
@@ -32,6 +32,7 @@ namespace LogViewer
         public event CompleteEvent ExportComplete;
         public event ProgressUpdateEvent ProgressUpdate;
         public event MessageEvent LoadError;
+        public event ProgressUpdateEvent ProgressCancel;
         #endregion
 
 
@@ -50,6 +51,7 @@ namespace LogViewer
         public List<ushort> FilterIds { get; private set; }  = new List<ushort>();
         public FastObjectListView List { get; set; }
         public string Guid { get; private set; }
+        public FormLogPage pageForm { get; private set; }
         #endregion
 
         /// <summary>
@@ -126,12 +128,16 @@ namespace LogViewer
                                 if (indexOf != -1)
                                 {
                                     charCount = 0;
+                                    bool preCr = IsLastLineCr();
+                                    bool curCr = false;
 
                                     // Check if the line contains a CR as well, if it does then we remove the last char as the char count
                                     if (indexOf != 0 && (int)tempBuffer[Math.Max(0, indexOf - 1)] == 13)
                                     {
                                         charCount = bufferRemainder + (indexOf - startIndex - 1);                           
-                                        position += (long)charCount + 2L; 
+                                        position += (long)charCount + 2L;
+
+                                        curCr = true;
                                     }
                                     else
                                     {
@@ -139,7 +145,36 @@ namespace LogViewer
                                         position += (long)charCount + 1L;
                                     }
 
-                                    AddLine(lineStartOffset, charCount);
+                                    int newStartOffset = 0;
+                                    int logType = 1;
+                                    if (indexOf - startIndex > 13)
+                                    {
+                                        if (tempStr[startIndex + 8] == '3' && tempStr[startIndex + 9] == '-' && tempStr[startIndex + 7] == 't')
+                                        {
+                                            logType = 3;
+                                            newStartOffset = 13;
+                                        }
+                                        else if (tempStr[startIndex + 8] == '2' && tempStr[startIndex + 9] == '-' && tempStr[startIndex + 7] == 't')
+                                        {
+                                            logType = 2;
+                                            newStartOffset = 13;
+                                        }
+                                        else if (tempStr[startIndex + 8] == '1' && tempStr[startIndex + 9] == '-' && tempStr[startIndex + 7] == 't')
+                                        {
+                                            logType = 1;
+                                            newStartOffset = 13;
+                                        }
+                                    }
+
+                                    if (preCr)
+                                    {
+                                        AddLine(lineStartOffset + newStartOffset, charCount - newStartOffset, curCr, logType);
+                                    }
+                                    else
+                                    {
+                                        AppendLineStackTrace(lineStartOffset, charCount, curCr);
+                                    }
+
 
                                     // The remaining number in the buffer gets set to 0 e.g. after 
                                     //the first iteration as it would add onto the first line
@@ -154,7 +189,7 @@ namespace LogViewer
                             // We had some '\r' in the last buffer read, now they are processing, so just add the rest as the last line
                             if (lastSection == true)
                             {
-                                AddLine(lineStartOffset, bufferRemainder + (numBytesRead - startIndex));
+                                AddLine(lineStartOffset, bufferRemainder + (numBytesRead - startIndex), true, 1);
                                 return;
                             }
                             
@@ -165,7 +200,7 @@ namespace LogViewer
                             // The entire content of the buffer doesn't contain \r so just add the rest of content as the last line
                             if (lastSection == true)
                             {
-                                AddLine(lineStartOffset, bufferRemainder + (numBytesRead - startIndex));
+                                AddLine(lineStartOffset, bufferRemainder + (numBytesRead - startIndex), true, 1);
                                 return;
                             }
      
@@ -480,7 +515,16 @@ namespace LogViewer
                 return (this.GetLine(((LogLine)x).LineNumber));
             };
 
-            FastObjectListView lv = new FastObjectListView();
+            FormLogPage logPage = new FormLogPage();
+            logPage.TopLevel = false;
+            logPage.FormBorderStyle = FormBorderStyle.None;
+            logPage.Visible = true;
+            logPage.Left = 0;
+            logPage.Top = 0;
+            logPage.Dock = DockStyle.Fill;
+            pageForm = logPage;
+            pageForm.Log = this;
+            FastObjectListView lv = logPage.GetFastObjectListView();
 
             lv.AllColumns.Add(colLineNumber);
             lv.AllColumns.Add(colText);
@@ -520,9 +564,8 @@ namespace LogViewer
             lv.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.FormatRow);            
 
             this.List = lv;
-
             TabPage tp = new TabPage();
-            tp.Controls.Add(lv);
+            tp.Controls.Add(logPage);
             tp.Location = new System.Drawing.Point(4, 33);
             tp.Name = "tabPage" + this.Guid;
             tp.Padding = new System.Windows.Forms.Padding(3);
@@ -674,12 +717,14 @@ namespace LogViewer
         /// </summary>
         /// <param name="offset"></param>
         /// <param name="charCount"></param>
-        private void AddLine(long offset, int charCount)
+        private void AddLine(long offset, int charCount, bool endCr, int logType)
         {           
             LogLine ll = new LogLine();
             ll.Offset = offset;
             ll.CharCount = charCount;
             ll.LineNumber = this.LineCount;
+            ll.IsCrLine = endCr;
+            ll.LogType = logType;
             this.Lines.Add(ll);
             if (charCount > this.LongestLine.CharCount)
             {
@@ -688,6 +733,35 @@ namespace LogViewer
             }
 
             this.LineCount++;
+        }
+
+        private void AppendLineStackTrace(long offset, int charCount, bool endCr)
+        {
+            if (this.Lines.Count > 0)
+            {
+                LogLine ll = this.Lines[this.Lines.Count - 1];
+                if (ll.StackTraceOffset == 0)
+                {
+                    ll.StackTraceOffset = offset;
+                }
+
+                ll.StackTraceCharCount += charCount;
+                ll.IsCrLine = endCr;
+            }
+        }
+
+        /// <summary>
+        /// 最后一行是否结束cr了
+        /// </summary>
+        private bool IsLastLineCr()
+        {
+            if (this.Lines.Count > 0)
+            {
+                LogLine ll = this.Lines[this.Lines.Count - 1];
+                return ll.IsCrLine;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -712,7 +786,8 @@ namespace LogViewer
             }
             catch (Exception){}
 
-            return Regex.Replace(Encoding.ASCII.GetString(buffer), "[\0-\b\n\v\f\x000E-\x001F\x007F-ÿ]", "", RegexOptions.Compiled);
+            //return Regex.Replace(Encoding.ASCII.GetString(buffer), "[\0-\b\n\v\f\x000E-\x001F\x007F-ÿ]", "", RegexOptions.Compiled);
+            return Encoding.UTF8.GetString(buffer);
         }
 
         #region Event Methods
@@ -721,7 +796,7 @@ namespace LogViewer
         /// </summary>
         private void OnLoadError(string message)
         {
-            LoadError?.Invoke(this.FileName, message);
+            LoadError?.Invoke(this, this.FileName, message);
         }
 
         /// <summary>
@@ -729,7 +804,7 @@ namespace LogViewer
         /// </summary>
         private void OnProgressUpdate(int progress)
         {
-            ProgressUpdate?.Invoke(progress);
+            ProgressUpdate?.Invoke(this, progress);
         }
 
         /// <summary>
@@ -754,6 +829,11 @@ namespace LogViewer
         private void OnSearchComplete(TimeSpan duration, long matches, int numTerms, bool cancelled)
         {
             SearchComplete?.Invoke(this, this.FileName, duration, matches, numTerms, cancelled);
+        }
+
+        public void OnProgressCancel()
+        {
+            ProgressCancel?.Invoke(this, 0);
         }
         #endregion
     }

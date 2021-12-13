@@ -146,7 +146,6 @@ namespace LogViewer
             this.processing = true;
             this.hourGlass = new HourGlass(this);
             SetProcessingState(false);
-            statusProgress.Visible = true;
             this.cancellationTokenSource = new CancellationTokenSource();
             menuToolsMultiStringSearch.Enabled = true;
 
@@ -154,11 +153,13 @@ namespace LogViewer
             {
                 LogFile lf = new LogFile();
                 logs.Add(lf.Guid, lf);
-
+                
                 tabControl.TabPages.Add(lf.Initialise(filePath));
+                lf.pageForm.GetToolStripProgressBar().Visible = true;
                 lf.SetContextMenu(contextMenu);
                 lf.ViewMode = Global.ViewMode.Standard;
                 lf.ProgressUpdate += LogFile_LoadProgress;
+                lf.ProgressCancel += LogFile_LoadProgressCancel;
                 lf.LoadComplete += LogFile_LoadComplete;
                 lf.SearchComplete += LogFile_SearchComplete;
                 lf.ExportComplete += LogFile_ExportComplete;
@@ -215,7 +216,7 @@ namespace LogViewer
             this.processing = true;
             this.hourGlass = new HourGlass(this);
             SetProcessingState(false);
-            statusProgress.Visible = true;
+            lf.pageForm.GetToolStripProgressBar().Visible = true;
             this.cancellationTokenSource = new CancellationTokenSource();
             lf.Search(sc, toolButtonCumulative.Checked, cancellationTokenSource.Token, config.NumContextLines);
         }
@@ -229,10 +230,10 @@ namespace LogViewer
             this.processing = true;
             this.hourGlass = new HourGlass(this);
             SetProcessingState(false);
-            statusProgress.Visible = true;
             this.cancellationTokenSource = new CancellationTokenSource();
 
             LogFile lf = logs[tabControl.SelectedTab.Tag.ToString()];
+            lf.pageForm.GetToolStripProgressBar().Visible = true;
 
             if (lf.List.ModelFilter == null)
             {
@@ -253,10 +254,10 @@ namespace LogViewer
             this.processing = true;
             this.hourGlass = new HourGlass(this);
             SetProcessingState(false);
-            statusProgress.Visible = true;
             this.cancellationTokenSource = new CancellationTokenSource();
 
             LogFile lf = logs[tabControl.SelectedTab.Tag.ToString()];
+            lf.pageForm.GetToolStripProgressBar().Visible = true;
             lf.Export(lf.List.SelectedObjects, filePath, cancellationTokenSource.Token);
         }
         #endregion
@@ -266,13 +267,13 @@ namespace LogViewer
         /// 
         /// </summary>
         /// <param name="message"></param>
-        private void LogFile_LoadError(string fileName, string message)
+        private void LogFile_LoadError(LogFile lf, string fileName, string message)
         {
             UserInterface.DisplayErrorMessageBox(this, message + " (" + fileName + ")");
 
             synchronizationContext.Post(new SendOrPostCallback(o =>
             {
-                statusProgress.Visible = false;
+                lf.pageForm.GetToolStripProgressBar().Visible = false;
                 this.hourGlass.Dispose();
                 SetProcessingState(true);
                 this.cancellationTokenSource.Dispose();
@@ -288,12 +289,17 @@ namespace LogViewer
         /// 
         /// </summary>
         /// <param name="percent"></param>
-        private void LogFile_LoadProgress(int percent)
+        private void LogFile_LoadProgress(LogFile lf, int percent)
         {
             synchronizationContext.Post(new SendOrPostCallback(o =>
             {
-                statusProgress.Value = (int)o;
+                lf.pageForm.GetToolStripProgressBar().Value = (int)o;
             }), percent);
+        }
+
+        private void LogFile_LoadProgressCancel(LogFile lf, int percent)
+        {
+            this.cancellationTokenSource.Cancel();
         }
 
         /// <summary>
@@ -303,12 +309,12 @@ namespace LogViewer
         {
             synchronizationContext.Post(new SendOrPostCallback(o =>
             {
-                statusProgress.Visible = false;
+                lf.pageForm.GetToolStripProgressBar().Visible = false;
                 lf.List.Refresh();
                 this.hourGlass.Dispose();
                 SetProcessingState(true);
                 this.cancellationTokenSource.Dispose();
-                UpdateStatusLabel("Matched " + matches + " lines (Search Terms: " + numTerms + ") # Duration: " + duration + " (" + fileName + ")", statusLabelMain);
+                UpdateStatusLabel("Matched " + matches + " lines (Search Terms: " + numTerms + ") # Duration: " + duration + " (" + fileName + ")", lf.pageForm.GetToolStripStatusLabel());
 
                 this.processing = false;
 
@@ -323,11 +329,11 @@ namespace LogViewer
         {
             synchronizationContext.Post(new SendOrPostCallback(o =>
             {
-                statusProgress.Visible = false;
+                lf.pageForm.GetToolStripProgressBar().Visible = false;
                 this.hourGlass.Dispose();
                 SetProcessingState(true);
                 this.cancellationTokenSource.Dispose();
-                UpdateStatusLabel("Export complete # Duration: " + duration + " (" + fileName + ")", statusLabelMain);
+                UpdateStatusLabel("Export complete # Duration: " + duration + " (" + fileName + ")", lf.pageForm.GetToolStripStatusLabel());
                 this.processing = false;
             }), null);
         }
@@ -355,11 +361,11 @@ namespace LogViewer
                 }
 
                 lf.List.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
-                statusProgress.Visible = false;
+                lf.pageForm.GetToolStripProgressBar().Visible = false;
                
                 SetProcessingState(true);
                 this.cancellationTokenSource.Dispose();
-                UpdateStatusLabel(lf.Lines.Count + " Lines # Duration: " + duration + " (" + fileName + ")", statusLabelMain);             
+                UpdateStatusLabel(lf.Lines.Count + " Lines # Duration: " + duration + " (" + fileName + ")", lf.pageForm.GetToolStripStatusLabel());             
                 menuFileClose.Enabled = true;
                 menuFileOpen.Enabled = true; // Enable the standard file open, since we can now open in an existing tab, since at least one tab exists
                 int index = tabControl.TabPages.IndexOfKey("tabPage" + lf.Guid);
@@ -858,8 +864,6 @@ namespace LogViewer
                 menuFileOpen.Enabled = false;
                 menuFileClose.Enabled = false;
             }
-
-            UpdateStatusLabel("", statusLabelMain);
         }
 
         /// <summary>
@@ -925,7 +929,7 @@ namespace LogViewer
                 this.processing = true;
                 this.hourGlass = new HourGlass(this);
                 SetProcessingState(false);
-                statusProgress.Visible = true;
+                lf.pageForm.GetToolStripProgressBar().Visible = true;
                 this.cancellationTokenSource = new CancellationTokenSource();
                 lf.SearchMulti(f.NewSearches, cancellationTokenSource.Token, config.NumContextLines);
             }
@@ -982,18 +986,6 @@ namespace LogViewer
             {
                 control.Text = (string)o;
             }), text);
-        }
-        #endregion
-
-        #region Other Control Event Handlers
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void statusProgress_Click(object sender, EventArgs e)
-        {
-            this.cancellationTokenSource.Cancel();          
         }
         #endregion
     }
