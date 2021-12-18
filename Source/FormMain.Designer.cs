@@ -96,8 +96,8 @@
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Padding = new System.Windows.Forms.Padding(4, 1, 0, 1);
-            this.menuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip.Size = new System.Drawing.Size(923, 24);
+            this.menuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.menuStrip.Size = new System.Drawing.Size(1124, 24);
             this.menuStrip.TabIndex = 1;
             // 
             // menuFile
@@ -225,7 +225,7 @@
             this.toolStrip.Location = new System.Drawing.Point(0, 24);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip.Size = new System.Drawing.Size(923, 31);
+            this.toolStrip.Size = new System.Drawing.Size(1124, 31);
             this.toolStrip.TabIndex = 4;
             this.toolStrip.TabStop = true;
             this.toolStrip.Text = "toolStrip1";
@@ -293,7 +293,7 @@
             this.panelMain.Location = new System.Drawing.Point(0, 55);
             this.panelMain.Margin = new System.Windows.Forms.Padding(2);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(923, 487);
+            this.panelMain.Size = new System.Drawing.Size(1124, 652);
             this.panelMain.TabIndex = 5;
             // 
             // tabControl
@@ -304,7 +304,7 @@
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
             this.tabControl.ShowToolTips = true;
-            this.tabControl.Size = new System.Drawing.Size(923, 487);
+            this.tabControl.Size = new System.Drawing.Size(1124, 652);
             this.tabControl.TabIndex = 1;
             // 
             // contextMenu
@@ -321,7 +321,7 @@
             this.toolStripMenuItem5,
             this.contextLines});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.contextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.contextMenu.Size = new System.Drawing.Size(123, 138);
             this.contextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenu_Opening);
             // 
@@ -493,7 +493,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(923, 542);
+            this.ClientSize = new System.Drawing.Size(1124, 707);
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.menuStrip);
@@ -502,7 +502,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "LogViewer";
+            this.Text = "Unity-ConsoleTiny Viewer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormMain_DragDrop);

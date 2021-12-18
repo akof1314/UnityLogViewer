@@ -30,9 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormConfiguration));
             this.tabControl = new System.Windows.Forms.TabControl();
-            this.miniToolStrip = new System.Windows.Forms.ToolStrip();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.miniToolStrip = new System.Windows.Forms.ToolStrip();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.tabControl.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -47,6 +49,17 @@
             this.tabControl.Size = new System.Drawing.Size(1043, 620);
             this.tabControl.TabIndex = 2;
             // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.richTextBox1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1035, 594);
+            this.tabPage1.TabIndex = 1;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
             // miniToolStrip
             // 
             this.miniToolStrip.AccessibleName = "新项选择";
@@ -60,15 +73,14 @@
             this.miniToolStrip.Size = new System.Drawing.Size(1029, 25);
             this.miniToolStrip.TabIndex = 0;
             // 
-            // tabPage1
+            // richTextBox1
             // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1035, 594);
-            this.tabPage1.TabIndex = 1;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.richTextBox1.Location = new System.Drawing.Point(370, 183);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(317, 161);
+            this.richTextBox1.TabIndex = 0;
+            this.richTextBox1.Text = "";
+            this.richTextBox1.WordWrap = false;
             // 
             // FormConfiguration
             // 
@@ -78,7 +90,7 @@
             this.Controls.Add(this.tabControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormConfiguration";
@@ -86,6 +98,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Configuration";
             this.tabControl.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -95,5 +108,6 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.ToolStrip miniToolStrip;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }

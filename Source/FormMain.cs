@@ -362,6 +362,7 @@ namespace LogViewer
 
                 lf.List.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
                 lf.pageForm.GetToolStripProgressBar().Visible = false;
+                lf.pageForm.SetTypeCount();
                
                 SetProcessingState(true);
                 this.cancellationTokenSource.Dispose();
