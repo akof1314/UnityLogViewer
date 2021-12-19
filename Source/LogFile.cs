@@ -19,7 +19,8 @@ namespace LogViewer
     internal class LogFile 
     {
         #region Delegates
-        public delegate void SearchCompleteEvent(LogFile lf, string fileName, TimeSpan duration, long matches, int numSearchTerms, bool cancelled);
+        public delegate void SearchBeginEvent(LogFile lf, string text);
+        public delegate void SearchCompleteEvent(LogFile lf, string fileName, TimeSpan duration, long matches, int numSearchTerms, bool cancelled, string searchText);
         public delegate void CompleteEvent(LogFile lf, string fileName, TimeSpan duration, bool cancelled);
         public delegate void BoolEvent(string fileName, bool val);
         public delegate void MessageEvent(LogFile lf, string fileName, string message);
@@ -27,6 +28,7 @@ namespace LogViewer
         #endregion
 
         #region Events
+        public event SearchBeginEvent SearchBegin;
         public event SearchCompleteEvent SearchComplete;
         public event CompleteEvent LoadComplete;
         public event CompleteEvent ExportComplete;
@@ -353,7 +355,7 @@ namespace LogViewer
                     DateTime end = DateTime.Now;
 
                     OnProgressUpdate(100);
-                    OnSearchComplete(end - start, matches, scs.Count, cancelled);
+                    OnSearchComplete(end - start, matches, scs.Count, cancelled, String.Empty);
                 }
             });
         }
@@ -462,7 +464,7 @@ namespace LogViewer
                     DateTime end = DateTime.Now;
 
                     OnProgressUpdate(100);
-                    OnSearchComplete(end - start, matches, 1, cancelled);
+                    OnSearchComplete(end - start, matches, 1, cancelled, sc.Pattern);
                 }
             });
         }
@@ -628,14 +630,14 @@ namespace LogViewer
                 return;
             }
 
-            if (((LogLine)e.Model).SearchMatches.Intersect(this.FilterIds).Any() == true)
-            {
-                e.Item.BackColor = highlightColour;
-            }
-            else if (((LogLine)e.Model).IsContextLine == true)
-            {
-                e.Item.BackColor = contextColour;
-            }
+//            if (((LogLine)e.Model).SearchMatches.Intersect(this.FilterIds).Any() == true)
+//            {
+//                e.Item.BackColor = highlightColour;
+//            }
+//            else if (((LogLine)e.Model).IsContextLine == true)
+//            {
+//                e.Item.BackColor = contextColour;
+//            }
             //}            
         }
 
@@ -1086,14 +1088,19 @@ namespace LogViewer
         /// <summary>
         /// 
         /// </summary>
-        private void OnSearchComplete(TimeSpan duration, long matches, int numTerms, bool cancelled)
+        private void OnSearchComplete(TimeSpan duration, long matches, int numTerms, bool cancelled, string searchText)
         {
-            SearchComplete?.Invoke(this, this.FileName, duration, matches, numTerms, cancelled);
+            SearchComplete?.Invoke(this, this.FileName, duration, matches, numTerms, cancelled, searchText);
         }
 
         public void OnProgressCancel()
         {
             ProgressCancel?.Invoke(this, 0);
+        }
+
+        public void OnSearchBegin(string text)
+        {
+            SearchBegin?.Invoke(this, text);
         }
         #endregion
     }

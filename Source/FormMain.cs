@@ -164,6 +164,7 @@ namespace LogViewer
                 lf.SearchComplete += LogFile_SearchComplete;
                 lf.ExportComplete += LogFile_ExportComplete;
                 lf.LoadError += LogFile_LoadError;
+                lf.SearchBegin += LogFile_SearchBegin;
                 lf.List.ItemActivate += new EventHandler(this.listLines_ItemActivate);
                 lf.List.DragDrop += new DragEventHandler(this.listLines_DragDrop);
                 lf.List.DragEnter += new DragEventHandler(this.listLines_DragEnter);
@@ -302,13 +303,56 @@ namespace LogViewer
             this.cancellationTokenSource.Cancel();
         }
 
+        private void LogFile_SearchBegin(LogFile lf, string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                lf.List.ModelFilter = null;
+                lf.ViewMode = Global.ViewMode.Standard;
+
+                return;
+            }
+
+            SearchCriteria sc = new SearchCriteria();
+            sc.Type = lf.pageForm.GetSearchType();
+            sc.Pattern = text;
+            sc.Id = lf.Searches.Add(sc, false);
+
+            if (sc.Id == 0)
+            {
+                UserInterface.DisplayMessageBox(this, "The search pattern already exists", MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            // Add the ID so that any matches show up straight away
+            lf.FilterIds.Add(sc.Id);
+
+            this.processing = true;
+            this.hourGlass = new HourGlass(this);
+            SetProcessingState(false);
+            lf.pageForm.GetToolStripProgressBar().Visible = true;
+            this.cancellationTokenSource = new CancellationTokenSource();
+            lf.Search(sc, false, cancellationTokenSource.Token, config.NumContextLines);
+        }
+
         /// <summary>
         /// 
         /// </summary>
-        private void LogFile_SearchComplete(LogFile lf, string fileName, TimeSpan duration, long matches, int numTerms, bool cancelled)
+        private void LogFile_SearchComplete(LogFile lf, string fileName, TimeSpan duration, long matches, int numTerms, bool cancelled, string searchText)
         {
             synchronizationContext.Post(new SendOrPostCallback(o =>
             {
+                lf.ViewMode = Global.ViewMode.FilterShow;
+                if (lf.pageForm.IsShowMatch())
+                {
+                    lf.List.ModelFilter = new ModelFilter(delegate (object x)
+                    {
+                        return x != null && (((LogLine)x).SearchMatches.Intersect(lf.FilterIds).Any() == true || (((LogLine)x).IsContextLine == true));
+                    });
+                }
+                TextMatchFilter filter = TextMatchFilter.Contains(lf.List, searchText);
+                lf.List.DefaultRenderer = new HighlightTextRenderer(filter);
+
                 lf.pageForm.GetToolStripProgressBar().Visible = false;
                 lf.List.Refresh();
                 this.hourGlass.Dispose();

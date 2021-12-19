@@ -45,6 +45,11 @@
             this.imageListLog = new System.Windows.Forms.ImageList(this.components);
             this.toolStripButtonCancle = new System.Windows.Forms.ToolStripButton();
             this.toolStripDropDownButtonHistory = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripButtonViewMatch = new System.Windows.Forms.ToolStripButton();
+            this.ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -58,6 +63,7 @@
             // 
             this.toolStripTab.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripTab.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonViewMatch,
             this.toolStripDropDownButtonHistory,
             this.toolStripTextBoxSearch,
             this.toolStripButtonCancle,
@@ -75,7 +81,7 @@
             // toolStripTextBoxSearch
             // 
             this.toolStripTextBoxSearch.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.toolStripTextBoxSearch.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.HistoryList;
+            this.toolStripTextBoxSearch.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.toolStripTextBoxSearch.Name = "toolStripTextBoxSearch";
             this.toolStripTextBoxSearch.Size = new System.Drawing.Size(300, 25);
             this.toolStripTextBoxSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBoxSearch_KeyDown);
@@ -222,11 +228,59 @@
             // toolStripDropDownButtonHistory
             // 
             this.toolStripDropDownButtonHistory.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDropDownButtonHistory.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem1,
+            this.ToolStripMenuItem2,
+            this.ToolStripMenuItem3,
+            this.ToolStripMenuItem4});
             this.toolStripDropDownButtonHistory.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonHistory.Image")));
             this.toolStripDropDownButtonHistory.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButtonHistory.Name = "toolStripDropDownButtonHistory";
             this.toolStripDropDownButtonHistory.Size = new System.Drawing.Size(29, 22);
-            this.toolStripDropDownButtonHistory.Text = "历史记录";
+            this.toolStripDropDownButtonHistory.Text = "搜索模式";
+            // 
+            // toolStripButtonViewMatch
+            // 
+            this.toolStripButtonViewMatch.Checked = true;
+            this.toolStripButtonViewMatch.CheckOnClick = true;
+            this.toolStripButtonViewMatch.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toolStripButtonViewMatch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonViewMatch.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonViewMatch.Image")));
+            this.toolStripButtonViewMatch.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonViewMatch.Name = "toolStripButtonViewMatch";
+            this.toolStripButtonViewMatch.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonViewMatch.Text = "只显示搜索";
+            this.toolStripButtonViewMatch.CheckedChanged += new System.EventHandler(this.toolStripButtonViewMatch_CheckedChanged);
+            // 
+            // ToolStripMenuItem1
+            // 
+            this.ToolStripMenuItem1.Checked = true;
+            this.ToolStripMenuItem1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ToolStripMenuItem1.Name = "ToolStripMenuItem1";
+            this.ToolStripMenuItem1.Size = new System.Drawing.Size(184, 22);
+            this.ToolStripMenuItem1.Text = "忽略大小写";
+            this.ToolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
+            // 
+            // ToolStripMenuItem2
+            // 
+            this.ToolStripMenuItem2.Name = "ToolStripMenuItem2";
+            this.ToolStripMenuItem2.Size = new System.Drawing.Size(184, 22);
+            this.ToolStripMenuItem2.Text = "匹配大小写";
+            this.ToolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2_Click);
+            // 
+            // ToolStripMenuItem3
+            // 
+            this.ToolStripMenuItem3.Name = "ToolStripMenuItem3";
+            this.ToolStripMenuItem3.Size = new System.Drawing.Size(184, 22);
+            this.ToolStripMenuItem3.Text = "忽略大小写（正则）";
+            this.ToolStripMenuItem3.Click += new System.EventHandler(this.ToolStripMenuItem3_Click);
+            // 
+            // ToolStripMenuItem4
+            // 
+            this.ToolStripMenuItem4.Name = "ToolStripMenuItem4";
+            this.ToolStripMenuItem4.Size = new System.Drawing.Size(184, 22);
+            this.ToolStripMenuItem4.Text = "匹配大小写（正则）";
+            this.ToolStripMenuItem4.Click += new System.EventHandler(this.ToolStripMenuItem4_Click);
             // 
             // FormLogPage
             // 
@@ -269,5 +323,10 @@
         private System.Windows.Forms.ImageList imageListLog;
         private System.Windows.Forms.ToolStripButton toolStripButtonCancle;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonHistory;
+        private System.Windows.Forms.ToolStripButton toolStripButtonViewMatch;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem4;
     }
 }
