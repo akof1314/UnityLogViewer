@@ -1,24 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
-using DarkUI.Forms;
+using DarkUI.Docking;
 
 namespace LogViewer
 {
-    public partial class FormLogPage : DarkForm
+    public partial class DocLogFile : DarkDocument
     {
         internal LogFile Log { get; set; }
 
-        public FormLogPage()
+        public DocLogFile()
         {
             InitializeComponent();
+        }
+
+        public DocLogFile(string text)
+            : this()
+        {
+            DockText = text;
         }
 
         public FastObjectListView GetFastObjectListView()
@@ -36,6 +37,11 @@ namespace LogViewer
             return this.statusProgress;
         }
 
+        public HighlightTextRenderer GetHighlightTextRenderer()
+        {
+            return this.highlightTextRendererLog;
+        }
+
         /// <summary>
         /// 设置日志类型数量显示
         /// </summary>
@@ -44,6 +50,12 @@ namespace LogViewer
             this.toolStripButtonInfo.Text = Log.TypeInfoCount.ToString();
             this.toolStripButtonWarning.Text = Log.TypeWarningCount.ToString();
             this.toolStripButtonError.Text = Log.TypeErrorCount.ToString();
+            this.toolStripButtonInfo.AutoSize = false;
+            this.toolStripButtonInfo.AutoSize = true;
+            this.toolStripButtonWarning.AutoSize = false;
+            this.toolStripButtonWarning.AutoSize = true;
+            this.toolStripButtonError.AutoSize = false;
+            this.toolStripButtonError.AutoSize = true;
         }
 
         /// <summary>
@@ -107,17 +119,20 @@ namespace LogViewer
 
         private void toolStripButtonInfo_CheckedChanged(object sender, EventArgs e)
         {
-
+            Log.ShowTypeInfo = this.toolStripButtonInfo.Checked;
+            Log.SetShowType();
         }
 
         private void toolStripButtonWarning_CheckedChanged(object sender, EventArgs e)
         {
-
+            Log.ShowTypeWarning = this.toolStripButtonWarning.Checked;
+            Log.SetShowType();
         }
 
         private void toolStripButtonError_CheckedChanged(object sender, EventArgs e)
         {
-
+            Log.ShowTypeError = this.toolStripButtonError.Checked;
+            Log.SetShowType();
         }
 
         private void toolStripButtonCancle_Click(object sender, EventArgs e)

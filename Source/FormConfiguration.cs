@@ -30,7 +30,8 @@ namespace LogViewer
             //    checkShowContextLines.Checked = false;
             //    comboNumLines.SelectedIndex = 0;
             //}
-
+            this.darkDockPanel1.AddContent(new DocLogFile("asdasd"));
+            this.darkDockPanel1.AddContent(new DocLogFile("asda2sd"));
             checkShowContextLines_CheckedChanged(this, null);
         }
         #endregion

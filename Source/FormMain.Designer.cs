@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.menuStrip = new DarkUI.Controls.DarkMenuStrip();
             this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFileOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFileOpenNewTab = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,24 +38,15 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.menuFileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.menuTools = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuToolsMultiStringSearch = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.menuToolsConfiguration = new System.Windows.Forms.ToolStripMenuItem();
             this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.menuHelpHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.menuHelpSep1 = new System.Windows.Forms.ToolStripSeparator();
             this.menuHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.toolLabelSearch = new System.Windows.Forms.ToolStripLabel();
-            this.textSearch = new System.Windows.Forms.ToolStripTextBox();
-            this.toolLabelType = new System.Windows.Forms.ToolStripLabel();
-            this.dropdownSearchType = new System.Windows.Forms.ToolStripComboBox();
-            this.toolButtonCumulative = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolButtonSearch = new System.Windows.Forms.ToolStripButton();
             this.panelMain = new System.Windows.Forms.Panel();
-            this.tabControl = new System.Windows.Forms.TabControl();
-            this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.darkDockPanelMain = new DarkUI.Docking.DarkDockPanel();
+            this.contextMenu = new DarkUI.Controls.DarkContextMenu();
             this.contextMenuFilter = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuFilterShowMatched = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuFilterHideMatched = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,13 +71,14 @@
             this.contextLinesGoToFirstLine = new System.Windows.Forms.ToolStripMenuItem();
             this.contextLinesGoToLastLine = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
-            this.toolStrip.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
             // 
+            this.menuStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.menuStrip.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuFile,
@@ -96,12 +87,12 @@
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Padding = new System.Windows.Forms.Padding(4, 1, 0, 1);
-            this.menuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.menuStrip.Size = new System.Drawing.Size(1124, 24);
             this.menuStrip.TabIndex = 1;
             // 
             // menuFile
             // 
+            this.menuFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.menuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuFileOpen,
             this.menuFileOpenNewTab,
@@ -109,13 +100,16 @@
             this.menuFileClose,
             this.toolStripMenuItem3,
             this.menuFileExit});
+            this.menuFile.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuFile.Name = "menuFile";
             this.menuFile.Size = new System.Drawing.Size(39, 22);
             this.menuFile.Text = "&File";
             // 
             // menuFileOpen
             // 
+            this.menuFileOpen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.menuFileOpen.Enabled = false;
+            this.menuFileOpen.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this.menuFileOpen.Name = "menuFileOpen";
             this.menuFileOpen.Size = new System.Drawing.Size(172, 22);
             this.menuFileOpen.Text = "&Open";
@@ -123,6 +117,8 @@
             // 
             // menuFileOpenNewTab
             // 
+            this.menuFileOpenNewTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.menuFileOpenNewTab.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuFileOpenNewTab.Name = "menuFileOpenNewTab";
             this.menuFileOpenNewTab.Size = new System.Drawing.Size(172, 22);
             this.menuFileOpenNewTab.Text = "Open (New Tab)";
@@ -135,6 +131,8 @@
             // 
             // menuFileClose
             // 
+            this.menuFileClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.menuFileClose.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuFileClose.Name = "menuFileClose";
             this.menuFileClose.Size = new System.Drawing.Size(172, 22);
             this.menuFileClose.Text = "Close";
@@ -147,6 +145,8 @@
             // 
             // menuFileExit
             // 
+            this.menuFileExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.menuFileExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuFileExit.Name = "menuFileExit";
             this.menuFileExit.Size = new System.Drawing.Size(172, 22);
             this.menuFileExit.Text = "&Exit";
@@ -154,46 +154,45 @@
             // 
             // menuTools
             // 
+            this.menuTools.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.menuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuToolsMultiStringSearch,
             this.toolStripMenuItem2,
             this.menuToolsConfiguration});
+            this.menuTools.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuTools.Name = "menuTools";
             this.menuTools.Size = new System.Drawing.Size(52, 22);
             this.menuTools.Text = "Tools";
             // 
-            // menuToolsMultiStringSearch
-            // 
-            this.menuToolsMultiStringSearch.Enabled = false;
-            this.menuToolsMultiStringSearch.Name = "menuToolsMultiStringSearch";
-            this.menuToolsMultiStringSearch.Size = new System.Drawing.Size(187, 22);
-            this.menuToolsMultiStringSearch.Text = "Multi-String Search";
-            this.menuToolsMultiStringSearch.Click += new System.EventHandler(this.menuToolsMultiStringSearch_Click);
-            // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(184, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 6);
             // 
             // menuToolsConfiguration
             // 
+            this.menuToolsConfiguration.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.menuToolsConfiguration.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuToolsConfiguration.Name = "menuToolsConfiguration";
-            this.menuToolsConfiguration.Size = new System.Drawing.Size(187, 22);
+            this.menuToolsConfiguration.Size = new System.Drawing.Size(155, 22);
             this.menuToolsConfiguration.Text = "Configuration";
             this.menuToolsConfiguration.Click += new System.EventHandler(this.menuToolsConfiguration_Click);
             // 
             // menuHelp
             // 
+            this.menuHelp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.menuHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuHelpHelp,
             this.menuHelpSep1,
             this.menuHelpAbout});
+            this.menuHelp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuHelp.Name = "menuHelp";
             this.menuHelp.Size = new System.Drawing.Size(47, 22);
             this.menuHelp.Text = "&Help";
             // 
             // menuHelpHelp
             // 
+            this.menuHelpHelp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.menuHelpHelp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuHelpHelp.Name = "menuHelpHelp";
             this.menuHelpHelp.Size = new System.Drawing.Size(111, 22);
             this.menuHelpHelp.Text = "&Help";
@@ -206,109 +205,36 @@
             // 
             // menuHelpAbout
             // 
+            this.menuHelpAbout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.menuHelpAbout.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuHelpAbout.Name = "menuHelpAbout";
             this.menuHelpAbout.Size = new System.Drawing.Size(111, 22);
             this.menuHelpAbout.Text = "&About";
             this.menuHelpAbout.Click += new System.EventHandler(this.menuHelpAbout_Click);
             // 
-            // toolStrip
-            // 
-            this.toolStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolLabelSearch,
-            this.textSearch,
-            this.toolLabelType,
-            this.dropdownSearchType,
-            this.toolButtonCumulative,
-            this.toolStripSeparator1,
-            this.toolButtonSearch});
-            this.toolStrip.Location = new System.Drawing.Point(0, 24);
-            this.toolStrip.Name = "toolStrip";
-            this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip.Size = new System.Drawing.Size(1124, 31);
-            this.toolStrip.TabIndex = 4;
-            this.toolStrip.TabStop = true;
-            this.toolStrip.Text = "toolStrip1";
-            // 
-            // toolLabelSearch
-            // 
-            this.toolLabelSearch.Name = "toolLabelSearch";
-            this.toolLabelSearch.Size = new System.Drawing.Size(47, 28);
-            this.toolLabelSearch.Text = "Search";
-            // 
-            // textSearch
-            // 
-            this.textSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.textSearch.Name = "textSearch";
-            this.textSearch.Size = new System.Drawing.Size(335, 31);
-            // 
-            // toolLabelType
-            // 
-            this.toolLabelType.Name = "toolLabelType";
-            this.toolLabelType.Size = new System.Drawing.Size(36, 28);
-            this.toolLabelType.Text = "Type";
-            // 
-            // dropdownSearchType
-            // 
-            this.dropdownSearchType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.dropdownSearchType.Items.AddRange(new object[] {
-            "String Case Insensitive",
-            "String Case Sensitive",
-            "Regex Case Insensitive",
-            "Regex Case Sensitive"});
-            this.dropdownSearchType.Name = "dropdownSearchType";
-            this.dropdownSearchType.Size = new System.Drawing.Size(168, 31);
-            // 
-            // toolButtonCumulative
-            // 
-            this.toolButtonCumulative.Checked = true;
-            this.toolButtonCumulative.CheckOnClick = true;
-            this.toolButtonCumulative.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolButtonCumulative.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolButtonCumulative.Image = ((System.Drawing.Image)(resources.GetObject("toolButtonCumulative.Image")));
-            this.toolButtonCumulative.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolButtonCumulative.Name = "toolButtonCumulative";
-            this.toolButtonCumulative.Size = new System.Drawing.Size(75, 28);
-            this.toolButtonCumulative.Text = "Cumulative";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
-            // 
-            // toolButtonSearch
-            // 
-            this.toolButtonSearch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolButtonSearch.Image = ((System.Drawing.Image)(resources.GetObject("toolButtonSearch.Image")));
-            this.toolButtonSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolButtonSearch.Name = "toolButtonSearch";
-            this.toolButtonSearch.Size = new System.Drawing.Size(28, 28);
-            this.toolButtonSearch.ToolTipText = "Search";
-            this.toolButtonSearch.Click += new System.EventHandler(this.toolButtonSearch_Click);
-            // 
             // panelMain
             // 
-            this.panelMain.Controls.Add(this.tabControl);
+            this.panelMain.Controls.Add(this.darkDockPanelMain);
             this.panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelMain.Location = new System.Drawing.Point(0, 55);
+            this.panelMain.Location = new System.Drawing.Point(0, 24);
             this.panelMain.Margin = new System.Windows.Forms.Padding(2);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(1124, 652);
+            this.panelMain.Size = new System.Drawing.Size(1124, 683);
             this.panelMain.TabIndex = 5;
             // 
-            // tabControl
+            // darkDockPanelMain
             // 
-            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl.Location = new System.Drawing.Point(0, 0);
-            this.tabControl.Margin = new System.Windows.Forms.Padding(2);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.ShowToolTips = true;
-            this.tabControl.Size = new System.Drawing.Size(1124, 652);
-            this.tabControl.TabIndex = 1;
+            this.darkDockPanelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.darkDockPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.darkDockPanelMain.Location = new System.Drawing.Point(0, 0);
+            this.darkDockPanelMain.Name = "darkDockPanelMain";
+            this.darkDockPanelMain.Size = new System.Drawing.Size(1124, 683);
+            this.darkDockPanelMain.TabIndex = 0;
             // 
             // contextMenu
             // 
+            this.contextMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.contextMenu.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.contextMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.contextMenuFilter,
@@ -321,17 +247,18 @@
             this.toolStripMenuItem5,
             this.contextLines});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.contextMenu.Size = new System.Drawing.Size(123, 138);
+            this.contextMenu.Size = new System.Drawing.Size(123, 142);
             this.contextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenu_Opening);
             // 
             // contextMenuFilter
             // 
+            this.contextMenuFilter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.contextMenuFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.contextMenuFilterShowMatched,
             this.contextMenuFilterHideMatched,
             this.toolStripMenuItem1,
             this.contextMenuFilterClear});
+            this.contextMenuFilter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.contextMenuFilter.Name = "contextMenuFilter";
             this.contextMenuFilter.Size = new System.Drawing.Size(122, 22);
             this.contextMenuFilter.Text = "Filtering";
@@ -364,15 +291,20 @@
             // 
             // contextMenuSep1
             // 
+            this.contextMenuSep1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.contextMenuSep1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.contextMenuSep1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             this.contextMenuSep1.Name = "contextMenuSep1";
             this.contextMenuSep1.Size = new System.Drawing.Size(119, 6);
             // 
             // contextMenuSearch
             // 
+            this.contextMenuSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.contextMenuSearch.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.contextMenuSearchViewTerms,
             this.toolStripMenuItem4,
             this.contextMenuSearchColour});
+            this.contextMenuSearch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.contextMenuSearch.Name = "contextMenuSearch";
             this.contextMenuSearch.Size = new System.Drawing.Size(122, 22);
             this.contextMenuSearch.Text = "Search";
@@ -414,14 +346,19 @@
             // 
             // contextMenuSep2
             // 
+            this.contextMenuSep2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.contextMenuSep2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.contextMenuSep2.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             this.contextMenuSep2.Name = "contextMenuSep2";
             this.contextMenuSep2.Size = new System.Drawing.Size(119, 6);
             // 
             // contextMenuExport
             // 
+            this.contextMenuExport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.contextMenuExport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.contextMenuExportAll,
             this.contextMenuExportSelected});
+            this.contextMenuExport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.contextMenuExport.Name = "contextMenuExport";
             this.contextMenuExport.Size = new System.Drawing.Size(122, 22);
             this.contextMenuExport.Text = "Export";
@@ -442,11 +379,16 @@
             // 
             // contextMenuSep3
             // 
+            this.contextMenuSep3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.contextMenuSep3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.contextMenuSep3.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             this.contextMenuSep3.Name = "contextMenuSep3";
             this.contextMenuSep3.Size = new System.Drawing.Size(119, 6);
             // 
             // contextMenuCopy
             // 
+            this.contextMenuCopy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.contextMenuCopy.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.contextMenuCopy.Name = "contextMenuCopy";
             this.contextMenuCopy.Size = new System.Drawing.Size(122, 22);
             this.contextMenuCopy.Text = "Copy";
@@ -454,15 +396,20 @@
             // 
             // toolStripMenuItem5
             // 
+            this.toolStripMenuItem5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripMenuItem5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripMenuItem5.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
             this.toolStripMenuItem5.Size = new System.Drawing.Size(119, 6);
             // 
             // contextLines
             // 
+            this.contextLines.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.contextLines.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.contextLinesGoToLine,
             this.contextLinesGoToFirstLine,
             this.contextLinesGoToLastLine});
+            this.contextLines.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.contextLines.Name = "contextLines";
             this.contextLines.Size = new System.Drawing.Size(122, 22);
             this.contextLines.Text = "Lines";
@@ -491,11 +438,10 @@
             // FormMain
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(1124, 707);
             this.Controls.Add(this.panelMain);
-            this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.menuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
@@ -509,8 +455,6 @@
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormMain_DragEnter);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
-            this.toolStrip.ResumeLayout(false);
-            this.toolStrip.PerformLayout();
             this.panelMain.ResumeLayout(false);
             this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -519,12 +463,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem menuFile;
-        private System.Windows.Forms.ToolStrip toolStrip;
-        private System.Windows.Forms.ToolStripLabel toolLabelSearch;
-        private System.Windows.Forms.ToolStripTextBox textSearch;
-        private System.Windows.Forms.ToolStripButton toolButtonSearch;
         private System.Windows.Forms.Panel panelMain;
         private System.Windows.Forms.ToolStripMenuItem menuHelp;
         private System.Windows.Forms.ToolStripMenuItem menuHelpHelp;
@@ -533,13 +472,9 @@
         private System.Windows.Forms.ToolStripSeparator menuFileSep1;
         private System.Windows.Forms.ToolStripMenuItem menuFileExit;
         private System.Windows.Forms.ToolStripSeparator menuHelpSep1;
-        private System.Windows.Forms.ContextMenuStrip contextMenu;
-        private System.Windows.Forms.ToolStripComboBox dropdownSearchType;
-        private System.Windows.Forms.ToolStripLabel toolLabelType;
+        private DarkUI.Controls.DarkContextMenu contextMenu;
         private System.Windows.Forms.ToolStripMenuItem contextMenuFilter;
         private System.Windows.Forms.ToolStripMenuItem contextMenuFilterClear;
-        private System.Windows.Forms.ToolStripButton toolButtonCumulative;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem contextMenuFilterShowMatched;
         private System.Windows.Forms.ToolStripMenuItem contextMenuFilterHideMatched;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
@@ -553,7 +488,6 @@
         private System.Windows.Forms.ToolStripMenuItem contextMenuExportAll;
         private System.Windows.Forms.ToolStripMenuItem contextMenuExportSelected;
         private System.Windows.Forms.ToolStripMenuItem menuTools;
-        private System.Windows.Forms.ToolStripMenuItem menuToolsMultiStringSearch;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem menuToolsConfiguration;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
@@ -568,7 +502,8 @@
         private System.Windows.Forms.ToolStripMenuItem menuFileClose;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem menuFileOpenNewTab;
-        private System.Windows.Forms.TabControl tabControl;
+        private DarkUI.Controls.DarkMenuStrip menuStrip;
+        private DarkUI.Docking.DarkDockPanel darkDockPanelMain;
     }
 }
 

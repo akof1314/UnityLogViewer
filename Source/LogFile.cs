@@ -53,10 +53,13 @@ namespace LogViewer
         public List<ushort> FilterIds { get; private set; }  = new List<ushort>();
         public FastObjectListView List { get; set; }
         public string Guid { get; private set; }
-        public FormLogPage pageForm { get; private set; }
+        public DocLogFile pageForm { get; private set; }
         public int TypeInfoCount { get; private set; }
         public int TypeWarningCount { get; private set; }
         public int TypeErrorCount { get; private set; }
+        public bool ShowTypeInfo { get; set; } = true;
+        public bool ShowTypeWarning { get; set; } = true;
+        public bool ShowTypeError { get; set; } = true;
         #endregion
 
         /// <summary>
@@ -156,7 +159,7 @@ namespace LogViewer
                                     {
                                         if (tempStr[startIndex + 8] == '3' && tempStr[startIndex + 9] == '-' && tempStr[startIndex + 7] == 't')
                                         {
-                                            logType = 3;
+                                            logType = 4;
                                             newStartOffset = 13;
                                         }
                                         else if (tempStr[startIndex + 8] == '2' && tempStr[startIndex + 9] == '-' && tempStr[startIndex + 7] == 't')
@@ -491,14 +494,14 @@ namespace LogViewer
         }
         #endregion
 
-        public TabPage Initialise(string filePath)
+        public DocLogFile Initialise(string filePath)
         {
             OLVColumn colLineNumber = ((OLVColumn)(new OLVColumn()));
             OLVColumn colText = ((OLVColumn)(new OLVColumn()));
 
-            colLineNumber.Text = "Line No.";
+            colLineNumber.Text = "行号";
             colLineNumber.Width = 95;
-            colText.Text = "Data";
+            colText.Text = "日志";
 
             colLineNumber.AspectGetter = delegate (object x)
             {
@@ -536,23 +539,21 @@ namespace LogViewer
                 {
                     return "1 (3).png";
                 }
-                if (log.LogType == 3)
+                if (log.LogType == 4)
                 {
                     return "1 (1).png";
                 }
                 return "";
             };
 
-            FormLogPage logPage = new FormLogPage();
-            logPage.TopLevel = false;
-            logPage.FormBorderStyle = FormBorderStyle.None;
-            logPage.Visible = true;
-            logPage.Left = 0;
-            logPage.Top = 0;
-            logPage.Dock = DockStyle.Fill;
+            DocLogFile logPage = new DocLogFile(Path.GetFileName(filePath));
             pageForm = logPage;
             pageForm.Log = this;
             FastObjectListView lv = logPage.GetFastObjectListView();
+            lv.HeaderUsesThemes = false;
+            logPage.GetHighlightTextRenderer().FillBrush = Brushes.Transparent;
+            logPage.GetHighlightTextRenderer().FramePen = Pens.DarkOrange;
+            lv.DefaultRenderer = logPage.GetHighlightTextRenderer();
 
             lv.AllColumns.Add(colLineNumber);
             lv.AllColumns.Add(colText);
@@ -567,7 +568,7 @@ namespace LogViewer
             lv.Dock = System.Windows.Forms.DockStyle.Fill;
             //lv.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             lv.FullRowSelect = true;
-            lv.GridLines = true;
+            //lv.GridLines = true;
             lv.HasCollapsibleGroups = false;
             lv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             lv.HideSelection = false;
@@ -593,19 +594,7 @@ namespace LogViewer
             
 
             this.List = lv;
-            TabPage tp = new TabPage();
-            tp.Controls.Add(logPage);
-            tp.Location = new System.Drawing.Point(4, 33);
-            tp.Name = "tabPage" + this.Guid;
-            tp.Padding = new System.Windows.Forms.Padding(3);
-            tp.Size = new System.Drawing.Size(1685, 946);
-            tp.TabIndex = 0;
-            tp.Text = "Loading...";
-            tp.UseVisualStyleBackColor = true;
-            tp.Tag = this.Guid;
-            tp.ToolTipText = filePath;
-
-            return tp;
+            return pageForm;
         }
 
         /// <summary>
@@ -614,6 +603,69 @@ namespace LogViewer
         public void SetContextMenu(ContextMenuStrip ctx)
         {
             this.List.ContextMenuStrip = ctx;
+        }
+
+        /// <summary>
+        /// 搜索结束
+        /// </summary>
+        public void SetSearchEnd(string searchText)
+        {
+            this.ViewMode = Global.ViewMode.FilterShow;
+            if (this.pageForm.IsShowMatch())
+            {
+                List.ModelFilter = new ModelFilter(delegate (object x)
+                {
+                    return x != null && (((LogLine)x).SearchMatches.Intersect(FilterIds).Any() == true || (((LogLine)x).IsContextLine == true));
+                });
+            }
+            TextMatchFilter filter = TextMatchFilter.Contains(List, searchText);
+            pageForm.GetHighlightTextRenderer().Filter = filter;
+            pageForm.GetToolStripProgressBar().Visible = false;
+            List.Refresh();
+        }
+
+        public void SetShowType()
+        {
+            var selectedLine = -1;
+            var selectedObjects = List.SelectedObject;
+            if (selectedObjects != null)
+            {
+                selectedLine = ((LogLine)selectedObjects).LineNumber;
+            }
+
+            List.ModelFilter = new ModelFilter(delegate (object x)
+            {
+                var line = (LogLine) x;
+                var isShowType = (ShowTypeInfo && (line.LogType & 1) != 0) || (ShowTypeWarning && (line.LogType & 2) != 0) || (ShowTypeError && (line.LogType & 4) != 0);
+                return isShowType;
+            });
+            if (selectedLine > -1)
+            {
+                for (int i = 0; i < List.GetItemCount(); i++)
+                {
+                    var modelObject = List.GetModelObject(i);
+                    var line = (LogLine)modelObject;
+                    if (line != null)
+                    {
+                        if (line.LineNumber == selectedLine)
+                        {
+                            List.SelectedIndex = i;
+                            List.FocusedItem = List.SelectedItem;
+                            List.EnsureVisible(i);
+                            var mid = (i - List.TopItemIndex) / 2;
+                            if (i + mid < List.GetItemCount())
+                            {
+                                List.EnsureVisible(i + mid);
+                            }
+                            else
+                            {
+                                List.EnsureVisible(List.GetItemCount() - 1);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -770,7 +822,7 @@ namespace LogViewer
             {
                 TypeWarningCount++;
             }
-            else if (logType == 3)
+            else if (logType == 4)
             {
                 TypeErrorCount++;
             }
@@ -786,7 +838,7 @@ namespace LogViewer
                     ll.StackTraceOffset = offset;
                 }
 
-                ll.StackTraceCharCount += charCount;
+                ll.StackTraceCharCount += charCount + 1;
                 ll.IsCrLine = endCr;
             }
         }
