@@ -16,6 +16,8 @@ namespace LogViewer
         public string ContextColour { get; set; } = "LightGray";
         public int MultiSelectLimit { get; set; } = 1000;
         public int NumContextLines { get; set; } = 0; // 上下文的最大数
+        public string[] SearchTerms { get; set; } = new string[0];
+        public int[] SearchTypes { get; set; } = new int[0];
         private const string FILENAME = "LogViewer.toml";
         #endregion
 
@@ -38,6 +40,8 @@ namespace LogViewer
                 this.ContextColour = c.ContextColour;
                 this.MultiSelectLimit = c.MultiSelectLimit;
                 this.NumContextLines = c.NumContextLines;
+                this.SearchTerms = c.SearchTerms;
+                this.SearchTypes = c.SearchTypes;
 
                 if (this.MultiSelectLimit > 10000)
                 {

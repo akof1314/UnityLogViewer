@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DocLogFile));
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle4 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle5 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle6 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle1 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle2 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle3 = new BrightIdeasSoftware.HeaderStateStyle();
             this.statusProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.statusStrip = new DarkUI.Controls.DarkStatusStrip();
             this.statusLabelPage = new System.Windows.Forms.ToolStripStatusLabel();
@@ -53,13 +53,13 @@
             this.toolStripButtonViewMatch = new System.Windows.Forms.ToolStripButton();
             this.toolStripTab = new DarkUI.Controls.DarkToolStrip();
             this.toolStripButtonCancle = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonErrorNext = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonErrorPrev = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.highlightTextRendererLog = new BrightIdeasSoftware.HighlightTextRenderer();
             this.toolStripButtonSearchPrev = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonSearchNext = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonErrorPrev = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonErrorNext = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonCustom = new System.Windows.Forms.ToolStripButton();
+            this.highlightTextRendererLog = new BrightIdeasSoftware.HighlightTextRenderer();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -168,13 +168,13 @@
             // 
             // headerFormatStyleLog
             // 
-            headerStateStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
-            headerStateStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Hot = headerStateStyle4;
-            headerStateStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
-            headerStateStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Normal = headerStateStyle5;
-            this.headerFormatStyleLog.Pressed = headerStateStyle6;
+            headerStateStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
+            headerStateStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Hot = headerStateStyle1;
+            headerStateStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
+            headerStateStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Normal = headerStateStyle2;
+            this.headerFormatStyleLog.Pressed = headerStateStyle3;
             // 
             // toolStripButtonInfo
             // 
@@ -232,6 +232,8 @@
             this.toolStripTextBoxSearch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripTextBoxSearch.Name = "toolStripTextBoxSearch";
             this.toolStripTextBoxSearch.Size = new System.Drawing.Size(300, 25);
+            this.toolStripTextBoxSearch.Enter += new System.EventHandler(this.toolStripTextBoxSearch_Enter);
+            this.toolStripTextBoxSearch.Leave += new System.EventHandler(this.toolStripTextBoxSearch_Leave);
             this.toolStripTextBoxSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBoxSearch_KeyDown);
             // 
             // ToolStripMenuItem4
@@ -339,6 +341,32 @@
             this.toolStripButtonCancle.ToolTipText = "清除搜索";
             this.toolStripButtonCancle.Click += new System.EventHandler(this.toolStripButtonCancle_Click);
             // 
+            // toolStripButtonErrorNext
+            // 
+            this.toolStripButtonErrorNext.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButtonErrorNext.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripButtonErrorNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonErrorNext.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripButtonErrorNext.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonErrorNext.Image")));
+            this.toolStripButtonErrorNext.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonErrorNext.Name = "toolStripButtonErrorNext";
+            this.toolStripButtonErrorNext.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonErrorNext.Text = "下一个错误日志";
+            this.toolStripButtonErrorNext.Click += new System.EventHandler(this.toolStripButtonErrorNext_Click);
+            // 
+            // toolStripButtonErrorPrev
+            // 
+            this.toolStripButtonErrorPrev.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButtonErrorPrev.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripButtonErrorPrev.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonErrorPrev.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripButtonErrorPrev.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonErrorPrev.Image")));
+            this.toolStripButtonErrorPrev.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonErrorPrev.Name = "toolStripButtonErrorPrev";
+            this.toolStripButtonErrorPrev.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonErrorPrev.Text = "上一个错误日志";
+            this.toolStripButtonErrorPrev.Click += new System.EventHandler(this.toolStripButtonErrorPrev_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
@@ -357,6 +385,7 @@
             this.toolStripButtonSearchPrev.Name = "toolStripButtonSearchPrev";
             this.toolStripButtonSearchPrev.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonSearchPrev.Text = "上一个搜索日志";
+            this.toolStripButtonSearchPrev.Click += new System.EventHandler(this.toolStripButtonSearchPrev_Click);
             // 
             // toolStripButtonSearchNext
             // 
@@ -368,30 +397,7 @@
             this.toolStripButtonSearchNext.Name = "toolStripButtonSearchNext";
             this.toolStripButtonSearchNext.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonSearchNext.Text = "下一个搜索日志";
-            // 
-            // toolStripButtonErrorPrev
-            // 
-            this.toolStripButtonErrorPrev.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButtonErrorPrev.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
-            this.toolStripButtonErrorPrev.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonErrorPrev.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.toolStripButtonErrorPrev.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonErrorPrev.Image")));
-            this.toolStripButtonErrorPrev.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonErrorPrev.Name = "toolStripButtonErrorPrev";
-            this.toolStripButtonErrorPrev.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonErrorPrev.Text = "上一个错误日志";
-            // 
-            // toolStripButtonErrorNext
-            // 
-            this.toolStripButtonErrorNext.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButtonErrorNext.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
-            this.toolStripButtonErrorNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonErrorNext.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.toolStripButtonErrorNext.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonErrorNext.Image")));
-            this.toolStripButtonErrorNext.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonErrorNext.Name = "toolStripButtonErrorNext";
-            this.toolStripButtonErrorNext.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonErrorNext.Text = "下一个错误日志";
+            this.toolStripButtonSearchNext.Click += new System.EventHandler(this.toolStripButtonSearchNext_Click);
             // 
             // toolStripButtonCustom
             // 
@@ -404,6 +410,7 @@
             this.toolStripButtonCustom.Name = "toolStripButtonCustom";
             this.toolStripButtonCustom.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonCustom.Text = "自定义过滤";
+            this.toolStripButtonCustom.Click += new System.EventHandler(this.toolStripButtonCustom_Click);
             // 
             // DocLogFile
             // 

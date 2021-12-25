@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using DarkUI.Forms;
 
 namespace LogViewer
 {
     /// <summary>
     /// 
     /// </summary>
-    public partial class FormSearchTerms : Form
+    public partial class FormSearchTerms : DarkDialog
     {
         #region Member Variables/Properties
         public Searches Searches { get; private set; }

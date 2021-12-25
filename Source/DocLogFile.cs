@@ -10,10 +10,14 @@ namespace LogViewer
     public partial class DocLogFile : DarkDocument
     {
         internal LogFile Log { get; set; }
+        private Configuration config;
+        private bool searchHasText;
+        private const string CUSTOMSEARCH = "toolStripButtonCustom";
 
         public DocLogFile()
         {
             InitializeComponent();
+            SetSearchTip();
         }
 
         public DocLogFile(string text)
@@ -40,6 +44,12 @@ namespace LogViewer
         public HighlightTextRenderer GetHighlightTextRenderer()
         {
             return this.highlightTextRendererLog;
+        }
+
+        public void SetConfig(Configuration configuration)
+        {
+            config = configuration;
+            AllSearchTerms();
         }
 
         /// <summary>
@@ -117,6 +127,58 @@ namespace LogViewer
             box.SelectionColor = box.ForeColor;
         }
 
+        private void SetSearchTip()
+        {
+            if (string.IsNullOrEmpty(this.toolStripTextBoxSearch.Text))
+            {
+                this.toolStripTextBoxSearch.Text = "键入搜索内容后回车";
+                this.toolStripTextBoxSearch.ForeColor = Color.Gray;
+                searchHasText = false;
+            }
+            else
+            {
+                searchHasText = true;
+            }
+        }
+
+        private void ClearSearchTerms(int num)
+        {
+            for (int i = 0; i < num; i++)
+            {
+                this.toolStripTab.Items.RemoveByKey(CUSTOMSEARCH + i);
+            }
+        }
+
+        private void AllSearchTerms()
+        {
+            for (int i = 0; i < config.SearchTerms.Length; i++)
+            {
+                AddSearchTerms(i, config.SearchTerms[i]);
+            }
+        }
+
+        private void AddSearchTerms(int index, string searchText)
+        {
+            var shortText = searchText;
+            if (shortText.Length > 10)
+            {
+                shortText = shortText.Substring(0, 10);
+            }
+            var btn = new System.Windows.Forms.ToolStripButton();
+            btn.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            btn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            btn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            btn.Name = CUSTOMSEARCH + index;
+            btn.Text = shortText;
+            btn.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btn.CheckOnClick = true;
+            btn.AutoSize = false;
+            btn.Click += new System.EventHandler(this.toolStripButtonCustomIdx_Click);
+            this.toolStripTab.Items.Add(btn);
+            btn.AutoSize = true;
+        }
+
         private void toolStripButtonInfo_CheckedChanged(object sender, EventArgs e)
         {
             Log.ShowTypeInfo = this.toolStripButtonInfo.Checked;
@@ -138,6 +200,7 @@ namespace LogViewer
         private void toolStripButtonCancle_Click(object sender, EventArgs e)
         {
             this.toolStripTextBoxSearch.Text = String.Empty;
+            SetSearchTip();
             Log.OnSearchBegin(String.Empty);
         }
 
@@ -206,5 +269,71 @@ namespace LogViewer
             this.ToolStripMenuItem3.Checked = false;
             this.ToolStripMenuItem4.Checked = true;
         }
+
+        private void toolStripButtonSearchPrev_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonSearchNext_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonErrorPrev_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonErrorNext_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonCustom_Click(object sender, EventArgs e)
+        {
+            using (FormCustomTerms f = new FormCustomTerms(config))
+            {
+                int num = config.SearchTerms.Length;
+                DialogResult dr = f.ShowDialog(this);
+                if (dr == DialogResult.Cancel)
+                {
+                    return;
+                }
+
+                ClearSearchTerms(num);
+                AllSearchTerms();
+            }
+        }
+
+        private void toolStripButtonCustomIdx_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripButton btn)
+            {
+                if (btn.Name.StartsWith(CUSTOMSEARCH, StringComparison.Ordinal))
+                {
+                    var str = btn.Name.Substring(CUSTOMSEARCH.Length);
+                    if (int.TryParse(str, out var idx))
+                    {
+                        Console.WriteLine(idx);
+                    }
+                }
+            }
+        }
+
+        private void toolStripTextBoxSearch_Enter(object sender, EventArgs e)
+        {
+            if (!searchHasText)
+            {
+                this.toolStripTextBoxSearch.Text = string.Empty;
+                this.toolStripTextBoxSearch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            }
+        }
+
+        private void toolStripTextBoxSearch_Leave(object sender, EventArgs e)
+        {
+            SetSearchTip();
+        }
+
     }
 }
