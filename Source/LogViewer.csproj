@@ -101,12 +101,6 @@
     <Compile Include="FormLine.Designer.cs">
       <DependentUpon>FormLine.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormLogPage.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormLogPage.Designer.cs">
-      <DependentUpon>FormLogPage.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -150,9 +144,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormLine.resx">
       <DependentUpon>FormLine.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormLogPage.resx">
-      <DependentUpon>FormLogPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>

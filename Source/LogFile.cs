@@ -16,11 +16,11 @@ namespace LogViewer
     /// <summary>
     /// 
     /// </summary>
-    internal class LogFile 
+    internal class LogFile
     {
         #region Delegates
-        public delegate void SearchBeginEvent(LogFile lf, string text);
-        public delegate void SearchCompleteEvent(LogFile lf, string fileName, TimeSpan duration, long matches, int numSearchTerms, bool cancelled, string searchText);
+        public delegate void SearchBeginEvent(LogFile lf);
+        public delegate void SearchCompleteEvent(LogFile lf, string fileName, TimeSpan duration, long matches, int numSearchTerms, bool cancelled);
         public delegate void CompleteEvent(LogFile lf, string fileName, TimeSpan duration, bool cancelled);
         public delegate void BoolEvent(string fileName, bool val);
         public delegate void MessageEvent(LogFile lf, string fileName, string message);
@@ -40,17 +40,19 @@ namespace LogViewer
 
 
         #region Member Variables
-        private Color highlightColour { get; set; }  = Color.Lime;
-        private Color contextColour { get; set; }  = Color.LightGray;
-        public Searches Searches { get; set; }
-        public Global.ViewMode ViewMode { get; set; }  = Global.ViewMode.Standard;
-        public List<LogLine> Lines { get; private set; } = new List<LogLine>();
-        public LogLine LongestLine { get; private set; } = new LogLine();
-        public int LineCount { get; private set; } = 0;
-        private FileStream fileStream;
+        private Color highlightColour { get; set; } = Color.Lime;
+        private Color contextColour { get; set; } = Color.LightGray;
+        public Searches Searches { get; set; }  // 所有搜索自定义过滤
+        public Global.ViewMode ViewMode { get; set; } = Global.ViewMode.Standard;
+        public List<LogLine> Lines { get; private set; } = new List<LogLine>();  // 所有行
+        public LogLine LongestLine { get; private set; } = new LogLine();   // 最长的行
+        public int LineCount { get; private set; } = 0; //总行数
+        private FileStream fileStream;  // 文件流
         private Mutex readMutex = new Mutex();
-        public string FileName { get; private set; }
-        public List<ushort> FilterIds { get; private set; }  = new List<ushort>();
+        public string FileName { get; private set; }    // 文件名
+        public List<ushort> FilterIds { get; private set; } = new List<ushort>();  // 所有自定义过滤的ID
+        public SearchCriteria CurSearch { get; set; } = new SearchCriteria();
+        public ushort CurFilterId { get; set; }
         public FastObjectListView List { get; set; }
         public string Guid { get; private set; }
         public DocLogFile pageForm { get; private set; }
@@ -66,9 +68,10 @@ namespace LogViewer
         /// 
         /// </summary>
         public LogFile()
-        {           
+        {
             this.Guid = System.Guid.NewGuid().ToString();
             this.Searches = new Searches();
+            CurSearch.Id = ushort.MaxValue - 2;
         }
 
         #region Public Methods
@@ -79,7 +82,6 @@ namespace LogViewer
         /// <param name="ct"></param>
         public void Load(string filePath, SynchronizationContext st, CancellationToken ct)
         {
-            this.Dispose();
             this.FileName = Path.GetFileName(filePath);
 
             Task.Run(() => {
@@ -88,7 +90,7 @@ namespace LogViewer
                 bool cancelled = false;
                 bool error = false;
                 try
-                {                    
+                {
                     byte[] tempBuffer = new byte[1024 * 1024];
 
                     this.fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
@@ -97,16 +99,16 @@ namespace LogViewer
                     // Calcs and finally point the position to the end of the line
                     long position = 0;
                     // Holds the offset to the start of the next line
-                    long lineStartOffset = 0; 
+                    long lineStartOffset = 0;
                     // Checks if we have read less than requested e.g. buffer not filled/end of file
                     bool lastSection = false;
                     // Counter for process reporting
-                    int counter = 0; 
+                    int counter = 0;
                     // Holds a counter to start checking for the next indexOf('\r')
                     int startIndex = 0;
                     // Once all of the \r (lines) have been emnumerated, there might still be data left in the
                     // buffer, so this holds the number of bytes that need to be added onto the next line
-                    int bufferRemainder = 0; 
+                    int bufferRemainder = 0;
                     // Holds how many bytes were read from the last file stream read
                     int numBytesRead = 0;
                     // Holds the temporary string generated from the file stream buffer
@@ -115,7 +117,7 @@ namespace LogViewer
                     int charCount;
                     // Return value from IndexOf function
                     int indexOf;
-                    
+
                     while (position < this.fileStream.Length)
                     {
                         numBytesRead = this.fileStream.Read(tempBuffer, 0, 1024 * 1024);
@@ -142,7 +144,7 @@ namespace LogViewer
                                     // Check if the line contains a CR as well, if it does then we remove the last char as the char count
                                     if (indexOf != 0 && (int)tempBuffer[Math.Max(0, indexOf - 1)] == 13)
                                     {
-                                        charCount = bufferRemainder + (indexOf - startIndex - 1);                           
+                                        charCount = bufferRemainder + (indexOf - startIndex - 1);
                                         position += (long)charCount + 2L;
 
                                         curCr = true;
@@ -200,7 +202,7 @@ namespace LogViewer
                                 AddLine(lineStartOffset, bufferRemainder + (numBytesRead - startIndex), true, 1);
                                 return;
                             }
-                            
+
                             bufferRemainder += numBytesRead - startIndex;
                         }
                         else
@@ -211,7 +213,7 @@ namespace LogViewer
                                 AddLine(lineStartOffset, bufferRemainder + (numBytesRead - startIndex), true, 1);
                                 return;
                             }
-     
+
                             bufferRemainder += numBytesRead;
                         }
 
@@ -224,7 +226,7 @@ namespace LogViewer
                                 cancelled = true;
                                 return;
                             }
-                        }                       
+                        }
                     } // WHILE
                 }
                 catch (IOException ex)
@@ -238,9 +240,9 @@ namespace LogViewer
                     {
                         DateTime end = DateTime.Now;
 
-                        OnProgressUpdate(100);                       
+                        OnProgressUpdate(100);
                         OnLoadComplete(end - start, cancelled);
-                    }                   
+                    }
                 }
             });
         }
@@ -263,7 +265,7 @@ namespace LogViewer
             if (this.fileStream != null)
             {
                 this.fileStream.Dispose();
-            }            
+            }
         }
 
         /// <summary>
@@ -271,7 +273,7 @@ namespace LogViewer
         /// </summary>
         /// <param name="searchText"></param>
         /// <param name="searchType"></param>
-        public void SearchMulti(List<SearchCriteria> scs, CancellationToken ct, int numContextLines)
+        public void Search(CancellationToken ct, int numContextLines)
         {
             Task.Run(() => {
 
@@ -286,14 +288,79 @@ namespace LogViewer
 
                     foreach (LogLine ll in this.Lines)
                     {
-                        // Reset the match flag
-                        ll.SearchMatches.Clear();
+                        line = String.Empty;
+                        ll.IsCurSearch = false;
                         ClearContextLine(ll.LineNumber, numContextLines);
 
-                        foreach (SearchCriteria sc in scs)
+                        if (Searches.Changed)
                         {
-                            line = this.GetLine(ll.LineNumber);
+                            ll.IsTerms = true;
+                            foreach (SearchCriteria sc in Searches.Items)
+                            {
+                                if (!sc.Enabled)
+                                {
+                                    continue;
+                                }
 
+                                if (string.IsNullOrEmpty(line))
+                                {
+                                    line = this.GetLine(ll.LineNumber);
+                                }
+
+                                located = false;
+                                switch (sc.Type)
+                                {
+                                    case Global.SearchType.SubStringCaseInsensitive:
+                                        if (line.IndexOf(sc.Pattern, 0, StringComparison.OrdinalIgnoreCase) > -1)
+                                        {
+                                            located = true;
+                                        }
+                                        break;
+
+                                    case Global.SearchType.SubStringCaseSensitive:
+                                        if (line.IndexOf(sc.Pattern, 0, StringComparison.Ordinal) > -1)
+                                        {
+                                            located = true;
+                                        }
+                                        break;
+
+                                    case Global.SearchType.RegexCaseInsensitive:
+                                        if (Regex.Match(line, sc.Pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled) != Match.Empty)
+                                        {
+                                            located = true;
+                                        }
+                                        break;
+
+                                    case Global.SearchType.RegexCaseSensitive:
+                                        if (Regex.Match(line, sc.Pattern, RegexOptions.Compiled) != Match.Empty)
+                                        {
+                                            located = true;
+                                        }
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                if (located == true)
+                                {
+                                }
+                                else
+                                {
+                                    ll.IsTerms = false;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // 条件符合
+                        if (ll.IsTerms && !string.IsNullOrEmpty(CurSearch.Pattern))
+                        {
+                            if (string.IsNullOrEmpty(line))
+                            {
+                                line = this.GetLine(ll.LineNumber);
+                            }
+                            var sc = CurSearch;
                             located = false;
                             switch (sc.Type)
                             {
@@ -332,13 +399,8 @@ namespace LogViewer
                             if (located == true)
                             {
                                 matches++;
-                                ll.SearchMatches.Add(sc.Id);
-
-                                if (numContextLines > 0)
-                                {
-                                    this.SetContextLines(ll.LineNumber, numContextLines);
-                                }
-                            }                              
+                                ll.IsCurSearch = true;
+                            }
                         }
 
                         if (counter++ % 50 == 0)
@@ -352,122 +414,15 @@ namespace LogViewer
                             }
                         }
                     }
+
+                    Searches.Changed = false;
                 }
                 finally
                 {
                     DateTime end = DateTime.Now;
 
                     OnProgressUpdate(100);
-                    OnSearchComplete(end - start, matches, scs.Count, cancelled, String.Empty);
-                }
-            });
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="searchText"></param>
-        /// <param name="searchType"></param>
-        public void Search(SearchCriteria sc, bool cumulative, CancellationToken ct, int numContextLines)
-        {
-            Task.Run(() => {
-
-                DateTime start = DateTime.Now;
-                bool cancelled = false;
-                long matches = 0;
-                try
-                {
-                    long counter = 0;
-                    string line = string.Empty;
-                    bool located = false;
-
-                    foreach (LogLine ll in this.Lines)
-                    {
-                        if (cumulative == false)
-                        {
-                            // Reset the match flag
-                            ll.SearchMatches.Clear();
-                            //ll.IsContextLine = false;
-
-                            ClearContextLine(ll.LineNumber, numContextLines);
-                        }
-                        else
-                        {
-                            if (ll.SearchMatches.Count > 0) {
-                                continue;
-                            }
-                        }
-
-                        line = this.GetLine(ll.LineNumber);
-
-                        located = false;
-                        switch (sc.Type)
-                        {
-                            case Global.SearchType.SubStringCaseInsensitive:
-                                if (line.IndexOf(sc.Pattern, 0, StringComparison.OrdinalIgnoreCase) > -1)
-                                {
-                                    located = true;
-                                }
-                                break;
-
-                            case Global.SearchType.SubStringCaseSensitive:
-                                if (line.IndexOf(sc.Pattern, 0, StringComparison.Ordinal) > -1)
-                                {
-                                    located = true;
-                                }
-                                break;
-
-                            case Global.SearchType.RegexCaseInsensitive:
-                                if (Regex.Match(line, sc.Pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled) != Match.Empty)
-                                {
-                                    located = true;
-                                }
-                                break;
-
-                            case Global.SearchType.RegexCaseSensitive:
-                                if (Regex.Match(line, sc.Pattern, RegexOptions.Compiled) != Match.Empty)
-                                {
-                                    located = true;
-                                }
-                                break;
-
-                            default:
-                                break;
-                        }
-
-                        if (located == false)
-                        {
-                            ll.SearchMatches.Remove(sc.Id);
-                        }
-                        else
-                        {
-                            matches++;
-                            ll.SearchMatches.Add(sc.Id);
-
-                            if (numContextLines > 0)
-                            {
-                                this.SetContextLines(ll.LineNumber, numContextLines);
-                            }
-                        }
-
-                        if (counter++ % 50 == 0)
-                        {
-                            OnProgressUpdate((int)((double)counter / (double)this.Lines.Count * 100));
-
-                            if (ct.IsCancellationRequested)
-                            {
-                                cancelled = true;
-                                return;
-                            }
-                        }
-                    }                    
-                }
-                finally
-                {
-                    DateTime end = DateTime.Now;
-
-                    OnProgressUpdate(100);
-                    OnSearchComplete(end - start, matches, 1, cancelled, sc.Pattern);
+                    OnSearchComplete(end - start, matches, 1, cancelled);
                 }
             });
         }
@@ -523,9 +478,9 @@ namespace LogViewer
                 return (this.GetLine(((LogLine)x).LineNumber));
             };
 
-            colText.ImageGetter = delegate(object x)
+            colText.ImageGetter = delegate (object x)
             {
-                LogLine log = (LogLine) x;
+                LogLine log = (LogLine)x;
                 if (log == null)
                 {
                     return "";
@@ -591,7 +546,7 @@ namespace LogViewer
             lv.VirtualMode = true;
             lv.Tag = this.Guid;
             lv.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.FormatRow);
-            
+
 
             this.List = lv;
             return pageForm;
@@ -608,18 +563,9 @@ namespace LogViewer
         /// <summary>
         /// 搜索结束
         /// </summary>
-        public void SetSearchEnd(string searchText)
+        public void SetSearchEnd()
         {
-            this.ViewMode = Global.ViewMode.FilterShow;
-            if (this.pageForm.IsShowMatch())
-            {
-                List.ModelFilter = new ModelFilter(delegate (object x)
-                {
-                    return x != null && (((LogLine)x).SearchMatches.Intersect(FilterIds).Any() == true || (((LogLine)x).IsContextLine == true));
-                });
-            }
-            TextMatchFilter filter = TextMatchFilter.Contains(List, searchText);
-            pageForm.GetHighlightTextRenderer().Filter = filter;
+            SetShowType();
             pageForm.GetToolStripProgressBar().Visible = false;
             List.Refresh();
         }
@@ -635,10 +581,34 @@ namespace LogViewer
 
             List.ModelFilter = new ModelFilter(delegate (object x)
             {
-                var line = (LogLine) x;
+                var line = (LogLine)x;
                 var isShowType = (ShowTypeInfo && (line.LogType & 1) != 0) || (ShowTypeWarning && (line.LogType & 2) != 0) || (ShowTypeError && (line.LogType & 4) != 0);
-                return isShowType;
+                if (isShowType)
+                {
+                    if (pageForm.IsShowMatch() && !string.IsNullOrEmpty(CurSearch.Pattern))
+                    {
+                        return line.IsCurSearch;
+                    }
+                    else
+                    {
+                        return line.IsTerms;
+                    }
+                }
+                return false;
             });
+
+            if (string.IsNullOrEmpty(CurSearch.Pattern))
+            {
+                ViewMode = Global.ViewMode.Standard;
+                pageForm.GetHighlightTextRenderer().Filter = null;
+            }
+            else
+            {
+                this.ViewMode = Global.ViewMode.FilterShow;
+                TextMatchFilter filter = TextMatchFilter.Contains(List, CurSearch.Pattern);
+                pageForm.GetHighlightTextRenderer().Filter = filter;
+            }
+
             if (selectedLine > -1)
             {
                 for (int i = 0; i < List.GetItemCount(); i++)
@@ -682,14 +652,14 @@ namespace LogViewer
                 return;
             }
 
-//            if (((LogLine)e.Model).SearchMatches.Intersect(this.FilterIds).Any() == true)
-//            {
-//                e.Item.BackColor = highlightColour;
-//            }
-//            else if (((LogLine)e.Model).IsContextLine == true)
-//            {
-//                e.Item.BackColor = contextColour;
-//            }
+            //            if (((LogLine)e.Model).SearchMatches.Intersect(this.FilterIds).Any() == true)
+            //            {
+            //                e.Item.BackColor = highlightColour;
+            //            }
+            //            else if (((LogLine)e.Model).IsContextLine == true)
+            //            {
+            //                e.Item.BackColor = contextColour;
+            //            }
             //}            
         }
 
@@ -711,7 +681,7 @@ namespace LogViewer
                 {
                     this.Lines[(int)lineNumber + index].IsContextLine = true;
                 }
-            }           
+            }
 
             if (lineNumber > 0)
             {
@@ -723,7 +693,7 @@ namespace LogViewer
                 {
                     this.Lines[(int)lineNumber - index].IsContextLine = true;
                 }
-            }            
+            }
         }
 
         /// <summary>
@@ -799,7 +769,7 @@ namespace LogViewer
         /// <param name="offset"></param>
         /// <param name="charCount"></param>
         private void AddLine(long offset, int charCount, bool endCr, int logType)
-        {           
+        {
             LogLine ll = new LogLine();
             ll.Offset = offset;
             ll.CharCount = charCount;
@@ -877,7 +847,7 @@ namespace LogViewer
                 this.fileStream.Read(buffer, 0, this.Lines[lineNumber].CharCount);
                 this.readMutex.ReleaseMutex();
             }
-            catch (Exception){}
+            catch (Exception) { }
 
             //return Regex.Replace(Encoding.ASCII.GetString(buffer), "[\0-\b\n\v\f\x000E-\x001F\x007F-ÿ]", "", RegexOptions.Compiled);
             var str = Encoding.UTF8.GetString(buffer);
@@ -1090,17 +1060,17 @@ namespace LogViewer
             return posList[posList.Count - 1] + idx - idx2;
         }
 
-//        private void SearchIndexToTagIndex(EntryInfo entryInfo, int searchLength)
-//        {
-//            if (entryInfo.searchIndex == -1)
-//            {
-//                return;
-//            }
-//
-//            entryInfo.searchEndIndex = GetOriginalCharIndex(entryInfo.searchIndex + searchLength,
-//                entryInfo.tagPosInfos);
-//            entryInfo.searchIndex = GetOriginalCharIndex(entryInfo.searchIndex, entryInfo.tagPosInfos);
-//        }
+        //        private void SearchIndexToTagIndex(EntryInfo entryInfo, int searchLength)
+        //        {
+        //            if (entryInfo.searchIndex == -1)
+        //            {
+        //                return;
+        //            }
+        //
+        //            entryInfo.searchEndIndex = GetOriginalCharIndex(entryInfo.searchIndex + searchLength,
+        //                entryInfo.tagPosInfos);
+        //            entryInfo.searchIndex = GetOriginalCharIndex(entryInfo.searchIndex, entryInfo.tagPosInfos);
+        //        }
 
         #endregion
 
@@ -1140,9 +1110,9 @@ namespace LogViewer
         /// <summary>
         /// 
         /// </summary>
-        private void OnSearchComplete(TimeSpan duration, long matches, int numTerms, bool cancelled, string searchText)
+        private void OnSearchComplete(TimeSpan duration, long matches, int numTerms, bool cancelled)
         {
-            SearchComplete?.Invoke(this, this.FileName, duration, matches, numTerms, cancelled, searchText);
+            SearchComplete?.Invoke(this, this.FileName, duration, matches, numTerms, cancelled);
         }
 
         public void OnProgressCancel()
@@ -1150,9 +1120,9 @@ namespace LogViewer
             ProgressCancel?.Invoke(this, 0);
         }
 
-        public void OnSearchBegin(string text)
+        public void OnSearchBegin()
         {
-            SearchBegin?.Invoke(this, text);
+            SearchBegin?.Invoke(this);
         }
         #endregion
     }

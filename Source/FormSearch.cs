@@ -70,14 +70,14 @@ namespace LogViewer
         {
             if (comboType.SelectedIndex == -1)
             {
-                UserInterface.DisplayMessageBox(this, "The type is not selected", MessageBoxIcon.Exclamation);
+                //DarkMessageBox.ShowError(this, "The type is not selected", MessageBoxIcon.Exclamation);
                 comboType.Select();
                 return;
             }
 
             if (this.Patterns.Count == 0)
             {
-                UserInterface.DisplayMessageBox(this, "No search patterns loaded", MessageBoxIcon.Exclamation);
+                //DarkMessageBox.ShowError(this, "No search patterns loaded", MessageBoxIcon.Exclamation);
                 listTerms.Select();
                 return;
             }
@@ -108,7 +108,7 @@ namespace LogViewer
 
             if (exists == true)
             {
-                UserInterface.DisplayMessageBox(this, "At least one pattern already exists and has not been added", MessageBoxIcon.Information);
+                //DarkMessageBox.ShowError(this, "At least one pattern already exists and has not been added", MessageBoxIcon.Information);
             }
 
             this.DialogResult = DialogResult.OK;

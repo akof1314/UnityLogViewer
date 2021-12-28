@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using DarkUI.Docking;
+using DarkUI.Forms;
 
 namespace LogViewer
 {
@@ -145,7 +146,13 @@ namespace LogViewer
         {
             for (int i = 0; i < num; i++)
             {
-                this.toolStripTab.Items.RemoveByKey(CUSTOMSEARCH + i);
+                var idx = this.toolStripTab.Items.IndexOfKey(CUSTOMSEARCH + i);
+                if (idx > -1)
+                {
+                    var item = this.toolStripTab.Items[idx];
+                    item.Click -= this.toolStripButtonCustomIdx_Click;
+                    this.toolStripTab.Items.RemoveAt(idx);
+                }
             }
         }
 
@@ -171,12 +178,14 @@ namespace LogViewer
             btn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             btn.Name = CUSTOMSEARCH + index;
             btn.Text = shortText;
+            btn.ToolTipText = searchText;
             btn.DisplayStyle = ToolStripItemDisplayStyle.Text;
             btn.CheckOnClick = true;
             btn.AutoSize = false;
             btn.Click += new System.EventHandler(this.toolStripButtonCustomIdx_Click);
             this.toolStripTab.Items.Add(btn);
             btn.AutoSize = true;
+            btn.Checked = Log.Searches.IsEnabledNewAdd((Global.SearchType)config.SearchTypes[index], config.SearchTerms[index]);
         }
 
         private void toolStripButtonInfo_CheckedChanged(object sender, EventArgs e)
@@ -200,8 +209,9 @@ namespace LogViewer
         private void toolStripButtonCancle_Click(object sender, EventArgs e)
         {
             this.toolStripTextBoxSearch.Text = String.Empty;
+            Log.CurSearch.Pattern = String.Empty;
             SetSearchTip();
-            Log.OnSearchBegin(String.Empty);
+            Log.OnSearchBegin();
         }
 
         private void toolStripTextBoxSearch_KeyDown(object sender, KeyEventArgs e)
@@ -209,33 +219,16 @@ namespace LogViewer
             if (e.KeyCode == Keys.Enter)
             {
                 //Perform search
-                Log.OnSearchBegin(this.toolStripTextBoxSearch.Text);
+                Log.CurSearch.Pattern = this.toolStripTextBoxSearch.Text;
+                Log.CurSearch.Type = this.GetSearchType();
+                Log.OnSearchBegin();
                 this.toolStripTextBoxSearch.AutoCompleteCustomSource.Add(this.toolStripTextBoxSearch.Text);
             }
         }
 
         private void toolStripButtonViewMatch_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.toolStripButtonViewMatch.Checked)
-            {
-                Log.List.ModelFilter = new ModelFilter(delegate (object x)
-                {
-                    return x != null && (((LogLine)x).SearchMatches.Intersect(Log.FilterIds).Any() == true || (((LogLine)x).IsContextLine == true));
-                });
-
-                if (Log.List.DefaultRenderer is HighlightTextRenderer high && high.Filter == null)
-                {
-                    var sc2 = Log.Searches.Items.Find(sc => sc.Id == Log.FilterIds[0]);
-                    if (sc2 != null)
-                    {
-                        high.Filter = TextMatchFilter.Contains(Log.List, sc2.Pattern);
-                    }
-                }
-            }
-            else
-            {
-                Log.List.ModelFilter = null;
-            }
+            Log.SetShowType();
         }
 
         private void ToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -315,7 +308,8 @@ namespace LogViewer
                     var str = btn.Name.Substring(CUSTOMSEARCH.Length);
                     if (int.TryParse(str, out var idx))
                     {
-                        Console.WriteLine(idx);
+                        Log.Searches.SetEnabled((Global.SearchType)config.SearchTypes[idx], config.SearchTerms[idx], btn.Checked);
+                        Log.OnSearchBegin();
                     }
                 }
             }

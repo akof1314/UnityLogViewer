@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using DarkUI.Forms;
 using woanware;
 
 namespace LogViewer
@@ -29,14 +30,14 @@ namespace LogViewer
         {
             if (textLineNum.Text.Trim().Length == 0)
             {
-                UserInterface.DisplayMessageBox(this, "The line number must be entered", MessageBoxIcon.Exclamation);
+                DarkMessageBox.ShowError( "The line number must be entered", String.Empty);
                 textLineNum.Select();
                 return;
             }
 
             if (Misc.IsNumber(textLineNum.Text) == false)
             {
-                UserInterface.DisplayMessageBox(this, "The line number value is invalid", MessageBoxIcon.Exclamation);
+                DarkMessageBox.ShowError( "The line number value is invalid", String.Empty);
                 textLineNum.Select();
                 return;
             }

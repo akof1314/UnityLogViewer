@@ -6,7 +6,6 @@ using System.Windows.Forms;
 using System.Linq;
 using woanware;
 using System.Threading;
-using System.Text;
 using DarkUI.Forms;
 
 namespace LogViewer
@@ -53,7 +52,7 @@ namespace LogViewer
             string ret = this.config.Load();
             if (ret.Length > 0)
             {
-                UserInterface.DisplayErrorMessageBox(this, ret);
+                DarkMessageBox.ShowError( ret, String.Empty);
             }
 
             this.highlightColour = config.GetHighlightColour();
@@ -74,7 +73,7 @@ namespace LogViewer
             string ret = config.Save();
             if (ret.Length > 0)
             {
-                UserInterface.DisplayErrorMessageBox(this, ret);
+                DarkMessageBox.ShowError( ret, String.Empty);
             }
         }
 
@@ -98,7 +97,7 @@ namespace LogViewer
 
             if (files.Length > 1)
             {
-                UserInterface.DisplayMessageBox(this, "Only one file can be processed at one time", MessageBoxIcon.Exclamation);
+                DarkMessageBox.ShowError( "Only one file can be processed at one time", String.Empty);
                 return;
             }
 
@@ -220,7 +219,7 @@ namespace LogViewer
         /// <param name="message"></param>
         private void LogFile_LoadError(LogFile lf, string fileName, string message)
         {
-            UserInterface.DisplayErrorMessageBox(this, message + " (" + fileName + ")");
+            DarkMessageBox.ShowError( message + " (" + fileName + ")", String.Empty);
 
             synchronizationContext.Post(new SendOrPostCallback(o =>
             {
@@ -253,50 +252,28 @@ namespace LogViewer
             this.cancellationTokenSource.Cancel();
         }
 
-        private void LogFile_SearchBegin(LogFile lf, string text)
+        private void LogFile_SearchBegin(LogFile lf)
         {
-            if (string.IsNullOrEmpty(text))
-            {
-                lf.List.ModelFilter = null;
-                lf.ViewMode = Global.ViewMode.Standard;
-
-                return;
-            }
-
-            SearchCriteria sc = new SearchCriteria();
-            sc.Type = lf.pageForm.GetSearchType();
-            sc.Pattern = text;
-            sc.Id = lf.Searches.Add(sc, false);
-
-            if (sc.Id == 0)
-            {
-                UserInterface.DisplayMessageBox(this, "The search pattern already exists", MessageBoxIcon.Exclamation);
-                return;
-            }
-
-            // Add the ID so that any matches show up straight away
-            lf.FilterIds.Add(sc.Id);
-
             this.processing = true;
             this.hourGlass = new HourGlass(this);
             SetProcessingState(false);
             lf.pageForm.GetToolStripProgressBar().Visible = true;
             this.cancellationTokenSource = new CancellationTokenSource();
-            lf.Search(sc, false, cancellationTokenSource.Token, config.NumContextLines);
+            lf.Search(cancellationTokenSource.Token, config.NumContextLines);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        private void LogFile_SearchComplete(LogFile lf, string fileName, TimeSpan duration, long matches, int numTerms, bool cancelled, string searchText)
+        private void LogFile_SearchComplete(LogFile lf, string fileName, TimeSpan duration, long matches, int numTerms, bool cancelled)
         {
             synchronizationContext.Post(new SendOrPostCallback(o =>
             {
-                lf.SetSearchEnd(searchText);
+                lf.SetSearchEnd();
                 this.hourGlass.Dispose();
                 SetProcessingState(true);
                 this.cancellationTokenSource.Dispose();
-                UpdateStatusLabel("Matched " + matches + " lines (Search Terms: " + numTerms + ") # Duration: " + duration + " (" + fileName + ")", lf.pageForm.GetToolStripStatusLabel());
+                UpdateStatusLabel("找到 " + matches + " 条数据， 花费时间： " + duration + " (" + fileName + ")", lf.pageForm.GetToolStripStatusLabel());
 
                 this.processing = false;
 
@@ -361,32 +338,6 @@ namespace LogViewer
         #endregion
 
         #region List Event Handlers
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void listLines_FormatRow(object sender, BrightIdeasSoftware.FormatRowEventArgs e)
-        {
-            //if (this.viewMode != Global.ViewMode.FilterHide)
-            //{
-            if ((LogLine)e.Model == null)
-            {
-                return;
-            }
-
-            LogFile lf = logs[e.ListView.Tag.ToString()];
-
-            if (((LogLine)e.Model).SearchMatches.Intersect(lf.FilterIds).Any() == true)
-            {
-                e.Item.BackColor = highlightColour;
-            }
-            else if (((LogLine)e.Model).IsContextLine == true)
-            {
-                e.Item.BackColor = contextColour;
-            }
-            //}            
-        }
 
         /// <summary>
         /// 
@@ -430,7 +381,7 @@ namespace LogViewer
 
             if (files.Length > 1)
             {
-                UserInterface.DisplayMessageBox(this, "Only one file can be processed at one time", MessageBoxIcon.Exclamation);
+                DarkMessageBox.ShowError( "Only one file can be processed at one time",String.Empty);
                 return;
             }
 
