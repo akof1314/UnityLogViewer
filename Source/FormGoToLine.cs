@@ -8,7 +8,7 @@ namespace LogViewer
     /// <summary>
     /// 
     /// </summary>
-    public partial class FormGoToLine : Form
+    public partial class FormGoToLine : DarkForm
     {
         #region Constructor
         /// <summary>

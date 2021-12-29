@@ -77,12 +77,6 @@
     <Compile Include="FormAbout.Designer.cs">
       <DependentUpon>FormAbout.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormConfiguration.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormConfiguration.Designer.cs">
-      <DependentUpon>FormConfiguration.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormCustomTerms.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,18 +101,6 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormSearch.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormSearch.Designer.cs">
-      <DependentUpon>FormSearch.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormSearchTerms.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormSearchTerms.Designer.cs">
-      <DependentUpon>FormSearchTerms.cs</DependentUpon>
-    </Compile>
     <Compile Include="Global.cs" />
     <Compile Include="Pattern.cs" />
     <Compile Include="SearchCriteria.cs" />
@@ -133,9 +115,6 @@
     <EmbeddedResource Include="FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormConfiguration.resx">
-      <DependentUpon>FormConfiguration.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormCustomTerms.resx">
       <DependentUpon>FormCustomTerms.cs</DependentUpon>
     </EmbeddedResource>
@@ -147,12 +126,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormSearch.resx">
-      <DependentUpon>FormSearch.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormSearchTerms.resx">
-      <DependentUpon>FormSearchTerms.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -6,7 +6,9 @@ using System.Windows.Forms;
 using System.Linq;
 using woanware;
 using System.Threading;
+using DarkUI.Docking;
 using DarkUI.Forms;
+using System.Text;
 
 namespace LogViewer
 {
@@ -58,8 +60,8 @@ namespace LogViewer
             this.highlightColour = config.GetHighlightColour();
             this.contextColour = config.GetContextColour();
 
-            menuFileOpen.Enabled = false;
             menuFileClose.Enabled = false;
+            this.darkDockPanelMain.ContentRemoved += DarkDockPanelMainOnContentRemoved;
         }
 
         /// <summary>
@@ -97,18 +99,11 @@ namespace LogViewer
 
             if (files.Length > 1)
             {
-                DarkMessageBox.ShowError( "Only one file can be processed at one time", String.Empty);
+                DarkMessageBox.ShowError("一次只能处理一个文件", "拖曳提示");
                 return;
             }
 
-            if (logs.Count == 0)
-            {
-                LoadFile(files[0], true);
-            }
-            else
-            {
-                LoadFile(files[0], false);
-            }
+            LoadFile(files[0]);
         }
 
         /// <summary>
@@ -132,6 +127,34 @@ namespace LogViewer
                 e.Effect = DragDropEffects.None;
             }
         }
+
+        private void DarkDockPanelMainOnContentRemoved(object sender, DockContentEventArgs e)
+        {
+            DocLogFile doc = e.Content as DocLogFile;
+            if (doc == null)
+            {
+                return;
+            }
+
+            LogFile lf = doc.Log;
+            lf.ProgressUpdate -= LogFile_LoadProgress;
+            lf.ProgressCancel -= LogFile_LoadProgressCancel;
+            lf.LoadComplete -= LogFile_LoadComplete;
+            lf.SearchComplete -= LogFile_SearchComplete;
+            lf.ExportComplete -= LogFile_ExportComplete;
+            lf.LoadError -= LogFile_LoadError;
+            lf.SearchBegin -= LogFile_SearchBegin;
+            lf.List.ItemActivate -= (this.listLines_ItemActivate);
+            lf.List.DragDrop -= (this.listLines_DragDrop);
+            lf.List.DragEnter -= (this.listLines_DragEnter);
+            logs.Remove(lf.Guid);
+            lf.List.ClearObjects();
+            lf.Dispose();
+            if (logs.Count == 0)
+            {
+                menuFileClose.Enabled = false;
+            }
+        }
         #endregion
 
         #region Log File Methods
@@ -140,14 +163,13 @@ namespace LogViewer
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        private void LoadFile(string filePath, bool newTab)
+        private void LoadFile(string filePath)
         {
             this.processing = true;
             this.hourGlass = new HourGlass(this);
             SetProcessingState(false);
             this.cancellationTokenSource = new CancellationTokenSource();
 
-            if (newTab == true)
             {
                 LogFile lf = new LogFile();
                 logs.Add(lf.Guid, lf);
@@ -327,9 +349,6 @@ namespace LogViewer
                 this.cancellationTokenSource.Dispose();
                 UpdateStatusLabel(lf.Lines.Count + " Lines # Duration: " + duration + " (" + fileName + ")", lf.pageForm.GetToolStripStatusLabel());
                 menuFileClose.Enabled = true;
-                menuFileOpen.Enabled = true; // Enable the standard file open, since we can now open in an existing tab, since at least one tab exists
-                                             //                int index = tabControl.TabPages.IndexOfKey("tabPage" + lf.Guid);
-                                             //                tabControl.TabPages[index].Text = lf.FileName;
                 this.hourGlass.Dispose();
                 this.processing = false;
 
@@ -381,11 +400,11 @@ namespace LogViewer
 
             if (files.Length > 1)
             {
-                DarkMessageBox.ShowError( "Only one file can be processed at one time",String.Empty);
+                DarkMessageBox.ShowError("一次只能处理一个文件", "拖曳提示");
                 return;
             }
 
-            LoadFile(files[0], false);
+            LoadFile(files[0]);
         }
 
         /// <summary>
@@ -585,15 +604,21 @@ namespace LogViewer
         /// <param name="e"></param>
         private void contextMenuCopy_Click(object sender, EventArgs e)
         {
-            //            LogFile lf = logs[tabControl.SelectedTab.Tag.ToString()];
-            //
-            //            StringBuilder sb = new StringBuilder();
-            //            foreach (LogLine ll in lf.List.SelectedObjects)
-            //            {
-            //                sb.AppendLine(lf.GetLine(ll.LineNumber));
-            //            }
-            //
-            //            Clipboard.SetText(sb.ToString());
+            var tag = this.darkDockPanelMain.ActiveContent;
+            DocLogFile doc = tag as DocLogFile;
+            if (doc == null)
+            {
+                return;
+            }
+
+            LogFile lf = doc.Log;
+            StringBuilder sb = new StringBuilder();
+            foreach (LogLine ll in lf.List.SelectedObjects)
+            {
+                sb.AppendLine(lf.GetLine(ll.LineNumber));
+            }
+            
+            Clipboard.SetText(sb.ToString());
         }
 
         /// <summary>
@@ -603,27 +628,34 @@ namespace LogViewer
         /// <param name="e"></param>
         private void contextLinesGoToLine_Click(object sender, EventArgs e)
         {
-            //            using (FormGoToLine f = new FormGoToLine())
-            //            {
-            //                DialogResult dr = f.ShowDialog(this);
-            //                if (dr == DialogResult.Cancel)
-            //                {
-            //                    return;
-            //                }
-            //
-            //                LogFile lf = logs[tabControl.SelectedTab.Tag.ToString()];
-            //
-            //                lf.List.EnsureVisible(f.LineNumber - 1);
-            //                var ll = lf.Lines.SingleOrDefault(x => x.LineNumber == f.LineNumber);
-            //                if (ll != null)
-            //                {
-            //                    lf.List.SelectedIndex = ll.LineNumber - 1;
-            //                    if (lf.List.SelectedItem != null)
-            //                    {
-            //                        lf.List.FocusedItem = lf.List.SelectedItem;
-            //                    }
-            //                }
-            //            }
+            using (FormGoToLine f = new FormGoToLine())
+            {
+                DialogResult dr = f.ShowDialog(this);
+                if (dr == DialogResult.Cancel)
+                {
+                    return;
+                }
+
+                var tag = this.darkDockPanelMain.ActiveContent;
+                DocLogFile doc = tag as DocLogFile;
+                if (doc == null)
+                {
+                    return;
+                }
+
+                LogFile lf = doc.Log;
+
+                lf.List.EnsureVisible(f.LineNumber - 1);
+                var ll = lf.Lines.SingleOrDefault(x => x.LineNumber == f.LineNumber);
+                if (ll != null)
+                {
+                    lf.List.SelectedIndex = ll.LineNumber - 1;
+                    if (lf.List.SelectedItem != null)
+                    {
+                        lf.List.FocusedItem = lf.List.SelectedItem;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -633,14 +665,21 @@ namespace LogViewer
         /// <param name="e"></param>
         private void contextLinesGoToFirstLine_Click(object sender, EventArgs e)
         {
-            //            LogFile lf = logs[tabControl.SelectedTab.Tag.ToString()];
-            //
-            //            lf.List.EnsureVisible(0);
-            //            lf.List.SelectedIndex = 0;
-            //            if (lf.List.SelectedItem != null)
-            //            {
-            //                lf.List.FocusedItem = lf.List.SelectedItem;
-            //            }
+            var tag = this.darkDockPanelMain.ActiveContent;
+            DocLogFile doc = tag as DocLogFile;
+            if (doc == null)
+            {
+                return;
+            }
+
+            LogFile lf = doc.Log;
+
+            lf.List.EnsureVisible(0);
+            lf.List.SelectedIndex = 0;
+            if (lf.List.SelectedItem != null)
+            {
+                lf.List.FocusedItem = lf.List.SelectedItem;
+            }
         }
 
         /// <summary>
@@ -650,14 +689,21 @@ namespace LogViewer
         /// <param name="e"></param>
         private void contextLinesGoToLastLine_Click(object sender, EventArgs e)
         {
-            //            LogFile lf = logs[tabControl.SelectedTab.Tag.ToString()];
-            //
-            //            lf.List.EnsureVisible(lf.LineCount - 1);
-            //            lf.List.SelectedIndex = lf.LineCount - 1;
-            //            if (lf.List.SelectedItem != null)
-            //            {
-            //                lf.List.FocusedItem = lf.List.SelectedItem;
-            //            }
+            var tag = this.darkDockPanelMain.ActiveContent;
+            DocLogFile doc = tag as DocLogFile;
+            if (doc == null)
+            {
+                return;
+            }
+
+            LogFile lf = doc.Log;
+
+            lf.List.EnsureVisible(lf.LineCount - 1);
+            lf.List.SelectedIndex = lf.LineCount - 1;
+            if (lf.List.SelectedItem != null)
+            {
+                lf.List.FocusedItem = lf.List.SelectedItem;
+            }
         }
 
         /// <summary>
@@ -667,65 +713,10 @@ namespace LogViewer
         /// <param name="e"></param>
         private void contextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //            bool enableLineOps = true;
-            //
-            //            LogFile lf = null;
-            //            if (tabControl.SelectedTab != null)
-            //            {
-            //                lf = logs[tabControl.SelectedTab.Tag.ToString()];
-            //            }
-            //           
-            //            if (lf == null)
-            //            {
-            //                enableLineOps = false;
-            //            }
-            //            else
-            //            {
-            //                if (lf.LineCount == 0)
-            //                {
-            //                    enableLineOps = false;
-            //                }
-            //            }
-            //
-            //            contextLinesGoToFirstLine.Enabled = enableLineOps;
-            //            contextLinesGoToLastLine.Enabled = enableLineOps;
-            //            contextLinesGoToLine.Enabled = enableLineOps;
-            //
-            //            if (lf != null)
-            //            {
-            //                if (lf.List.SelectedObjects.Count > this.config.MultiSelectLimit)
-            //                {
-            //                    contextMenuCopy.Enabled = false;
-            //                    contextMenuExportSelected.Enabled = false;
-            //                    return;
-            //                }
-            //            }          
-            //
-            //            contextMenuCopy.Enabled = true;
-            //            contextMenuExportSelected.Enabled = true;
         }
         #endregion
 
         #region Menu Event Handlers
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuFileOpen_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "All Files|*.*";
-            openFileDialog.FileName = "*.*";
-            openFileDialog.Title = "Select log file";
-
-            if (openFileDialog.ShowDialog(this) == System.Windows.Forms.DialogResult.Cancel)
-            {
-                return;
-            }
-
-            LoadFile(openFileDialog.FileName, false);
-        }
 
         /// <summary>
         /// 
@@ -737,14 +728,14 @@ namespace LogViewer
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "All Files|*.*";
             openFileDialog.FileName = "*.*";
-            openFileDialog.Title = "Select log file";
+            openFileDialog.Title = "选择日志文件";
 
             if (openFileDialog.ShowDialog(this) == System.Windows.Forms.DialogResult.Cancel)
             {
                 return;
             }
 
-            LoadFile(openFileDialog.FileName, true);
+            LoadFile(openFileDialog.FileName);
         }
 
         /// <summary>
@@ -754,31 +745,8 @@ namespace LogViewer
         /// <param name="e"></param>
         private void menuFileClose_Click(object sender, EventArgs e)
         {
-            //            if (tabControl.SelectedTab == null || tabControl.SelectedIndex == -1)
-            //            {
-            //                return;
-            //            }
-            //
-            //            var tag = tabControl.SelectedTab.Tag.ToString();
-            //
-            //            // Get rid of the event handlers to prevent a memory leak
-            //            logs[tag].ProgressUpdate -= LogFile_LoadProgress;
-            //            logs[tag].LoadComplete -= LogFile_LoadComplete;
-            //            logs[tag].SearchComplete -= LogFile_SearchComplete;
-            //            logs[tag].ExportComplete -= LogFile_ExportComplete;
-            //            logs[tag].LoadError -= LogFile_LoadError;
-            //            // Clear the rest
-            //            logs[tag].List.ClearObjects();
-            //            logs[tag].Dispose();
-            //            logs.Remove(tag);
-            //
-            //            tabControl.TabPages.Remove(tabControl.SelectedTab);
-            //
-            //            if (logs.Count == 0)
-            //            {
-            //                menuFileOpen.Enabled = false;
-            //                menuFileClose.Enabled = false;
-            //            }
+            var tag = this.darkDockPanelMain.ActiveContent;
+            this.darkDockPanelMain.RemoveContent(tag);
         }
 
         /// <summary>
@@ -798,7 +766,7 @@ namespace LogViewer
         /// <param name="e"></param>
         private void menuHelpHelp_Click(object sender, EventArgs e)
         {
-            Misc.ShellExecuteFile(System.IO.Path.Combine(Misc.GetApplicationDirectory(), "help.pdf"));
+            //Misc.ShellExecuteFile(System.IO.Path.Combine(Misc.GetApplicationDirectory(), "help.pdf"));
         }
 
         /// <summary>
@@ -821,10 +789,6 @@ namespace LogViewer
         /// <param name="e"></param>
         private void menuToolsConfiguration_Click(object sender, EventArgs e)
         {
-            using (FormConfiguration f = new FormConfiguration(this.config))
-            {
-                f.ShowDialog(this);
-            }
         }
         #endregion
 
@@ -837,7 +801,6 @@ namespace LogViewer
         {
             MethodInvoker methodInvoker = delegate
             {
-                menuFileOpen.Enabled = enabled;
                 menuFileOpenNewTab.Enabled = enabled;
                 menuFileClose.Enabled = enabled;
                 menuFileExit.Enabled = enabled;

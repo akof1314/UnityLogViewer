@@ -99,6 +99,11 @@ namespace LogViewer
             return this.toolStripButtonViewMatch.Checked;
         }
 
+        public void SetShowMatch(bool isShow)
+        {
+            this.toolStripButtonViewMatch.Checked = isShow;
+        }
+
         private void statusProgress_Click(object sender, EventArgs e)
         {
             Log.OnProgressCancel();
@@ -265,7 +270,6 @@ namespace LogViewer
 
         private void toolStripButtonSearchPrev_Click(object sender, EventArgs e)
         {
-
         }
 
         private void toolStripButtonSearchNext_Click(object sender, EventArgs e)

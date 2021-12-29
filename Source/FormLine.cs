@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Windows.Forms;
+using DarkUI.Forms;
 
 namespace LogViewer
 {
     /// <summary>
     /// 
     /// </summary>
-    public partial class FormLine : Form
+    public partial class FormLine : DarkForm
     {
         #region Constructor
         /// <summary>

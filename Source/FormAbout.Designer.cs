@@ -1,4 +1,6 @@
-﻿namespace LogViewer
+﻿using DarkUI.Controls;
+
+namespace LogViewer
 {
     partial class FormAbout
     {
@@ -29,169 +31,71 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAbout));
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.linkEmail = new System.Windows.Forms.LinkLabel();
-            this.linkWeb = new System.Windows.Forms.LinkLabel();
-            this.btnClose = new System.Windows.Forms.Button();
-            this.lblVer = new System.Windows.Forms.Label();
-            this.lblApp = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.linkIcons8 = new System.Windows.Forms.LinkLabel();
-            this.labelIconsBy = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.btnClose = new DarkUI.Controls.DarkButton();
+            this.lblVer = new DarkUI.Controls.DarkLabel();
+            this.lblApp = new DarkUI.Controls.DarkLabel();
             this.SuspendLayout();
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.Color.White;
-            this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pictureBox2.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(305, 82);
-            this.pictureBox2.TabIndex = 26;
-            this.pictureBox2.TabStop = false;
-            // 
-            // linkEmail
-            // 
-            this.linkEmail.AutoSize = true;
-            this.linkEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkEmail.Location = new System.Drawing.Point(75, 113);
-            this.linkEmail.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.linkEmail.Name = "linkEmail";
-            this.linkEmail.Size = new System.Drawing.Size(149, 17);
-            this.linkEmail.TabIndex = 25;
-            this.linkEmail.TabStop = true;
-            this.linkEmail.Text = "markwoan@gmail.com";
-            this.linkEmail.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkEmail_LinkClicked);
-            // 
-            // linkWeb
-            // 
-            this.linkWeb.AutoSize = true;
-            this.linkWeb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkWeb.Location = new System.Drawing.Point(75, 92);
-            this.linkWeb.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.linkWeb.Name = "linkWeb";
-            this.linkWeb.Size = new System.Drawing.Size(140, 17);
-            this.linkWeb.TabIndex = 24;
-            this.linkWeb.TabStop = true;
-            this.linkWeb.Text = "www.woanware.co.uk";
-            this.linkWeb.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkWeb_LinkClicked);
             // 
             // btnClose
             // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(218, 174);
-            this.btnClose.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.btnClose.Location = new System.Drawing.Point(140, 57);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(80, 24);
+            this.btnClose.Padding = new System.Windows.Forms.Padding(5);
+            this.btnClose.Size = new System.Drawing.Size(75, 24);
             this.btnClose.TabIndex = 23;
-            this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Text = "关闭";
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // lblVer
             // 
             this.lblVer.AutoSize = true;
-            this.lblVer.BackColor = System.Drawing.Color.White;
-            this.lblVer.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVer.Location = new System.Drawing.Point(238, 36);
-            this.lblVer.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblVer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.lblVer.Location = new System.Drawing.Point(119, 9);
             this.lblVer.Name = "lblVer";
-            this.lblVer.Size = new System.Drawing.Size(54, 16);
+            this.lblVer.Size = new System.Drawing.Size(46, 19);
             this.lblVer.TabIndex = 29;
             this.lblVer.Text = "v1.0.0";
             // 
             // lblApp
             // 
             this.lblApp.AutoSize = true;
-            this.lblApp.BackColor = System.Drawing.Color.White;
-            this.lblApp.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblApp.Location = new System.Drawing.Point(78, 26);
-            this.lblApp.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblApp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.lblApp.Location = new System.Drawing.Point(12, 9);
             this.lblApp.Name = "lblApp";
-            this.lblApp.Size = new System.Drawing.Size(155, 29);
+            this.lblApp.Size = new System.Drawing.Size(73, 19);
             this.lblApp.TabIndex = 28;
             this.lblApp.Text = "LogViewer";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(0, 6);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(74, 76);
-            this.pictureBox1.TabIndex = 27;
-            this.pictureBox1.TabStop = false;
-            // 
-            // linkIcons8
-            // 
-            this.linkIcons8.AutoSize = true;
-            this.linkIcons8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkIcons8.Location = new System.Drawing.Point(137, 136);
-            this.linkIcons8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.linkIcons8.Name = "linkIcons8";
-            this.linkIcons8.Size = new System.Drawing.Size(79, 17);
-            this.linkIcons8.TabIndex = 30;
-            this.linkIcons8.TabStop = true;
-            this.linkIcons8.Text = "icons8.com";
-            this.linkIcons8.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkIcons8_LinkClicked);
-            // 
-            // labelIconsBy
-            // 
-            this.labelIconsBy.AutoSize = true;
-            this.labelIconsBy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelIconsBy.Location = new System.Drawing.Point(80, 136);
-            this.labelIconsBy.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelIconsBy.Name = "labelIconsBy";
-            this.labelIconsBy.Size = new System.Drawing.Size(60, 17);
-            this.labelIconsBy.TabIndex = 31;
-            this.labelIconsBy.Text = "Icons by";
             // 
             // FormAbout
             // 
             this.AcceptButton = this.btnClose;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(305, 203);
-            this.Controls.Add(this.labelIconsBy);
-            this.Controls.Add(this.linkIcons8);
+            this.ClientSize = new System.Drawing.Size(227, 91);
             this.Controls.Add(this.lblVer);
             this.Controls.Add(this.lblApp);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.linkEmail);
-            this.Controls.Add(this.linkWeb);
             this.Controls.Add(this.btnClose);
+            this.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormAbout";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "About";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.Text = "关于";
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.LinkLabel linkEmail;
-        private System.Windows.Forms.LinkLabel linkWeb;
-        private System.Windows.Forms.Button btnClose;
-        private System.Windows.Forms.Label lblVer;
-        private System.Windows.Forms.Label lblApp;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.LinkLabel linkIcons8;
-        private System.Windows.Forms.Label labelIconsBy;
+        private DarkButton btnClose;
+        private DarkLabel lblVer;
+        private DarkLabel lblApp;
     }
 }
