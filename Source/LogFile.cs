@@ -52,7 +52,6 @@ namespace LogViewer
         public string FileName { get; private set; }    // 文件名
         public List<ushort> FilterIds { get; private set; } = new List<ushort>();  // 所有自定义过滤的ID
         public SearchCriteria CurSearch { get; set; } = new SearchCriteria();
-        public ushort CurFilterId { get; set; }
         public FastObjectListView List { get; set; }
         public string Guid { get; private set; }
         public DocLogFile pageForm { get; private set; }
@@ -507,7 +506,6 @@ namespace LogViewer
             FastObjectListView lv = logPage.GetFastObjectListView();
             lv.HeaderUsesThemes = false;
             logPage.GetHighlightTextRenderer().FillBrush = Brushes.Transparent;
-            logPage.GetHighlightTextRenderer().FramePen = Pens.DarkOrange;
             lv.DefaultRenderer = logPage.GetHighlightTextRenderer();
 
             lv.AllColumns.Add(colLineNumber);
@@ -570,6 +568,9 @@ namespace LogViewer
             List.Refresh();
         }
 
+        /// <summary>
+        /// 设置列表显示
+        /// </summary>
         public void SetShowType()
         {
             var selectedLine = -1;
@@ -619,23 +620,108 @@ namespace LogViewer
                     {
                         if (line.LineNumber == selectedLine)
                         {
-                            List.SelectedIndex = i;
-                            List.FocusedItem = List.SelectedItem;
-                            List.EnsureVisible(i);
-                            var mid = (i - List.TopItemIndex) / 2;
-                            if (i + mid < List.GetItemCount())
-                            {
-                                List.EnsureVisible(i + mid);
-                            }
-                            else
-                            {
-                                List.EnsureVisible(List.GetItemCount() - 1);
-                            }
+                            SetSelectedLine(i);
                             break;
                         }
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// 前进后退行
+        /// </summary>
+        /// <param name="isError"></param>
+        /// <param name="isNext"></param>
+        public void SetGoLine(bool isError, bool isNext)
+        {
+            var selectedObjects = List.SelectedIndices;
+            if (selectedObjects.Count == 0)
+            {
+                return;
+            }
+
+            if (!isError && string.IsNullOrEmpty(CurSearch.Pattern))
+            {
+                return;
+            }
+
+            int[] selectedList = new int[selectedObjects.Count];
+            selectedObjects.CopyTo(selectedList, 0);
+
+            if (isNext)
+            {
+                var idx = selectedList.Max();
+                for (int i = idx + 1; i < List.GetItemCount(); i++)
+                {
+                    var modelObject = List.GetModelObject(i);
+                    var line = (LogLine)modelObject;
+                    if (line != null)
+                    {
+                        if (isError)
+                        {
+                            if (line.LogType == 4)
+                            {
+                                SetSelectedLine(i);
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            if (line.IsCurSearch)
+                            {
+                                SetSelectedLine(i);
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                var idx = selectedList.Min();
+                for (int i = idx - 1; i >= 0; i--)
+                {
+                    var modelObject = List.GetModelObject(i);
+                    var line = (LogLine)modelObject;
+                    if (line != null)
+                    {
+                        if (isError)
+                        {
+                            if (line.LogType == 4)
+                            {
+                                SetSelectedLine(i);
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            if (line.IsCurSearch)
+                            {
+                                SetSelectedLine(i);
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void SetSelectedLine(int idx)
+        {
+            List.SelectedIndex = idx;
+            List.FocusedItem = List.SelectedItem;
+            List.EnsureVisible(idx);
+            var mid = (idx - List.TopItemIndex) / 2;
+            if (idx + mid < List.GetItemCount())
+            {
+                List.EnsureVisible(idx + mid);
+            }
+            else
+            {
+                List.EnsureVisible(List.GetItemCount() - 1);
+            }
+            List.Refresh();
         }
 
         /// <summary>
@@ -734,7 +820,7 @@ namespace LogViewer
                         foreach (LogLine ll in lines)
                         {
                             lineStr = this.GetLine(ll.LineNumber);
-                            lineBytes = Encoding.ASCII.GetBytes(lineStr);
+                            lineBytes = Encoding.UTF8.GetBytes(lineStr);
                             fs.Write(lineBytes, 0, lineBytes.Length);
                             // Add \r\n
                             fs.Write(endLine, 0, 2);

@@ -199,22 +199,27 @@ namespace LogViewer
         /// <param name="filePath"></param>
         private void Export(string filePath)
         {
-            //            this.processing = true;
-            //            this.hourGlass = new HourGlass(this);
-            //            SetProcessingState(false);
-            //            this.cancellationTokenSource = new CancellationTokenSource();
-            //
-            //            LogFile lf = logs[tabControl.SelectedTab.Tag.ToString()];
-            //            lf.pageForm.GetToolStripProgressBar().Visible = true;
-            //
-            //            if (lf.List.ModelFilter == null)
-            //            {
-            //                lf.Export(filePath, cancellationTokenSource.Token);
-            //            }
-            //            else
-            //            {
-            //                lf.Export(lf.List.FilteredObjects, filePath, cancellationTokenSource.Token);
-            //            }
+            this.processing = true;
+            this.hourGlass = new HourGlass(this);
+            SetProcessingState(false);
+            this.cancellationTokenSource = new CancellationTokenSource();
+
+            var tag = this.darkDockPanelMain.ActiveContent;
+            DocLogFile doc = tag as DocLogFile;
+            if (doc == null)
+            {
+                return;
+            }
+            doc.GetToolStripProgressBar().Visible = true;
+            
+            if (doc.Log.List.ModelFilter == null)
+            {
+                doc.Log.Export(filePath, cancellationTokenSource.Token);
+            }
+            else
+            {
+                doc.Log.Export(doc.Log.List.FilteredObjects, filePath, cancellationTokenSource.Token);
+            }
         }
 
         /// <summary>
@@ -223,14 +228,19 @@ namespace LogViewer
         /// <param name="filePath"></param>
         private void ExportSelected(string filePath)
         {
-            //            this.processing = true;
-            //            this.hourGlass = new HourGlass(this);
-            //            SetProcessingState(false);
-            //            this.cancellationTokenSource = new CancellationTokenSource();
-            //
-            //            LogFile lf = logs[tabControl.SelectedTab.Tag.ToString()];
-            //            lf.pageForm.GetToolStripProgressBar().Visible = true;
-            //            lf.Export(lf.List.SelectedObjects, filePath, cancellationTokenSource.Token);
+            this.processing = true;
+            this.hourGlass = new HourGlass(this);
+            SetProcessingState(false);
+            this.cancellationTokenSource = new CancellationTokenSource();
+
+            var tag = this.darkDockPanelMain.ActiveContent;
+            DocLogFile doc = tag as DocLogFile;
+            if (doc == null)
+            {
+                return;
+            }
+            doc.GetToolStripProgressBar().Visible = true;
+            doc.Log.Export(doc.Log.List.SelectedObjects, filePath, cancellationTokenSource.Token);
         }
         #endregion
 
@@ -314,7 +324,7 @@ namespace LogViewer
                 this.hourGlass.Dispose();
                 SetProcessingState(true);
                 this.cancellationTokenSource.Dispose();
-                UpdateStatusLabel("Export complete # Duration: " + duration + " (" + fileName + ")", lf.pageForm.GetToolStripStatusLabel());
+                UpdateStatusLabel("导出完成，花费时间： " + duration + " (" + fileName + ")", lf.pageForm.GetToolStripStatusLabel());
                 this.processing = false;
             }), null);
         }
@@ -347,7 +357,7 @@ namespace LogViewer
 
                 SetProcessingState(true);
                 this.cancellationTokenSource.Dispose();
-                UpdateStatusLabel(lf.Lines.Count + " Lines # Duration: " + duration + " (" + fileName + ")", lf.pageForm.GetToolStripStatusLabel());
+                UpdateStatusLabel(lf.Lines.Count + " 行，花费时间： " + duration + " (" + fileName + ")", lf.pageForm.GetToolStripStatusLabel());
                 menuFileClose.Enabled = true;
                 this.hourGlass.Dispose();
                 this.processing = false;
@@ -437,22 +447,9 @@ namespace LogViewer
         /// <param name="e"></param>
         private void contextMenuFilterClear_Click(object sender, EventArgs e)
         {
-            //            LogFile lf = logs[tabControl.SelectedTab.Tag.ToString()];
-            //            // Get the currently selected row
-            //            var ll = (LogLine)lf.List.SelectedObject;
-            //
-            //            lf.List.ModelFilter = null;
-            //            lf.ViewMode = Global.ViewMode.Standard;
-            //
-            //            if (ll != null)
-            //            {
-            //                lf.List.EnsureVisible(ll.LineNumber - 1);
-            //                lf.List.SelectedIndex = ll.LineNumber - 1;
-            //                if (lf.List.SelectedItem != null)
-            //                {
-            //                    lf.List.FocusedItem = lf.List.SelectedItem;
-            //                }
-            //            }
+            var tag = this.darkDockPanelMain.ActiveContent;
+            DocLogFile doc = tag as DocLogFile;
+            doc?.SetShowMatch(false);
         }
 
         /// <summary>
@@ -462,99 +459,28 @@ namespace LogViewer
         /// <param name="e"></param>
         private void contextMenuFilterShowMatched_Click(object sender, EventArgs e)
         {
-            //            LogFile lf = logs[tabControl.SelectedTab.Tag.ToString()];
-            //            lf.ViewMode = Global.ViewMode.FilterShow;
-            //
-            //            lf.List.ModelFilter = new ModelFilter(delegate (object x)
-            //            {
-            //                return x != null && (((LogLine)x).SearchMatches.Intersect(lf.FilterIds).Any() == true || (((LogLine)x).IsContextLine == true));
-            //            });
+            var tag = this.darkDockPanelMain.ActiveContent;
+            DocLogFile doc = tag as DocLogFile;
+            doc?.SetShowMatch(true);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void contextMenuFilterHideMatched_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemMatchColor_Click(object sender, EventArgs e)
         {
-            //            LogFile lf = logs[tabControl.SelectedTab.Tag.ToString()];
-            //            lf.ViewMode = Global.ViewMode.FilterShow;
-            //            lf.List.ModelFilter = new ModelFilter(delegate (object x)
-            //            {
-            //                return x != null && (((LogLine)x).SearchMatches.Intersect(lf.FilterIds).Any() == false);
-            //            });
-        }
-
-        /// <summary>
-        /// Show the Searches window to allow the user to enable/disable search terms
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void contextMenuSearchViewTerms_Click(object sender, EventArgs e)
-        {
-            //            LogFile lf = logs[tabControl.SelectedTab.Tag.ToString()];
-            //
-            //            using (FormSearchTerms f = new FormSearchTerms(lf.Searches))
-            //            {
-            //                DialogResult dr = f.ShowDialog(this);
-            //                if (dr == DialogResult.Cancel)
-            //                {
-            //                    return;
-            //                }
-            //
-            //                lf.Searches = f.Searches;
-            //                lf.FilterIds.Clear();
-            //                foreach (SearchCriteria sc in lf.Searches.Items)
-            //                {
-            //                    if (sc.Enabled == false)
-            //                    {
-            //                        continue;
-            //                    }
-            //
-            //                    lf.FilterIds.Add(sc.Id);
-            //                }
-            //
-            //                lf.List.Refresh();
-            //            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void contextMenuSearchColourMatch_Click(object sender, EventArgs e)
-        {
-            //            ColorDialog cd = new ColorDialog();
-            //            DialogResult dr = cd.ShowDialog(this);
-            //            if (dr == DialogResult.Cancel)
-            //            {
-            //                return;
-            //            }
-            //
-            //            this.highlightColour = cd.Color;
-            //
-            //            logs[tabControl.SelectedTab.Tag.ToString()].List.Refresh();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void contextMenuSearchColourContext_Click(object sender, EventArgs e)
-        {
-            //            ColorDialog cd = new ColorDialog();
-            //            DialogResult dr = cd.ShowDialog(this);
-            //            if (dr == DialogResult.Cancel)
-            //            {
-            //                return;
-            //            }
-            //
-            //            this.contextColour = cd.Color;
-            //
-            //            logs[tabControl.SelectedTab.Tag.ToString()].List.Refresh();
+            ColorDialog cd = new ColorDialog();
+            cd.FullOpen = false;
+            cd.AllowFullOpen = false;
+            cd.Color = config.GetMatchColour();
+            cd.CustomColors = new[] { ColorTranslator.ToOle(config.GetMatchColour()), ColorTranslator.ToOle(Color.DarkOrange) };
+            DialogResult dr = cd.ShowDialog(this);
+            if (dr == DialogResult.Cancel)
+            {
+                return;
+            }
+            config.MatchColour = cd.Color.ToKnownColor().ToString();
+            var tag = this.darkDockPanelMain.ActiveContent;
+            DocLogFile doc = tag as DocLogFile;
+            doc?.SetMatchColor();
+            doc.Log.List.Refresh();
         }
 
         /// <summary>
@@ -564,10 +490,17 @@ namespace LogViewer
         /// <param name="e"></param>
         private void contextMenuExportAll_Click(object sender, EventArgs e)
         {
+            var tag = this.darkDockPanelMain.ActiveContent;
+            DocLogFile doc = tag as DocLogFile;
+            if (doc == null)
+            {
+                return;
+            }
+
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "All Files|*.*";
-            sfd.FileName = "*.*";
-            sfd.Title = "Select export file";
+            sfd.Filter = "所有文件|*.*";
+            sfd.FileName = "导出" + doc.DockText;
+            sfd.Title = "选择导出文件";
 
             if (sfd.ShowDialog(this) == DialogResult.Cancel)
             {
@@ -584,10 +517,17 @@ namespace LogViewer
         /// <param name="e"></param>
         private void contextMenuExportSelected_Click(object sender, EventArgs e)
         {
+            var tag = this.darkDockPanelMain.ActiveContent;
+            DocLogFile doc = tag as DocLogFile;
+            if (doc == null)
+            {
+                return;
+            }
+
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "All Files|*.*";
-            sfd.FileName = "*.*";
-            sfd.Title = "Select export file";
+            sfd.Filter = "所有文件|*.*";
+            sfd.FileName = "导出选择项" + doc.DockText;
+            sfd.Title = "选择导出文件";
 
             if (sfd.ShowDialog(this) == DialogResult.Cancel)
             {

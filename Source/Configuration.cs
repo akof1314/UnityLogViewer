@@ -14,6 +14,7 @@ namespace LogViewer
         #region Member Variables
         public string HighlightColour { get; set; } = "Lime";
         public string ContextColour { get; set; } = "LightGray";
+        public string MatchColour { get; set; } = "DarkOrange";
         public int MultiSelectLimit { get; set; } = 1000;
         public int NumContextLines { get; set; } = 0; // 上下文的最大数
         public string[] SearchTerms { get; set; } = new string[0];
@@ -38,6 +39,7 @@ namespace LogViewer
                 Configuration c = Toml.ReadFile<Configuration>(this.GetPath());
                 this.HighlightColour = c.HighlightColour;
                 this.ContextColour = c.ContextColour;
+                this.MatchColour = c.MatchColour;
                 this.MultiSelectLimit = c.MultiSelectLimit;
                 this.NumContextLines = c.NumContextLines;
                 this.SearchTerms = c.SearchTerms;
@@ -128,6 +130,17 @@ namespace LogViewer
             if (temp.IsKnownColor == false)
             {
                 return Color.LightGray;
+            }
+
+            return temp;
+        }
+
+        public Color GetMatchColour()
+        {
+            Color temp = Color.FromName(this.MatchColour);
+            if (temp.IsKnownColor == false)
+            {
+                return Color.DarkOrange;
             }
 
             return temp;

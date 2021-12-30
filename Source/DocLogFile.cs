@@ -51,6 +51,7 @@ namespace LogViewer
         {
             config = configuration;
             AllSearchTerms();
+            SetMatchColor();
         }
 
         /// <summary>
@@ -102,6 +103,11 @@ namespace LogViewer
         public void SetShowMatch(bool isShow)
         {
             this.toolStripButtonViewMatch.Checked = isShow;
+        }
+
+        public void SetMatchColor()
+        {
+            GetHighlightTextRenderer().FramePen = new Pen(config.GetMatchColour());
         }
 
         private void statusProgress_Click(object sender, EventArgs e)
@@ -270,21 +276,22 @@ namespace LogViewer
 
         private void toolStripButtonSearchPrev_Click(object sender, EventArgs e)
         {
+            Log.SetGoLine(false, false);
         }
 
         private void toolStripButtonSearchNext_Click(object sender, EventArgs e)
         {
-
+            Log.SetGoLine(false, true);
         }
 
         private void toolStripButtonErrorPrev_Click(object sender, EventArgs e)
         {
-
+            Log.SetGoLine(true, false);
         }
 
         private void toolStripButtonErrorNext_Click(object sender, EventArgs e)
         {
-
+            Log.SetGoLine(true, true);
         }
 
         private void toolStripButtonCustom_Click(object sender, EventArgs e)
