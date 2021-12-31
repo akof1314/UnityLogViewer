@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DocLogFile));
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle1 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle2 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle3 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle13 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle14 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle15 = new BrightIdeasSoftware.HeaderStateStyle();
             this.statusProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.statusStrip = new DarkUI.Controls.DarkStatusStrip();
             this.statusLabelPage = new System.Windows.Forms.ToolStripStatusLabel();
@@ -101,13 +101,13 @@
             // richTextBoxStrace
             // 
             this.richTextBoxStrace.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
-            this.richTextBoxStrace.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.richTextBoxStrace.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBoxStrace.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBoxStrace.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBoxStrace.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.richTextBoxStrace.Location = new System.Drawing.Point(0, 0);
+            this.richTextBoxStrace.Location = new System.Drawing.Point(4, 0);
             this.richTextBoxStrace.Name = "richTextBoxStrace";
-            this.richTextBoxStrace.Size = new System.Drawing.Size(894, 169);
+            this.richTextBoxStrace.Size = new System.Drawing.Size(888, 169);
             this.richTextBoxStrace.TabIndex = 0;
             this.richTextBoxStrace.Text = "";
             this.richTextBoxStrace.WordWrap = false;
@@ -135,7 +135,7 @@
             // 
             this.splitContainer1.Panel2.AutoScroll = true;
             this.splitContainer1.Panel2.Controls.Add(this.richTextBoxStrace);
-            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 20);
+            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(4, 0, 2, 20);
             this.splitContainer1.Size = new System.Drawing.Size(894, 614);
             this.splitContainer1.SplitterDistance = 421;
             this.splitContainer1.TabIndex = 5;
@@ -168,13 +168,13 @@
             // 
             // headerFormatStyleLog
             // 
-            headerStateStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
-            headerStateStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Hot = headerStateStyle1;
-            headerStateStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
-            headerStateStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Normal = headerStateStyle2;
-            this.headerFormatStyleLog.Pressed = headerStateStyle3;
+            headerStateStyle13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
+            headerStateStyle13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Hot = headerStateStyle13;
+            headerStateStyle14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
+            headerStateStyle14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Normal = headerStateStyle14;
+            this.headerFormatStyleLog.Pressed = headerStateStyle15;
             // 
             // toolStripButtonInfo
             // 

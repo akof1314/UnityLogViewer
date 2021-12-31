@@ -17,7 +17,7 @@ namespace LogViewer
         public long StackTraceOffset { get; set; } = 0;
         public int StackTraceCharCount { get; set; } = 0;
         public bool IsCrLine { get; set; } = false;
-        public int LogType { get; set; } = 0;
+        public Global.LogType LogType { get; set; } = 0;
         public List<int> TagPosInfos;
         #endregion
     }

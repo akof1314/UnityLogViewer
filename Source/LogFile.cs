@@ -155,35 +155,82 @@ namespace LogViewer
                                     }
 
                                     int newStartOffset = 0;
-                                    int logType = 1;
-                                    if (indexOf - startIndex > 13)
+                                    Global.LogType logType = Global.LogType.Info;
+                                    // console-tiny 的解析
+                                    if (indexOf - startIndex > 13 && tempStr[startIndex + 9] == '-' && tempStr[startIndex + 7] == 't')
                                     {
-                                        if (tempStr[startIndex + 8] == '3' && tempStr[startIndex + 9] == '-' && tempStr[startIndex + 7] == 't')
+                                        if (tempStr[startIndex + 8] == '3')
                                         {
-                                            logType = 4;
+                                            logType = Global.LogType.Error;
                                             newStartOffset = 13;
                                         }
-                                        else if (tempStr[startIndex + 8] == '2' && tempStr[startIndex + 9] == '-' && tempStr[startIndex + 7] == 't')
+                                        else if (tempStr[startIndex + 8] == '2')
                                         {
-                                            logType = 2;
+                                            logType = Global.LogType.Warning;
                                             newStartOffset = 13;
                                         }
-                                        else if (tempStr[startIndex + 8] == '1' && tempStr[startIndex + 9] == '-' && tempStr[startIndex + 7] == 't')
+                                        else if (tempStr[startIndex + 8] == '1')
                                         {
-                                            logType = 1;
+                                            logType = Global.LogType.Info;
                                             newStartOffset = 13;
                                         }
                                     }
-
-                                    if (preCr)
+                                    // 不是tiny格式的话，就当做unity默认的
+                                    if (newStartOffset != 13)
                                     {
-                                        AddLine(lineStartOffset + newStartOffset, charCount - newStartOffset, curCr, logType);
+                                        // unity格式不以当行结尾是否cr来判断，而是以下一行是否\r空行来判断
+                                        if (charCount == 0)
+                                        {
+                                            SetLastLineCr();
+                                            if (!IsLastLineLogType())
+                                            {
+                                                SetLastLineLogType(Global.LogType.Info);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (preCr)
+                                            {
+                                                AddLine(lineStartOffset + newStartOffset, charCount - newStartOffset, false, Global.LogType.None);
+                                            }
+                                            else
+                                            {
+                                                if (!IsLastLineLogType())
+                                                {
+                                                    if (indexOf - startIndex > 22 && tempStr[startIndex + 17] == ':' && tempStr[startIndex + 18] == 'L')
+                                                    {
+                                                        if (tempStr[startIndex + 21] == 'E')
+                                                        {
+                                                            logType = Global.LogType.Error;
+                                                            SetLastLineLogType(logType);
+                                                        }
+                                                        else if (tempStr[startIndex + 21] == 'W')
+                                                        {
+                                                            logType = Global.LogType.Warning;
+                                                            SetLastLineLogType(logType);
+                                                        }
+                                                        else if (tempStr[startIndex + 20] == 'g')
+                                                        {
+                                                            logType = Global.LogType.Info;
+                                                            SetLastLineLogType(logType);
+                                                        }
+                                                    }
+                                                }
+                                                AppendLineStackTrace(lineStartOffset, charCount + (curCr ? 1 : 0), false);
+                                            }
+                                        }
                                     }
                                     else
                                     {
-                                        AppendLineStackTrace(lineStartOffset, charCount, curCr);
+                                        if (preCr)
+                                        {
+                                            AddLine(lineStartOffset + newStartOffset, charCount - newStartOffset, curCr, logType);
+                                        }
+                                        else
+                                        {
+                                            AppendLineStackTrace(lineStartOffset, charCount, curCr);
+                                        }
                                     }
-
 
                                     // The remaining number in the buffer gets set to 0 e.g. after 
                                     //the first iteration as it would add onto the first line
@@ -198,7 +245,7 @@ namespace LogViewer
                             // We had some '\r' in the last buffer read, now they are processing, so just add the rest as the last line
                             if (lastSection == true)
                             {
-                                AddLine(lineStartOffset, bufferRemainder + (numBytesRead - startIndex), true, 1);
+                                AddLine(lineStartOffset, bufferRemainder + (numBytesRead - startIndex), true, Global.LogType.Info);
                                 return;
                             }
 
@@ -209,7 +256,7 @@ namespace LogViewer
                             // The entire content of the buffer doesn't contain \r so just add the rest of content as the last line
                             if (lastSection == true)
                             {
-                                AddLine(lineStartOffset, bufferRemainder + (numBytesRead - startIndex), true, 1);
+                                AddLine(lineStartOffset, bufferRemainder + (numBytesRead - startIndex), true, Global.LogType.Info);
                                 return;
                             }
 
@@ -485,15 +532,15 @@ namespace LogViewer
                     return "";
                 }
 
-                if (log.LogType == 1)
+                if (log.LogType == Global.LogType.Info)
                 {
                     return "1 (2).png";
                 }
-                if (log.LogType == 2)
+                if (log.LogType == Global.LogType.Warning)
                 {
                     return "1 (3).png";
                 }
-                if (log.LogType == 4)
+                if (log.LogType == Global.LogType.Error)
                 {
                     return "1 (1).png";
                 }
@@ -583,7 +630,9 @@ namespace LogViewer
             List.ModelFilter = new ModelFilter(delegate (object x)
             {
                 var line = (LogLine)x;
-                var isShowType = (ShowTypeInfo && (line.LogType & 1) != 0) || (ShowTypeWarning && (line.LogType & 2) != 0) || (ShowTypeError && (line.LogType & 4) != 0);
+                var isShowType = (ShowTypeInfo && (line.LogType == Global.LogType.Info)) ||
+                                 (ShowTypeWarning && (line.LogType == Global.LogType.Warning)) ||
+                                 (ShowTypeError && (line.LogType == Global.LogType.Error));
                 if (isShowType)
                 {
                     if (pageForm.IsShowMatch() && !string.IsNullOrEmpty(CurSearch.Pattern))
@@ -660,7 +709,7 @@ namespace LogViewer
                     {
                         if (isError)
                         {
-                            if (line.LogType == 4)
+                            if (line.LogType == Global.LogType.Error)
                             {
                                 SetSelectedLine(i);
                                 return;
@@ -688,7 +737,7 @@ namespace LogViewer
                     {
                         if (isError)
                         {
-                            if (line.LogType == 4)
+                            if (line.LogType == Global.LogType.Error)
                             {
                                 SetSelectedLine(i);
                                 return;
@@ -854,7 +903,7 @@ namespace LogViewer
         /// </summary>
         /// <param name="offset"></param>
         /// <param name="charCount"></param>
-        private void AddLine(long offset, int charCount, bool endCr, int logType)
+        private void AddLine(long offset, int charCount, bool endCr, Global.LogType logType)
         {
             LogLine ll = new LogLine();
             ll.Offset = offset;
@@ -870,15 +919,15 @@ namespace LogViewer
             }
 
             this.LineCount++;
-            if (logType == 1)
+            if (logType == Global.LogType.Info)
             {
                 TypeInfoCount++;
             }
-            else if (logType == 2)
+            else if (logType == Global.LogType.Warning)
             {
                 TypeWarningCount++;
             }
-            else if (logType == 4)
+            else if (logType == Global.LogType.Error)
             {
                 TypeErrorCount++;
             }
@@ -911,6 +960,51 @@ namespace LogViewer
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Unity日志格式使用
+        /// </summary>
+        private void SetLastLineCr()
+        {
+            if (this.Lines.Count > 0)
+            {
+                LogLine ll = this.Lines[this.Lines.Count - 1];
+                ll.IsCrLine = true;
+            }
+        }
+
+        private bool IsLastLineLogType()
+        {
+            if (this.Lines.Count > 0)
+            {
+                LogLine ll = this.Lines[this.Lines.Count - 1];
+                return ll.LogType != Global.LogType.None;
+            }
+
+            return true;
+        }
+
+        private void SetLastLineLogType(Global.LogType logType)
+        {
+            if (this.Lines.Count > 0)
+            {
+                LogLine ll = this.Lines[this.Lines.Count - 1];
+                ll.LogType = logType;
+
+                if (logType == Global.LogType.Info)
+                {
+                    TypeInfoCount++;
+                }
+                else if (logType == Global.LogType.Warning)
+                {
+                    TypeWarningCount++;
+                }
+                else if (logType == Global.LogType.Error)
+                {
+                    TypeErrorCount++;
+                }
+            }
         }
 
         /// <summary>

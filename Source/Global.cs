@@ -1,4 +1,6 @@
-﻿namespace LogViewer
+﻿using System;
+
+namespace LogViewer
 {
     public class Global
     {
@@ -22,6 +24,14 @@
             Standard = 1,
             FilterShow = 2,
             FilterHide = 3
+        }
+
+        public enum LogType
+        {
+            None = 0,
+            Info = 1,
+            Warning = 2,
+            Error = 4,
         }
         #endregion
     }
