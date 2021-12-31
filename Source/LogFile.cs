@@ -83,7 +83,8 @@ namespace LogViewer
         {
             this.FileName = Path.GetFileName(filePath);
 
-            Task.Run(() => {
+            Task.Run(() =>
+            {
 
                 DateTime start = DateTime.Now;
                 bool cancelled = false;
@@ -116,6 +117,7 @@ namespace LogViewer
                     int charCount;
                     // Return value from IndexOf function
                     int indexOf;
+                    bool isTiny = false;
 
                     while (position < this.fileStream.Length)
                     {
@@ -156,27 +158,30 @@ namespace LogViewer
 
                                     int newStartOffset = 0;
                                     Global.LogType logType = Global.LogType.Info;
-                                    // console-tiny 的解析
+                                    // ConsoleTiny 的解析
                                     if (indexOf - startIndex > 13 && tempStr[startIndex + 9] == '-' && tempStr[startIndex + 7] == 't')
                                     {
                                         if (tempStr[startIndex + 8] == '3')
                                         {
                                             logType = Global.LogType.Error;
                                             newStartOffset = 13;
+                                            isTiny = true;
                                         }
                                         else if (tempStr[startIndex + 8] == '2')
                                         {
                                             logType = Global.LogType.Warning;
                                             newStartOffset = 13;
+                                            isTiny = true;
                                         }
                                         else if (tempStr[startIndex + 8] == '1')
                                         {
                                             logType = Global.LogType.Info;
                                             newStartOffset = 13;
+                                            isTiny = true;
                                         }
                                     }
                                     // 不是tiny格式的话，就当做unity默认的
-                                    if (newStartOffset != 13)
+                                    if (newStartOffset != 13 && !isTiny)
                                     {
                                         // unity格式不以当行结尾是否cr来判断，而是以下一行是否\r空行来判断
                                         if (charCount == 0)
@@ -321,7 +326,8 @@ namespace LogViewer
         /// <param name="searchType"></param>
         public void Search(CancellationToken ct, int numContextLines)
         {
-            Task.Run(() => {
+            Task.Run(() =>
+            {
 
                 DateTime start = DateTime.Now;
                 bool cancelled = false;
@@ -655,7 +661,33 @@ namespace LogViewer
             else
             {
                 this.ViewMode = Global.ViewMode.FilterShow;
-                TextMatchFilter filter = TextMatchFilter.Contains(List, CurSearch.Pattern);
+                pageForm.GetHighlightTextRenderer().Filter = null;
+                TextMatchFilter filter = null;
+                switch (CurSearch.Type)
+                {
+                    case Global.SearchType.SubStringCaseInsensitive:
+                        {
+                            filter = TextMatchFilter.Contains(List, CurSearch.Pattern);
+                        }
+                        break;
+                    case Global.SearchType.SubStringCaseSensitive:
+                        {
+                            filter = TextMatchFilter.Contains(List, CurSearch.Pattern);
+                            filter.StringComparison = StringComparison.Ordinal;
+                        }
+                        break;
+                    case Global.SearchType.RegexCaseInsensitive:
+                        {
+                            filter = TextMatchFilter.Regex(List, CurSearch.Pattern);
+                        }
+                        break;
+                    case Global.SearchType.RegexCaseSensitive:
+                        {
+                            filter = TextMatchFilter.Regex(List, CurSearch.Pattern);
+                            filter.StringComparison = StringComparison.Ordinal;
+                        }
+                        break;
+                }
                 pageForm.GetHighlightTextRenderer().Filter = filter;
             }
 
@@ -1027,11 +1059,14 @@ namespace LogViewer
                 this.fileStream.Read(buffer, 0, this.Lines[lineNumber].CharCount);
                 this.readMutex.ReleaseMutex();
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                // ignored
+            }
 
             //return Regex.Replace(Encoding.ASCII.GetString(buffer), "[\0-\b\n\v\f\x000E-\x001F\x007F-ÿ]", "", RegexOptions.Compiled);
             var str = Encoding.UTF8.GetString(buffer);
-            str = GetPureLines(str, out this.Lines[lineNumber].TagPosInfos);
+            str = GetPureLines(str);
             return str;
         }
 
@@ -1050,7 +1085,10 @@ namespace LogViewer
                 this.fileStream.Read(buffer, 0, this.Lines[lineNumber].StackTraceCharCount);
                 this.readMutex.ReleaseMutex();
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                // ignored
+            }
 
             //return Regex.Replace(Encoding.ASCII.GetString(buffer), "[\0-\b\n\v\f\x000E-\x001F\x007F-ÿ]", "", RegexOptions.Compiled);
             return GetLine(lineNumber) + "\n" + Encoding.UTF8.GetString(buffer);
@@ -1139,11 +1177,10 @@ namespace LogViewer
             return -1;
         }
 
-        private string GetPureLines(string input, out List<int> posList)
+        private string GetPureLines(string input)
         {
             m_StringBuilder.Length = 0;
             m_TagStack.Clear();
-            posList = null;
 
             int preStrPos = 0;
             int pos = 0;
@@ -1158,17 +1195,9 @@ namespace LogViewer
                     {
                         if (m_TagStack.Count == 0 || m_TagStack.Pop() != tagIndex)
                         {
-                            posList = null;
                             return input;
                         }
                     }
-
-                    if (posList == null)
-                    {
-                        posList = new List<int>();
-                    }
-                    posList.Add(oldPos);
-                    posList.Add(pos);
 
                     if (preStrPos != oldPos)
                     {
@@ -1188,7 +1217,6 @@ namespace LogViewer
 
             if (m_TagStack.Count > 0)
             {
-                posList = null;
                 return input;
             }
 
@@ -1203,54 +1231,6 @@ namespace LogViewer
 
             return input;
         }
-
-        private int GetOriginalCharIndex(int idx, List<int> posList)
-        {
-            if (posList == null || posList.Count == 0)
-            {
-                return idx;
-            }
-
-            int idx2 = 0;
-            for (int i = 0; i < posList.Count && (i + 1) < posList.Count;)
-            {
-                int idx1 = idx2;
-                if ((i - 1) > 0)
-                {
-                    idx2 += posList[i] - posList[i - 1] - 1;
-                }
-                else
-                {
-                    idx2 = posList[i] - 1;
-                }
-
-                if (idx >= idx1 && idx <= idx2)
-                {
-                    if ((i - 1) > 0)
-                    {
-                        return posList[i - 1] + idx - idx1;
-                    }
-
-                    return idx;
-                }
-
-                i += 2;
-            }
-
-            return posList[posList.Count - 1] + idx - idx2;
-        }
-
-        //        private void SearchIndexToTagIndex(EntryInfo entryInfo, int searchLength)
-        //        {
-        //            if (entryInfo.searchIndex == -1)
-        //            {
-        //                return;
-        //            }
-        //
-        //            entryInfo.searchEndIndex = GetOriginalCharIndex(entryInfo.searchIndex + searchLength,
-        //                entryInfo.tagPosInfos);
-        //            entryInfo.searchIndex = GetOriginalCharIndex(entryInfo.searchIndex, entryInfo.tagPosInfos);
-        //        }
 
         #endregion
 

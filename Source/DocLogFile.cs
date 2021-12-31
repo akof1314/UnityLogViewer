@@ -110,6 +110,26 @@ namespace LogViewer
             GetHighlightTextRenderer().FramePen = new Pen(config.GetMatchColour());
         }
 
+        public void SetSearchFocus()
+        {
+            this.toolStripTextBoxSearch.Focus();
+        }
+
+        /// <summary>
+        /// 设置日志类型勾选
+        /// </summary>
+        public void SetTypeChecked(Global.LogType logType)
+        {
+            if (logType == Global.LogType.Info)
+            {
+                this.toolStripButtonInfo.Checked = !this.toolStripButtonInfo.Checked;
+            }
+            else if (logType == Global.LogType.Warning)
+            {
+                this.toolStripButtonWarning.Checked = !this.toolStripButtonWarning.Checked;
+            }
+        }
+
         private void statusProgress_Click(object sender, EventArgs e)
         {
             Log.OnProgressCancel();

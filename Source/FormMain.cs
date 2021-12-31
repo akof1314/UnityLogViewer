@@ -128,6 +128,90 @@ namespace LogViewer
             }
         }
 
+        private void FormMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.Control && e.KeyCode == Keys.F))
+            {
+                var tag = this.darkDockPanelMain.ActiveContent;
+                DocLogFile doc = tag as DocLogFile;
+                if (doc == null)
+                {
+                    return;
+                }
+                doc.SetSearchFocus();
+            }
+            else if (e.KeyCode == Keys.F3 && e.Shift)
+            {
+                var tag = this.darkDockPanelMain.ActiveContent;
+                DocLogFile doc = tag as DocLogFile;
+                if (doc == null)
+                {
+                    return;
+                }
+                doc.Log.SetGoLine(false, false);
+            }
+            else if (e.KeyCode == Keys.F3)
+            {
+                var tag = this.darkDockPanelMain.ActiveContent;
+                DocLogFile doc = tag as DocLogFile;
+                if (doc == null)
+                {
+                    return;
+                }
+                doc.Log.SetGoLine(false, true);
+            }
+            else if (e.KeyCode == Keys.F12)
+            {
+                var tag = this.darkDockPanelMain.ActiveContent;
+                DocLogFile doc = tag as DocLogFile;
+                if (doc == null)
+                {
+                    return;
+                }
+                doc.SetShowMatch(!doc.IsShowMatch());
+            }
+            else if (e.KeyCode == Keys.F7)
+            {
+                var tag = this.darkDockPanelMain.ActiveContent;
+                DocLogFile doc = tag as DocLogFile;
+                if (doc == null)
+                {
+                    return;
+                }
+                doc.Log.SetGoLine(true, false);
+            }
+            else if (e.KeyCode == Keys.F8)
+            {
+                var tag = this.darkDockPanelMain.ActiveContent;
+                DocLogFile doc = tag as DocLogFile;
+                if (doc == null)
+                {
+                    return;
+                }
+                doc.Log.SetGoLine(true, true);
+            }
+            else if (e.KeyCode == Keys.F5)
+            {
+                var tag = this.darkDockPanelMain.ActiveContent;
+                DocLogFile doc = tag as DocLogFile;
+                if (doc == null)
+                {
+                    return;
+                }
+                doc.SetTypeChecked(Global.LogType.Info);
+            }
+            else if (e.KeyCode == Keys.F6)
+            {
+                var tag = this.darkDockPanelMain.ActiveContent;
+                DocLogFile doc = tag as DocLogFile;
+                if (doc == null)
+                {
+                    return;
+                }
+                doc.SetTypeChecked(Global.LogType.Warning);
+            }
+        }
+
         private void DarkDockPanelMainOnContentRemoved(object sender, DockContentEventArgs e)
         {
             DocLogFile doc = e.Content as DocLogFile;

@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DocLogFile));
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle13 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle14 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle15 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle25 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle26 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle27 = new BrightIdeasSoftware.HeaderStateStyle();
             this.statusProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.statusStrip = new DarkUI.Controls.DarkStatusStrip();
             this.statusLabelPage = new System.Windows.Forms.ToolStripStatusLabel();
@@ -168,13 +168,13 @@
             // 
             // headerFormatStyleLog
             // 
-            headerStateStyle13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
-            headerStateStyle13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Hot = headerStateStyle13;
-            headerStateStyle14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
-            headerStateStyle14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Normal = headerStateStyle14;
-            this.headerFormatStyleLog.Pressed = headerStateStyle15;
+            headerStateStyle25.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
+            headerStateStyle25.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Hot = headerStateStyle25;
+            headerStateStyle26.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
+            headerStateStyle26.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Normal = headerStateStyle26;
+            this.headerFormatStyleLog.Pressed = headerStateStyle27;
             // 
             // toolStripButtonInfo
             // 
@@ -243,6 +243,7 @@
             this.ToolStripMenuItem4.Name = "ToolStripMenuItem4";
             this.ToolStripMenuItem4.Size = new System.Drawing.Size(184, 22);
             this.ToolStripMenuItem4.Text = "匹配大小写（正则）";
+            this.ToolStripMenuItem4.Click += new System.EventHandler(this.ToolStripMenuItem4_Click);
             // 
             // ToolStripMenuItem3
             // 
@@ -251,6 +252,7 @@
             this.ToolStripMenuItem3.Name = "ToolStripMenuItem3";
             this.ToolStripMenuItem3.Size = new System.Drawing.Size(184, 22);
             this.ToolStripMenuItem3.Text = "忽略大小写（正则）";
+            this.ToolStripMenuItem3.Click += new System.EventHandler(this.ToolStripMenuItem3_Click);
             // 
             // ToolStripMenuItem2
             // 
@@ -259,6 +261,7 @@
             this.ToolStripMenuItem2.Name = "ToolStripMenuItem2";
             this.ToolStripMenuItem2.Size = new System.Drawing.Size(184, 22);
             this.ToolStripMenuItem2.Text = "匹配大小写";
+            this.ToolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2_Click);
             // 
             // ToolStripMenuItem1
             // 
@@ -269,6 +272,7 @@
             this.ToolStripMenuItem1.Name = "ToolStripMenuItem1";
             this.ToolStripMenuItem1.Size = new System.Drawing.Size(184, 22);
             this.ToolStripMenuItem1.Text = "忽略大小写";
+            this.ToolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
             // 
             // toolStripDropDownButtonHistory
             // 
@@ -299,6 +303,7 @@
             this.toolStripButtonViewMatch.Name = "toolStripButtonViewMatch";
             this.toolStripButtonViewMatch.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonViewMatch.Text = "只显示搜索";
+            this.toolStripButtonViewMatch.ToolTipText = "只显示搜索(F12)";
             this.toolStripButtonViewMatch.CheckedChanged += new System.EventHandler(this.toolStripButtonViewMatch_CheckedChanged);
             // 
             // toolStripTab
@@ -352,6 +357,7 @@
             this.toolStripButtonErrorNext.Name = "toolStripButtonErrorNext";
             this.toolStripButtonErrorNext.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonErrorNext.Text = "下一个错误日志";
+            this.toolStripButtonErrorNext.ToolTipText = "下一个错误日志(F8)";
             this.toolStripButtonErrorNext.Click += new System.EventHandler(this.toolStripButtonErrorNext_Click);
             // 
             // toolStripButtonErrorPrev
@@ -365,6 +371,7 @@
             this.toolStripButtonErrorPrev.Name = "toolStripButtonErrorPrev";
             this.toolStripButtonErrorPrev.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonErrorPrev.Text = "上一个错误日志";
+            this.toolStripButtonErrorPrev.ToolTipText = "上一个错误日志(F7)";
             this.toolStripButtonErrorPrev.Click += new System.EventHandler(this.toolStripButtonErrorPrev_Click);
             // 
             // toolStripSeparator1
@@ -385,6 +392,7 @@
             this.toolStripButtonSearchPrev.Name = "toolStripButtonSearchPrev";
             this.toolStripButtonSearchPrev.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonSearchPrev.Text = "上一个搜索日志";
+            this.toolStripButtonSearchPrev.ToolTipText = "上一个搜索日志(Shitf+F3)";
             this.toolStripButtonSearchPrev.Click += new System.EventHandler(this.toolStripButtonSearchPrev_Click);
             // 
             // toolStripButtonSearchNext
@@ -397,6 +405,7 @@
             this.toolStripButtonSearchNext.Name = "toolStripButtonSearchNext";
             this.toolStripButtonSearchNext.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonSearchNext.Text = "下一个搜索日志";
+            this.toolStripButtonSearchNext.ToolTipText = "下一个搜索日志(F3)";
             this.toolStripButtonSearchNext.Click += new System.EventHandler(this.toolStripButtonSearchNext_Click);
             // 
             // toolStripButtonCustom

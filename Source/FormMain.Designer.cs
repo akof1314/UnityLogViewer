@@ -230,7 +230,7 @@
             this.toolStripMenuItem5,
             this.contextLines});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(181, 164);
+            this.contextMenu.Size = new System.Drawing.Size(125, 142);
             this.contextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenu_Opening);
             // 
             // contextMenuFilter
@@ -241,7 +241,7 @@
             this.contextMenuFilterClear});
             this.contextMenuFilter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.contextMenuFilter.Name = "contextMenuFilter";
-            this.contextMenuFilter.Size = new System.Drawing.Size(180, 22);
+            this.contextMenuFilter.Size = new System.Drawing.Size(124, 22);
             this.contextMenuFilter.Text = "过滤显示";
             // 
             // contextMenuFilterShowMatched
@@ -266,7 +266,7 @@
             this.contextMenuSep1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.contextMenuSep1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             this.contextMenuSep1.Name = "contextMenuSep1";
-            this.contextMenuSep1.Size = new System.Drawing.Size(177, 6);
+            this.contextMenuSep1.Size = new System.Drawing.Size(121, 6);
             // 
             // contextMenuSearch
             // 
@@ -276,7 +276,7 @@
             this.ToolStripMenuItemMatchColor});
             this.contextMenuSearch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.contextMenuSearch.Name = "contextMenuSearch";
-            this.contextMenuSearch.Size = new System.Drawing.Size(180, 22);
+            this.contextMenuSearch.Size = new System.Drawing.Size(124, 22);
             this.contextMenuSearch.Text = "搜索颜色";
             // 
             // toolStripMenuItem4
@@ -299,7 +299,7 @@
             this.contextMenuSep2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.contextMenuSep2.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             this.contextMenuSep2.Name = "contextMenuSep2";
-            this.contextMenuSep2.Size = new System.Drawing.Size(177, 6);
+            this.contextMenuSep2.Size = new System.Drawing.Size(121, 6);
             // 
             // contextMenuExport
             // 
@@ -309,7 +309,7 @@
             this.contextMenuExportSelected});
             this.contextMenuExport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.contextMenuExport.Name = "contextMenuExport";
-            this.contextMenuExport.Size = new System.Drawing.Size(180, 22);
+            this.contextMenuExport.Size = new System.Drawing.Size(124, 22);
             this.contextMenuExport.Text = "导出内容";
             // 
             // contextMenuExportAll
@@ -334,14 +334,14 @@
             this.contextMenuSep3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.contextMenuSep3.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             this.contextMenuSep3.Name = "contextMenuSep3";
-            this.contextMenuSep3.Size = new System.Drawing.Size(177, 6);
+            this.contextMenuSep3.Size = new System.Drawing.Size(121, 6);
             // 
             // contextMenuCopy
             // 
             this.contextMenuCopy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.contextMenuCopy.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.contextMenuCopy.Name = "contextMenuCopy";
-            this.contextMenuCopy.Size = new System.Drawing.Size(180, 22);
+            this.contextMenuCopy.Size = new System.Drawing.Size(124, 22);
             this.contextMenuCopy.Text = "复制内容";
             this.contextMenuCopy.Click += new System.EventHandler(this.contextMenuCopy_Click);
             // 
@@ -351,7 +351,7 @@
             this.toolStripMenuItem5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripMenuItem5.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(121, 6);
             // 
             // contextLines
             // 
@@ -362,7 +362,7 @@
             this.contextLinesGoToLastLine});
             this.contextLines.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.contextLines.Name = "contextLines";
-            this.contextLines.Size = new System.Drawing.Size(180, 22);
+            this.contextLines.Size = new System.Drawing.Size(124, 22);
             this.contextLines.Text = "行定位";
             // 
             // contextLinesGoToLine
@@ -398,15 +398,17 @@
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.menuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Unity-ConsoleTiny Viewer";
+            this.Text = "Unity Log Viewer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormMain_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormMain_DragEnter);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.panelMain.ResumeLayout(false);
