@@ -716,19 +716,22 @@ namespace LogViewer
         /// <param name="isNext"></param>
         public void SetGoLine(bool isError, bool isNext)
         {
-            var selectedObjects = List.SelectedIndices;
-            if (selectedObjects.Count == 0)
-            {
-                return;
-            }
-
             if (!isError && string.IsNullOrEmpty(CurSearch.Pattern))
             {
                 return;
             }
 
-            int[] selectedList = new int[selectedObjects.Count];
-            selectedObjects.CopyTo(selectedList, 0);
+            var selectedObjects = List.SelectedIndices;
+            int[] selectedList;
+            if (selectedObjects.Count > 0)
+            {
+                selectedList = new int[selectedObjects.Count];
+                selectedObjects.CopyTo(selectedList, 0);
+            }
+            else
+            {
+                selectedList = new[] {0};
+            }
 
             if (isNext)
             {

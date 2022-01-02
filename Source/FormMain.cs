@@ -790,7 +790,7 @@ namespace LogViewer
         /// <param name="e"></param>
         private void menuHelpHelp_Click(object sender, EventArgs e)
         {
-            //Misc.ShellExecuteFile(System.IO.Path.Combine(Misc.GetApplicationDirectory(), "help.pdf"));
+            System.Diagnostics.Process.Start("https://github.com/akof1314/UnityLogViewer");
         }
 
         /// <summary>
