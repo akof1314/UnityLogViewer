@@ -52,6 +52,7 @@ namespace LogViewer
             config = configuration;
             AllSearchTerms();
             SetMatchColor();
+            this.darkToolStripAdb.Visible = Log.IsAdbLog;
         }
 
         /// <summary>
@@ -360,5 +361,33 @@ namespace LogViewer
             SetSearchTip();
         }
 
+        #region ADB
+
+        private void toolStripButtonAdbRefresh_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemAdbConLocal_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemAdbConMu_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemAdbConYe_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemAdbConXiao_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
     }
 }

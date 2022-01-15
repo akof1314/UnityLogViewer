@@ -37,8 +37,6 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.menuFileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.menuTools = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-            this.menuToolsConfiguration = new System.Windows.Forms.ToolStripMenuItem();
             this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.menuHelpHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.menuHelpSep1 = new System.Windows.Forms.ToolStripSeparator();
@@ -64,6 +62,7 @@
             this.contextLinesGoToLine = new System.Windows.Forms.ToolStripMenuItem();
             this.contextLinesGoToFirstLine = new System.Windows.Forms.ToolStripMenuItem();
             this.contextLinesGoToLastLine = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuAdbLogcat = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.contextMenu.SuspendLayout();
@@ -139,26 +138,11 @@
             // 
             this.menuTools.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.menuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem2,
-            this.menuToolsConfiguration});
+            this.menuAdbLogcat});
             this.menuTools.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuTools.Name = "menuTools";
             this.menuTools.Size = new System.Drawing.Size(60, 22);
             this.menuTools.Text = "远端(&R)";
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(109, 6);
-            // 
-            // menuToolsConfiguration
-            // 
-            this.menuToolsConfiguration.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
-            this.menuToolsConfiguration.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.menuToolsConfiguration.Name = "menuToolsConfiguration";
-            this.menuToolsConfiguration.Size = new System.Drawing.Size(112, 22);
-            this.menuToolsConfiguration.Text = "TODO";
-            this.menuToolsConfiguration.Click += new System.EventHandler(this.menuToolsConfiguration_Click);
             // 
             // menuHelp
             // 
@@ -177,21 +161,21 @@
             this.menuHelpHelp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.menuHelpHelp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuHelpHelp.Name = "menuHelpHelp";
-            this.menuHelpHelp.Size = new System.Drawing.Size(140, 22);
+            this.menuHelpHelp.Size = new System.Drawing.Size(180, 22);
             this.menuHelpHelp.Text = "查看帮助(&V)";
             this.menuHelpHelp.Click += new System.EventHandler(this.menuHelpHelp_Click);
             // 
             // menuHelpSep1
             // 
             this.menuHelpSep1.Name = "menuHelpSep1";
-            this.menuHelpSep1.Size = new System.Drawing.Size(137, 6);
+            this.menuHelpSep1.Size = new System.Drawing.Size(177, 6);
             // 
             // menuHelpAbout
             // 
             this.menuHelpAbout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.menuHelpAbout.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuHelpAbout.Name = "menuHelpAbout";
-            this.menuHelpAbout.Size = new System.Drawing.Size(140, 22);
+            this.menuHelpAbout.Size = new System.Drawing.Size(180, 22);
             this.menuHelpAbout.Text = "关于(&A)";
             this.menuHelpAbout.Click += new System.EventHandler(this.menuHelpAbout_Click);
             // 
@@ -282,14 +266,14 @@
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(121, 6);
             // 
             // ToolStripMenuItemMatchColor
             // 
             this.ToolStripMenuItemMatchColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.ToolStripMenuItemMatchColor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.ToolStripMenuItemMatchColor.Name = "ToolStripMenuItemMatchColor";
-            this.ToolStripMenuItemMatchColor.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemMatchColor.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItemMatchColor.Text = "匹配颜色";
             this.ToolStripMenuItemMatchColor.Click += new System.EventHandler(this.ToolStripMenuItemMatchColor_Click);
             // 
@@ -316,7 +300,7 @@
             // 
             this.contextMenuExportAll.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.contextMenuExportAll.Name = "contextMenuExportAll";
-            this.contextMenuExportAll.Size = new System.Drawing.Size(180, 22);
+            this.contextMenuExportAll.Size = new System.Drawing.Size(112, 22);
             this.contextMenuExportAll.Text = "所有";
             this.contextMenuExportAll.Click += new System.EventHandler(this.contextMenuExportAll_Click);
             // 
@@ -324,7 +308,7 @@
             // 
             this.contextMenuExportSelected.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.contextMenuExportSelected.Name = "contextMenuExportSelected";
-            this.contextMenuExportSelected.Size = new System.Drawing.Size(180, 22);
+            this.contextMenuExportSelected.Size = new System.Drawing.Size(112, 22);
             this.contextMenuExportSelected.Text = "选择项";
             this.contextMenuExportSelected.Click += new System.EventHandler(this.contextMenuExportSelected_Click);
             // 
@@ -389,6 +373,15 @@
             this.contextLinesGoToLastLine.Text = "跳转尾行";
             this.contextLinesGoToLastLine.Click += new System.EventHandler(this.contextLinesGoToLastLine_Click);
             // 
+            // menuAdbLogcat
+            // 
+            this.menuAdbLogcat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.menuAdbLogcat.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.menuAdbLogcat.Name = "menuAdbLogcat";
+            this.menuAdbLogcat.Size = new System.Drawing.Size(180, 22);
+            this.menuAdbLogcat.Text = "ADB 日志";
+            this.menuAdbLogcat.Click += new System.EventHandler(this.menuAdbLogcat_Click);
+            // 
             // FormMain
             // 
             this.AllowDrop = true;
@@ -440,8 +433,6 @@
         private System.Windows.Forms.ToolStripMenuItem contextMenuExportAll;
         private System.Windows.Forms.ToolStripMenuItem contextMenuExportSelected;
         private System.Windows.Forms.ToolStripMenuItem menuTools;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem menuToolsConfiguration;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem contextLines;
@@ -454,6 +445,7 @@
         private DarkUI.Controls.DarkMenuStrip menuStrip;
         private DarkUI.Docking.DarkDockPanel darkDockPanelMain;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemMatchColor;
+        private System.Windows.Forms.ToolStripMenuItem menuAdbLogcat;
     }
 }
 

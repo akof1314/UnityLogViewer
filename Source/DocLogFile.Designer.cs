@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DocLogFile));
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle25 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle26 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle27 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle1 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle2 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle3 = new BrightIdeasSoftware.HeaderStateStyle();
             this.statusProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.statusStrip = new DarkUI.Controls.DarkStatusStrip();
             this.statusLabelPage = new System.Windows.Forms.ToolStripStatusLabel();
@@ -60,6 +60,16 @@
             this.toolStripButtonSearchNext = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonCustom = new System.Windows.Forms.ToolStripButton();
             this.highlightTextRendererLog = new BrightIdeasSoftware.HighlightTextRenderer();
+            this.darkToolStripAdb = new DarkUI.Controls.DarkToolStrip();
+            this.toolStripDropDownButtonAdbCon = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripMenuItemAdbConLocal = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemAdbConMu = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemAdbConYe = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemAdbConXiao = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripTextBoxAdbConIp = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripButtonAdbRefresh = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButtonAdbDevices = new System.Windows.Forms.ToolStripDropDownButton();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -67,6 +77,7 @@
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
             this.toolStripTab.SuspendLayout();
+            this.darkToolStripAdb.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusProgress
@@ -107,7 +118,7 @@
             this.richTextBoxStrace.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.richTextBoxStrace.Location = new System.Drawing.Point(4, 0);
             this.richTextBoxStrace.Name = "richTextBoxStrace";
-            this.richTextBoxStrace.Size = new System.Drawing.Size(888, 169);
+            this.richTextBoxStrace.Size = new System.Drawing.Size(888, 162);
             this.richTextBoxStrace.TabIndex = 0;
             this.richTextBoxStrace.Text = "";
             this.richTextBoxStrace.WordWrap = false;
@@ -123,7 +134,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 25);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 50);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -136,8 +147,8 @@
             this.splitContainer1.Panel2.AutoScroll = true;
             this.splitContainer1.Panel2.Controls.Add(this.richTextBoxStrace);
             this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(4, 0, 2, 20);
-            this.splitContainer1.Size = new System.Drawing.Size(894, 614);
-            this.splitContainer1.SplitterDistance = 421;
+            this.splitContainer1.Size = new System.Drawing.Size(894, 589);
+            this.splitContainer1.SplitterDistance = 403;
             this.splitContainer1.TabIndex = 5;
             // 
             // fastObjectListView1
@@ -155,7 +166,7 @@
             this.fastObjectListView1.SelectedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(110)))), ((int)(((byte)(175)))));
             this.fastObjectListView1.SelectedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.fastObjectListView1.ShowGroups = false;
-            this.fastObjectListView1.Size = new System.Drawing.Size(894, 421);
+            this.fastObjectListView1.Size = new System.Drawing.Size(894, 403);
             this.fastObjectListView1.SmallImageList = this.imageListLog;
             this.fastObjectListView1.TabIndex = 0;
             this.fastObjectListView1.UnfocusedSelectedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(92)))), ((int)(((byte)(92)))));
@@ -168,13 +179,13 @@
             // 
             // headerFormatStyleLog
             // 
-            headerStateStyle25.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
-            headerStateStyle25.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Hot = headerStateStyle25;
-            headerStateStyle26.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
-            headerStateStyle26.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Normal = headerStateStyle26;
-            this.headerFormatStyleLog.Pressed = headerStateStyle27;
+            headerStateStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
+            headerStateStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Hot = headerStateStyle1;
+            headerStateStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
+            headerStateStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Normal = headerStateStyle2;
+            this.headerFormatStyleLog.Pressed = headerStateStyle3;
             // 
             // toolStripButtonInfo
             // 
@@ -326,7 +337,7 @@
             this.toolStripButtonSearchPrev,
             this.toolStripButtonSearchNext,
             this.toolStripButtonCustom});
-            this.toolStripTab.Location = new System.Drawing.Point(0, 0);
+            this.toolStripTab.Location = new System.Drawing.Point(0, 25);
             this.toolStripTab.Name = "toolStripTab";
             this.toolStripTab.Padding = new System.Windows.Forms.Padding(5, 0, 1, 0);
             this.toolStripTab.Size = new System.Drawing.Size(894, 25);
@@ -421,6 +432,114 @@
             this.toolStripButtonCustom.Text = "自定义过滤";
             this.toolStripButtonCustom.Click += new System.EventHandler(this.toolStripButtonCustom_Click);
             // 
+            // darkToolStripAdb
+            // 
+            this.darkToolStripAdb.AutoSize = false;
+            this.darkToolStripAdb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.darkToolStripAdb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.darkToolStripAdb.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.darkToolStripAdb.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripDropDownButtonAdbCon,
+            this.toolStripButtonAdbRefresh,
+            this.toolStripDropDownButtonAdbDevices});
+            this.darkToolStripAdb.Location = new System.Drawing.Point(0, 0);
+            this.darkToolStripAdb.Name = "darkToolStripAdb";
+            this.darkToolStripAdb.Padding = new System.Windows.Forms.Padding(5, 0, 1, 0);
+            this.darkToolStripAdb.Size = new System.Drawing.Size(894, 25);
+            this.darkToolStripAdb.TabIndex = 7;
+            this.darkToolStripAdb.Text = "toolStrip1";
+            // 
+            // toolStripDropDownButtonAdbCon
+            // 
+            this.toolStripDropDownButtonAdbCon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripDropDownButtonAdbCon.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemAdbConLocal,
+            this.toolStripMenuItemAdbConMu,
+            this.toolStripMenuItemAdbConYe,
+            this.toolStripMenuItemAdbConXiao,
+            this.toolStripSeparator2,
+            this.toolStripTextBoxAdbConIp});
+            this.toolStripDropDownButtonAdbCon.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripDropDownButtonAdbCon.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonAdbCon.Image")));
+            this.toolStripDropDownButtonAdbCon.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButtonAdbCon.Name = "toolStripDropDownButtonAdbCon";
+            this.toolStripDropDownButtonAdbCon.Size = new System.Drawing.Size(85, 22);
+            this.toolStripDropDownButtonAdbCon.Text = "连接本机";
+            // 
+            // toolStripMenuItemAdbConLocal
+            // 
+            this.toolStripMenuItemAdbConLocal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripMenuItemAdbConLocal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripMenuItemAdbConLocal.Name = "toolStripMenuItemAdbConLocal";
+            this.toolStripMenuItemAdbConLocal.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemAdbConLocal.Text = "连接本机";
+            this.toolStripMenuItemAdbConLocal.Click += new System.EventHandler(this.toolStripMenuItemAdbConLocal_Click);
+            // 
+            // toolStripMenuItemAdbConMu
+            // 
+            this.toolStripMenuItemAdbConMu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripMenuItemAdbConMu.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripMenuItemAdbConMu.Name = "toolStripMenuItemAdbConMu";
+            this.toolStripMenuItemAdbConMu.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemAdbConMu.Text = "连接MuMu模拟器";
+            this.toolStripMenuItemAdbConMu.Click += new System.EventHandler(this.toolStripMenuItemAdbConMu_Click);
+            // 
+            // toolStripMenuItemAdbConYe
+            // 
+            this.toolStripMenuItemAdbConYe.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripMenuItemAdbConYe.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripMenuItemAdbConYe.Name = "toolStripMenuItemAdbConYe";
+            this.toolStripMenuItemAdbConYe.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemAdbConYe.Text = "连接夜神模拟器";
+            this.toolStripMenuItemAdbConYe.Click += new System.EventHandler(this.toolStripMenuItemAdbConYe_Click);
+            // 
+            // toolStripMenuItemAdbConXiao
+            // 
+            this.toolStripMenuItemAdbConXiao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripMenuItemAdbConXiao.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripMenuItemAdbConXiao.Name = "toolStripMenuItemAdbConXiao";
+            this.toolStripMenuItemAdbConXiao.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemAdbConXiao.Text = "连接逍遥模拟器";
+            this.toolStripMenuItemAdbConXiao.Click += new System.EventHandler(this.toolStripMenuItemAdbConXiao_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripSeparator2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripSeparator2.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            // 
+            // toolStripTextBoxAdbConIp
+            // 
+            this.toolStripTextBoxAdbConIp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripTextBoxAdbConIp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.toolStripTextBoxAdbConIp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripTextBoxAdbConIp.Name = "toolStripTextBoxAdbConIp";
+            this.toolStripTextBoxAdbConIp.Size = new System.Drawing.Size(100, 23);
+            // 
+            // toolStripButtonAdbRefresh
+            // 
+            this.toolStripButtonAdbRefresh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripButtonAdbRefresh.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripButtonAdbRefresh.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonAdbRefresh.Image")));
+            this.toolStripButtonAdbRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonAdbRefresh.Name = "toolStripButtonAdbRefresh";
+            this.toolStripButtonAdbRefresh.Size = new System.Drawing.Size(100, 22);
+            this.toolStripButtonAdbRefresh.Text = "刷新Adb设备";
+            this.toolStripButtonAdbRefresh.Click += new System.EventHandler(this.toolStripButtonAdbRefresh_Click);
+            // 
+            // toolStripDropDownButtonAdbDevices
+            // 
+            this.toolStripDropDownButtonAdbDevices.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripDropDownButtonAdbDevices.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButtonAdbDevices.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripDropDownButtonAdbDevices.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonAdbDevices.Image")));
+            this.toolStripDropDownButtonAdbDevices.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButtonAdbDevices.Name = "toolStripDropDownButtonAdbDevices";
+            this.toolStripDropDownButtonAdbDevices.Size = new System.Drawing.Size(57, 22);
+            this.toolStripDropDownButtonAdbDevices.Text = "空设备";
+            // 
             // DocLogFile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -428,6 +547,7 @@
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStripTab);
+            this.Controls.Add(this.darkToolStripAdb);
             this.Name = "DocLogFile";
             this.Size = new System.Drawing.Size(894, 639);
             this.statusStrip.ResumeLayout(false);
@@ -439,6 +559,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).EndInit();
             this.toolStripTab.ResumeLayout(false);
             this.toolStripTab.PerformLayout();
+            this.darkToolStripAdb.ResumeLayout(false);
+            this.darkToolStripAdb.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -471,5 +593,15 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonSearchPrev;
         private System.Windows.Forms.ToolStripButton toolStripButtonSearchNext;
         private System.Windows.Forms.ToolStripButton toolStripButtonCustom;
+        private DarkUI.Controls.DarkToolStrip darkToolStripAdb;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonAdbCon;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAdbConLocal;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAdbConMu;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAdbConYe;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAdbConXiao;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBoxAdbConIp;
+        private System.Windows.Forms.ToolStripButton toolStripButtonAdbRefresh;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonAdbDevices;
     }
 }

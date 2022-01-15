@@ -61,6 +61,7 @@ namespace LogViewer
         public bool ShowTypeInfo { get; set; } = true;
         public bool ShowTypeWarning { get; set; } = true;
         public bool ShowTypeError { get; set; } = true;
+        public bool IsAdbLog { get; set; } = false;
         #endregion
 
         /// <summary>
@@ -507,8 +508,9 @@ namespace LogViewer
             OLVColumn colText = ((OLVColumn)(new OLVColumn()));
 
             colLineNumber.Text = "行号";
-            colLineNumber.Width = 95;
+            colLineNumber.Width = 58;
             colText.Text = "日志";
+            colText.FillsFreeSpace = true;
 
             colLineNumber.AspectGetter = delegate (object x)
             {
@@ -597,7 +599,6 @@ namespace LogViewer
             lv.VirtualMode = true;
             lv.Tag = this.Guid;
             lv.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.FormatRow);
-
 
             this.List = lv;
             return pageForm;

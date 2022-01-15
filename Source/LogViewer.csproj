@@ -64,6 +64,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdbClient.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="DocLogFile.cs">
       <SubType>UserControl</SubType>

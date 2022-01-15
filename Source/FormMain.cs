@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using System.Linq;
 using woanware;
@@ -247,7 +248,7 @@ namespace LogViewer
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        private void LoadFile(string filePath)
+        private void LoadFile(string filePath, int logType = 0)
         {
             this.processing = true;
             this.hourGlass = new HourGlass(this);
@@ -257,6 +258,11 @@ namespace LogViewer
             {
                 LogFile lf = new LogFile();
                 logs.Add(lf.Guid, lf);
+
+                if (logType == 1)
+                {
+                    lf.IsAdbLog = true;
+                }
 
                 this.darkDockPanelMain.AddContent(lf.Initialise(filePath));
                 lf.pageForm.SetConfig(config);
@@ -431,11 +437,23 @@ namespace LogViewer
                     {
                         string temp = lf.GetLine(lf.LongestLine.LineNumber);
                         var result = g.MeasureString(temp, new Font("Consolas", 9, FontStyle.Regular, GraphicsUnit.Pixel));
-                        lf.List.Columns[1].Width = Convert.ToInt32(result.Width + 200);
+                        var newWidth = Convert.ToInt32(result.Width + 200);
+                        if (lf.List.AllColumns[1].FillsFreeSpace)
+                        {
+                            if (lf.List.Columns[1].Width < newWidth)
+                            {
+                                lf.List.AllColumns[1].FillsFreeSpace = false;
+                                lf.List.Columns[1].Width = newWidth;
+                            }
+                        }
+                        else
+                        {
+                            lf.List.Columns[1].Width = newWidth;
+                        }
                     }
                 }
 
-                lf.List.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+                //lf.List.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
                 lf.pageForm.GetToolStripProgressBar().Visible = false;
                 lf.pageForm.SetTypeCount();
 
@@ -813,6 +831,34 @@ namespace LogViewer
         /// <param name="e"></param>
         private void menuToolsConfiguration_Click(object sender, EventArgs e)
         {
+        }
+
+        /// <summary>
+        /// 打开adb日志
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void menuAdbLogcat_Click(object sender, EventArgs e)
+        {
+            var list = darkDockPanelMain.GetDocuments();
+            foreach (var darkDockContent in list)
+            {
+                DocLogFile doc = darkDockContent as DocLogFile;
+                if (doc == null)
+                {
+                    continue;
+                }
+
+                if (doc.Log.IsAdbLog)
+                {
+                    darkDockPanelMain.ActiveContent = doc;
+                    return;
+                }
+            }
+
+            string filePath = System.IO.Path.Combine(Misc.GetApplicationDirectory(), "ADB日志.log");
+            File.WriteAllText(filePath, String.Empty);
+            LoadFile(filePath, 1);
         }
         #endregion
 
