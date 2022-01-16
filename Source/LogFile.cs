@@ -94,7 +94,7 @@ namespace LogViewer
                 {
                     byte[] tempBuffer = new byte[1024 * 1024];
 
-                    this.fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                    this.fileStream = new FileStream(filePath, FileMode.Open, IsAdbLog ? FileAccess.ReadWrite : FileAccess.Read);
                     FileInfo fileInfo = new FileInfo(filePath);
 
                     // Calcs and finally point the position to the end of the line
@@ -478,6 +478,140 @@ namespace LogViewer
                     OnSearchComplete(end - start, matches, 1, cancelled);
                 }
             });
+        }
+
+        /// <summary>
+        /// 对后面新增的也进行搜索
+        /// </summary>
+        /// <param name="numContextLines"></param>
+        public void SearchNewLines(List<AdbClient.AdbLine> newLines)
+        {
+            {
+                try
+                {
+                    string line = string.Empty;
+                    bool located = false;
+
+                    foreach (var ll in newLines)
+                    {
+                        line = String.Empty;
+                        ll.IsCurSearch = false;
+
+                        {
+                            ll.IsTerms = true;
+                            foreach (SearchCriteria sc in Searches.Items)
+                            {
+                                if (!sc.Enabled)
+                                {
+                                    continue;
+                                }
+
+                                if (string.IsNullOrEmpty(line))
+                                {
+                                    line = ll.LineText;
+                                }
+
+                                located = false;
+                                switch (sc.Type)
+                                {
+                                    case Global.SearchType.SubStringCaseInsensitive:
+                                        if (line.IndexOf(sc.Pattern, 0, StringComparison.OrdinalIgnoreCase) > -1)
+                                        {
+                                            located = true;
+                                        }
+                                        break;
+
+                                    case Global.SearchType.SubStringCaseSensitive:
+                                        if (line.IndexOf(sc.Pattern, 0, StringComparison.Ordinal) > -1)
+                                        {
+                                            located = true;
+                                        }
+                                        break;
+
+                                    case Global.SearchType.RegexCaseInsensitive:
+                                        if (Regex.Match(line, sc.Pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled) != Match.Empty)
+                                        {
+                                            located = true;
+                                        }
+                                        break;
+
+                                    case Global.SearchType.RegexCaseSensitive:
+                                        if (Regex.Match(line, sc.Pattern, RegexOptions.Compiled) != Match.Empty)
+                                        {
+                                            located = true;
+                                        }
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                if (located == true)
+                                {
+                                }
+                                else
+                                {
+                                    ll.IsTerms = false;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // 条件符合
+                        if (ll.IsTerms && !string.IsNullOrEmpty(CurSearch.Pattern))
+                        {
+                            if (string.IsNullOrEmpty(line))
+                            {
+                                line = ll.LineText;
+                            }
+                            var sc = CurSearch;
+                            located = false;
+                            switch (sc.Type)
+                            {
+                                case Global.SearchType.SubStringCaseInsensitive:
+                                    if (line.IndexOf(sc.Pattern, 0, StringComparison.OrdinalIgnoreCase) > -1)
+                                    {
+                                        located = true;
+                                    }
+                                    break;
+
+                                case Global.SearchType.SubStringCaseSensitive:
+                                    if (line.IndexOf(sc.Pattern, 0, StringComparison.Ordinal) > -1)
+                                    {
+                                        located = true;
+                                    }
+                                    break;
+
+                                case Global.SearchType.RegexCaseInsensitive:
+                                    if (Regex.Match(line, sc.Pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled) != Match.Empty)
+                                    {
+                                        located = true;
+                                    }
+                                    break;
+
+                                case Global.SearchType.RegexCaseSensitive:
+                                    if (Regex.Match(line, sc.Pattern, RegexOptions.Compiled) != Match.Empty)
+                                    {
+                                        located = true;
+                                    }
+                                    break;
+
+                                default:
+                                    break;
+                            }
+
+                            if (located == true)
+                            {
+                                ll.IsCurSearch = true;
+                            }
+                        }
+                    }
+
+                }
+                finally
+                {
+                }
+            }
         }
 
         /// <summary>
@@ -934,12 +1068,7 @@ namespace LogViewer
             });
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="offset"></param>
-        /// <param name="charCount"></param>
-        private void AddLine(long offset, int charCount, bool endCr, Global.LogType logType)
+        private LogLine NewLine(long offset, int charCount, bool endCr, Global.LogType logType)
         {
             LogLine ll = new LogLine();
             ll.Offset = offset;
@@ -947,12 +1076,6 @@ namespace LogViewer
             ll.LineNumber = this.LineCount;
             ll.IsCrLine = endCr;
             ll.LogType = logType;
-            this.Lines.Add(ll);
-            if (charCount > this.LongestLine.CharCount)
-            {
-                this.LongestLine.CharCount = charCount;
-                this.LongestLine.LineNumber = ll.LineNumber;
-            }
 
             this.LineCount++;
             if (logType == Global.LogType.Info)
@@ -967,6 +1090,24 @@ namespace LogViewer
             {
                 TypeErrorCount++;
             }
+
+            return ll;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="offset"></param>
+        /// <param name="charCount"></param>
+        private void AddLine(long offset, int charCount, bool endCr, Global.LogType logType)
+        {
+            var ll = NewLine(offset, charCount, endCr, logType);
+            if (charCount > this.LongestLine.CharCount)
+            {
+                this.LongestLine.CharCount = charCount;
+                this.LongestLine.LineNumber = ll.LineNumber;
+            }
+            this.Lines.Add(ll);
         }
 
         private void AppendLineStackTrace(long offset, int charCount, bool endCr)
@@ -1096,6 +1237,104 @@ namespace LogViewer
 
             //return Regex.Replace(Encoding.ASCII.GetString(buffer), "[\0-\b\n\v\f\x000E-\x001F\x007F-ÿ]", "", RegexOptions.Compiled);
             return GetLine(lineNumber) + "\n" + Encoding.UTF8.GetString(buffer);
+        }
+
+        public void WriteAdbLines(List<AdbClient.AdbLine> adbLines)
+        {
+            List<LogLine> newLines = new List<LogLine>(adbLines.Count);
+            SearchNewLines(adbLines);
+
+            this.readMutex.WaitOne();
+            foreach (var adbLine in adbLines)
+            {
+                byte[] buffer = Encoding.UTF8.GetBytes(adbLine.LineText);
+                var charCount = buffer.Length;
+                var offset = this.fileStream.Seek(0, SeekOrigin.End);
+                this.fileStream.Write(buffer, 0, charCount);
+
+                var ll = NewLine(offset, charCount, true, (Global.LogType)(adbLine.LogType / 10));
+                ll.IsTerms = adbLine.IsTerms;
+                ll.IsCurSearch = adbLine.IsCurSearch;
+
+                if (adbLine.StackTraceText.Length > 0)
+                {
+                    buffer = Encoding.UTF8.GetBytes(adbLine.StackTraceText);
+                    charCount = buffer.Length;
+                    offset = this.fileStream.Seek(0, SeekOrigin.End);
+                    this.fileStream.Write(buffer, 0, charCount);
+                    ll.StackTraceOffset = offset;
+                    ll.StackTraceCharCount = charCount;
+                }
+
+                buffer = Encoding.UTF8.GetBytes("\r\n");
+                charCount = buffer.Length;
+                this.fileStream.Seek(0, SeekOrigin.End);
+                this.fileStream.Write(buffer, 0, charCount);
+
+                newLines.Add(ll);
+            }
+            this.readMutex.ReleaseMutex();
+
+            pageForm.BeginInvoke(new Action(() =>
+            {
+                bool isScroll = true;
+                if (List.Items.Count > 0)
+                {
+                    // 判断最后一项是否可见，可见的话，说明要自动滚动
+                    isScroll = List.Items[List.Items.Count - 1].Bounds.IntersectsWith(List.ClientRectangle);
+                }
+
+                bool reWidth = false;
+                foreach (var ll in newLines)
+                {
+                    if (ll.CharCount > this.LongestLine.CharCount)
+                    {
+                        this.LongestLine.CharCount = ll.CharCount;
+                        this.LongestLine.LineNumber = ll.LineNumber;
+                        reWidth = true;
+                    }
+                }
+                Lines.AddRange(newLines);
+                List.AddObjects(newLines);
+                pageForm.SetTypeCount();
+
+                if (reWidth)
+                {
+                    ResizeWidth();
+                }
+                if (isScroll)
+                {
+                    List.EnsureVisible(List.Items.Count - 1);
+                }
+            }));
+        }
+
+        public void ResizeWidth()
+        {
+            // Try and measure the length of the longest line in pixels
+            // This is rough, and tends to be too short, but cannot find
+            // another method to make column wide enough :-)
+            using (var image = new Bitmap(1, 1))
+            {
+                using (var g = Graphics.FromImage(image))
+                {
+                    string temp = GetLine(LongestLine.LineNumber);
+                    var result = g.MeasureString(temp, new Font("Consolas", 9.75f, FontStyle.Regular, GraphicsUnit.Point));
+                    var newWidth = Convert.ToInt32(result.Width + 200);
+                    if (List.AllColumns[1].FillsFreeSpace)
+                    {
+                        if (List.Columns[1].Width < newWidth)
+                        {
+                            List.AllColumns[1].FillsFreeSpace = false;
+                            List.Columns[1].Width = newWidth;
+                        }
+                    }
+                    else
+                    {
+                        List.Columns[1].Width = newWidth;
+                    }
+                }
+            }
         }
 
         #region HTMLTag

@@ -427,31 +427,7 @@ namespace LogViewer
             synchronizationContext.Post(new SendOrPostCallback(o =>
             {
                 lf.List.SetObjects(lf.Lines);
-
-                // Try and measure the length of the longest line in pixels
-                // This is rough, and tends to be too short, but cannot find
-                // another method to make column wide enough :-)
-                using (var image = new Bitmap(1, 1))
-                {
-                    using (var g = Graphics.FromImage(image))
-                    {
-                        string temp = lf.GetLine(lf.LongestLine.LineNumber);
-                        var result = g.MeasureString(temp, new Font("Consolas", 9, FontStyle.Regular, GraphicsUnit.Pixel));
-                        var newWidth = Convert.ToInt32(result.Width + 200);
-                        if (lf.List.AllColumns[1].FillsFreeSpace)
-                        {
-                            if (lf.List.Columns[1].Width < newWidth)
-                            {
-                                lf.List.AllColumns[1].FillsFreeSpace = false;
-                                lf.List.Columns[1].Width = newWidth;
-                            }
-                        }
-                        else
-                        {
-                            lf.List.Columns[1].Width = newWidth;
-                        }
-                    }
-                }
+                lf.ResizeWidth();
 
                 //lf.List.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
                 lf.pageForm.GetToolStripProgressBar().Visible = false;
@@ -463,6 +439,7 @@ namespace LogViewer
                 menuFileClose.Enabled = true;
                 this.hourGlass.Dispose();
                 this.processing = false;
+                lf.pageForm.SetAdbStart();
 
             }), null);
         }
@@ -857,8 +834,15 @@ namespace LogViewer
             }
 
             string filePath = System.IO.Path.Combine(Misc.GetApplicationDirectory(), "ADB日志.log");
-            File.WriteAllText(filePath, String.Empty);
-            LoadFile(filePath, 1);
+            try
+            {
+                File.WriteAllText(filePath, String.Empty);
+                LoadFile(filePath, 1);
+            }
+            catch (Exception exception)
+            {
+                DarkMessageBox.ShowError( exception.Message, String.Empty);
+            }
         }
         #endregion
 

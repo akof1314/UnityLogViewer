@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DocLogFile));
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle1 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle2 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle3 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle7 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle8 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle9 = new BrightIdeasSoftware.HeaderStateStyle();
             this.statusProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.statusStrip = new DarkUI.Controls.DarkStatusStrip();
             this.statusLabelPage = new System.Windows.Forms.ToolStripStatusLabel();
@@ -179,13 +179,13 @@
             // 
             // headerFormatStyleLog
             // 
-            headerStateStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
-            headerStateStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Hot = headerStateStyle1;
-            headerStateStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
-            headerStateStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Normal = headerStateStyle2;
-            this.headerFormatStyleLog.Pressed = headerStateStyle3;
+            headerStateStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
+            headerStateStyle7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Hot = headerStateStyle7;
+            headerStateStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
+            headerStateStyle8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Normal = headerStateStyle8;
+            this.headerFormatStyleLog.Pressed = headerStateStyle9;
             // 
             // toolStripButtonInfo
             // 
@@ -532,12 +532,11 @@
             // toolStripDropDownButtonAdbDevices
             // 
             this.toolStripDropDownButtonAdbDevices.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
-            this.toolStripDropDownButtonAdbDevices.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButtonAdbDevices.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripDropDownButtonAdbDevices.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonAdbDevices.Image")));
             this.toolStripDropDownButtonAdbDevices.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButtonAdbDevices.Name = "toolStripDropDownButtonAdbDevices";
-            this.toolStripDropDownButtonAdbDevices.Size = new System.Drawing.Size(57, 22);
+            this.toolStripDropDownButtonAdbDevices.Size = new System.Drawing.Size(73, 22);
             this.toolStripDropDownButtonAdbDevices.Text = "空设备";
             // 
             // DocLogFile

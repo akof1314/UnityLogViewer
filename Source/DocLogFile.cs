@@ -11,6 +11,7 @@ namespace LogViewer
     public partial class DocLogFile : DarkDocument
     {
         internal LogFile Log { get; set; }
+        internal AdbClient adb { get; set; }
         private Configuration config;
         private bool searchHasText;
         private const string CUSTOMSEARCH = "toolStripButtonCustom";
@@ -69,6 +70,19 @@ namespace LogViewer
             this.toolStripButtonWarning.AutoSize = true;
             this.toolStripButtonError.AutoSize = false;
             this.toolStripButtonError.AutoSize = true;
+        }
+
+        public void SetAdbStart()
+        {
+            if (adb != null)
+            {
+                throw new Exception("重复创建");
+            }
+            if (Log.IsAdbLog)
+            {
+                adb = new AdbClient(this);
+                adb.GetDevices();
+            }
         }
 
         /// <summary>
@@ -362,6 +376,59 @@ namespace LogViewer
         }
 
         #region ADB
+
+        /// <summary>
+        /// 刷新设备列表
+        /// </summary>
+        public void RefreshAdbDevicesList()
+        {
+            this.toolStripDropDownButtonAdbDevices.Text = "空设备";
+            this.toolStripDropDownButtonAdbDevices.DropDownItems.Clear();
+
+            var idx = 0;
+            foreach (var deviceName in adb.DevicesNameList)
+            {
+                var item = new System.Windows.Forms.ToolStripMenuItem();
+                item.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+                item.Checked = true;
+                item.CheckState = System.Windows.Forms.CheckState.Checked;
+                item.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+                item.Name = "ToolStripMenuItem" + idx++;
+                item.Size = new System.Drawing.Size(184, 22);
+                item.Text = deviceName;
+                item.Click += new System.EventHandler(this.toolStripButtonAdbChooseDevice_Click);
+                this.toolStripDropDownButtonAdbDevices.DropDownItems.Add(item);
+            }
+
+            if (adb.DevicesNameList.Count > 0)
+            {
+                this.toolStripDropDownButtonAdbDevices.Text = adb.DevicesNameList[0];
+                adb.ChooseDevice(0);
+            }
+        }
+
+        /// <summary>
+        /// 选择某个设备
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolStripButtonAdbChooseDevice_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem btn)
+            {
+                if (this.toolStripDropDownButtonAdbDevices.Text == btn.Name)
+                {
+                    return;
+                }
+
+                var idx = adb.DevicesNameList.IndexOf(btn.Name);
+                if (idx > -1)
+                {
+                    this.toolStripDropDownButtonAdbDevices.Text = adb.DevicesNameList[idx];
+                    adb.ChooseDevice(idx);
+                }
+            }
+        }
 
         private void toolStripButtonAdbRefresh_Click(object sender, EventArgs e)
         {
