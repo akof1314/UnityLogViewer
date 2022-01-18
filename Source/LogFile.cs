@@ -19,15 +19,24 @@ namespace LogViewer
     internal class LogFile
     {
         #region Delegates
+
         public delegate void SearchBeginEvent(LogFile lf);
-        public delegate void SearchCompleteEvent(LogFile lf, string fileName, TimeSpan duration, long matches, int numSearchTerms, bool cancelled);
+
+        public delegate void SearchCompleteEvent(LogFile lf, string fileName, TimeSpan duration, long matches,
+            int numSearchTerms, bool cancelled);
+
         public delegate void CompleteEvent(LogFile lf, string fileName, TimeSpan duration, bool cancelled);
+
         public delegate void BoolEvent(string fileName, bool val);
+
         public delegate void MessageEvent(LogFile lf, string fileName, string message);
+
         public delegate void ProgressUpdateEvent(LogFile lf, int percent);
+
         #endregion
 
         #region Events
+
         public event SearchBeginEvent SearchBegin;
         public event SearchCompleteEvent SearchComplete;
         public event CompleteEvent LoadComplete;
@@ -35,21 +44,23 @@ namespace LogViewer
         public event ProgressUpdateEvent ProgressUpdate;
         public event MessageEvent LoadError;
         public event ProgressUpdateEvent ProgressCancel;
+
         #endregion
 
 
 
         #region Member Variables
+
         private Color highlightColour { get; set; } = Color.Lime;
         private Color contextColour { get; set; } = Color.LightGray;
-        public Searches Searches { get; set; }  // 所有搜索自定义过滤
+        public Searches Searches { get; set; } // 所有搜索自定义过滤
         public Global.ViewMode ViewMode { get; set; } = Global.ViewMode.Standard;
-        public List<LogLine> Lines { get; private set; } = new List<LogLine>();  // 所有行
-        public LogLine LongestLine { get; private set; } = new LogLine();   // 最长的行
+        public List<LogLine> Lines { get; private set; } = new List<LogLine>(); // 所有行
+        public LogLine LongestLine { get; private set; } = new LogLine(); // 最长的行
         public int LineCount { get; private set; } = 0; //总行数
-        private FileStream fileStream;  // 文件流
+        private FileStream fileStream; // 文件流
         private Mutex readMutex = new Mutex();
-        public string FileName { get; private set; }    // 文件名
+        public string FileName { get; private set; } // 文件名
         public SearchCriteria CurSearch { get; set; } = new SearchCriteria();
         public FastObjectListView List { get; set; }
         public string Guid { get; private set; }
@@ -61,6 +72,7 @@ namespace LogViewer
         public bool ShowTypeWarning { get; set; } = true;
         public bool ShowTypeError { get; set; } = true;
         public bool IsAdbLog { get; set; } = false;
+
         #endregion
 
         /// <summary>
@@ -74,6 +86,7 @@ namespace LogViewer
         }
 
         #region Public Methods
+
         /// <summary>
         /// 
         /// </summary>
@@ -93,7 +106,8 @@ namespace LogViewer
                 {
                     byte[] tempBuffer = new byte[1024 * 1024];
 
-                    this.fileStream = new FileStream(filePath, FileMode.Open, IsAdbLog ? FileAccess.ReadWrite : FileAccess.Read);
+                    this.fileStream = new FileStream(filePath, FileMode.Open,
+                        IsAdbLog ? FileAccess.ReadWrite : FileAccess.Read);
                     FileInfo fileInfo = new FileInfo(filePath);
 
                     // Calcs and finally point the position to the end of the line
@@ -159,7 +173,8 @@ namespace LogViewer
                                     int newStartOffset = 0;
                                     Global.LogType logType = Global.LogType.Info;
                                     // ConsoleTiny 的解析
-                                    if (indexOf - startIndex > 13 && tempStr[startIndex + 9] == '-' && tempStr[startIndex + 7] == 't')
+                                    if (indexOf - startIndex > 13 && tempStr[startIndex + 9] == '-' &&
+                                        tempStr[startIndex + 7] == 't')
                                     {
                                         if (tempStr[startIndex + 8] == '3')
                                         {
@@ -180,6 +195,7 @@ namespace LogViewer
                                             isTiny = true;
                                         }
                                     }
+
                                     // 不是tiny格式的话，就当做unity默认的
                                     if (newStartOffset != 13 && !isTiny)
                                     {
@@ -196,13 +212,15 @@ namespace LogViewer
                                         {
                                             if (preCr)
                                             {
-                                                AddLine(lineStartOffset + newStartOffset, charCount - newStartOffset, false, Global.LogType.None);
+                                                AddLine(lineStartOffset + newStartOffset, charCount - newStartOffset,
+                                                    false, Global.LogType.None);
                                             }
                                             else
                                             {
                                                 if (!IsLastLineLogType())
                                                 {
-                                                    if (indexOf - startIndex > 22 && tempStr[startIndex + 17] == ':' && tempStr[startIndex + 18] == 'L')
+                                                    if (indexOf - startIndex > 22 && tempStr[startIndex + 17] == ':' &&
+                                                        tempStr[startIndex + 18] == 'L')
                                                     {
                                                         if (tempStr[startIndex + 21] == 'E')
                                                         {
@@ -221,7 +239,9 @@ namespace LogViewer
                                                         }
                                                     }
                                                 }
-                                                AppendLineStackTrace(lineStartOffset, charCount + (curCr ? 1 : 0), false);
+
+                                                AppendLineStackTrace(lineStartOffset, charCount + (curCr ? 1 : 0),
+                                                    false);
                                             }
                                         }
                                     }
@@ -229,7 +249,8 @@ namespace LogViewer
                                     {
                                         if (preCr)
                                         {
-                                            AddLine(lineStartOffset + newStartOffset, charCount - newStartOffset, curCr, logType);
+                                            AddLine(lineStartOffset + newStartOffset, charCount - newStartOffset, curCr,
+                                                logType);
                                         }
                                         else
                                         {
@@ -250,7 +271,8 @@ namespace LogViewer
                             // We had some '\r' in the last buffer read, now they are processing, so just add the rest as the last line
                             if (lastSection == true)
                             {
-                                AddLine(lineStartOffset, bufferRemainder + (numBytesRead - startIndex), true, Global.LogType.Info);
+                                AddLine(lineStartOffset, bufferRemainder + (numBytesRead - startIndex), true,
+                                    Global.LogType.Info);
                                 return;
                             }
 
@@ -261,7 +283,8 @@ namespace LogViewer
                             // The entire content of the buffer doesn't contain \r so just add the rest of content as the last line
                             if (lastSection == true)
                             {
-                                AddLine(lineStartOffset, bufferRemainder + (numBytesRead - startIndex), true, Global.LogType.Info);
+                                AddLine(lineStartOffset, bufferRemainder + (numBytesRead - startIndex), true,
+                                    Global.LogType.Info);
                                 return;
                             }
 
@@ -370,6 +393,7 @@ namespace LogViewer
                                         {
                                             located = true;
                                         }
+
                                         break;
 
                                     case Global.SearchType.SubStringCaseSensitive:
@@ -377,13 +401,16 @@ namespace LogViewer
                                         {
                                             located = true;
                                         }
+
                                         break;
 
                                     case Global.SearchType.RegexCaseInsensitive:
-                                        if (Regex.Match(line, sc.Pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled) != Match.Empty)
+                                        if (Regex.Match(line, sc.Pattern,
+                                                RegexOptions.IgnoreCase | RegexOptions.Compiled) != Match.Empty)
                                         {
                                             located = true;
                                         }
+
                                         break;
 
                                     case Global.SearchType.RegexCaseSensitive:
@@ -391,6 +418,7 @@ namespace LogViewer
                                         {
                                             located = true;
                                         }
+
                                         break;
 
                                     default:
@@ -415,6 +443,7 @@ namespace LogViewer
                             {
                                 line = this.GetLine(ll.LineNumber);
                             }
+
                             var sc = CurSearch;
                             located = false;
                             switch (sc.Type)
@@ -424,6 +453,7 @@ namespace LogViewer
                                     {
                                         located = true;
                                     }
+
                                     break;
 
                                 case Global.SearchType.SubStringCaseSensitive:
@@ -431,13 +461,16 @@ namespace LogViewer
                                     {
                                         located = true;
                                     }
+
                                     break;
 
                                 case Global.SearchType.RegexCaseInsensitive:
-                                    if (Regex.Match(line, sc.Pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled) != Match.Empty)
+                                    if (Regex.Match(line, sc.Pattern,
+                                            RegexOptions.IgnoreCase | RegexOptions.Compiled) != Match.Empty)
                                     {
                                         located = true;
                                     }
+
                                     break;
 
                                 case Global.SearchType.RegexCaseSensitive:
@@ -445,6 +478,7 @@ namespace LogViewer
                                     {
                                         located = true;
                                     }
+
                                     break;
 
                                 default:
@@ -521,6 +555,7 @@ namespace LogViewer
                                         {
                                             located = true;
                                         }
+
                                         break;
 
                                     case Global.SearchType.SubStringCaseSensitive:
@@ -528,13 +563,16 @@ namespace LogViewer
                                         {
                                             located = true;
                                         }
+
                                         break;
 
                                     case Global.SearchType.RegexCaseInsensitive:
-                                        if (Regex.Match(line, sc.Pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled) != Match.Empty)
+                                        if (Regex.Match(line, sc.Pattern,
+                                                RegexOptions.IgnoreCase | RegexOptions.Compiled) != Match.Empty)
                                         {
                                             located = true;
                                         }
+
                                         break;
 
                                     case Global.SearchType.RegexCaseSensitive:
@@ -542,6 +580,7 @@ namespace LogViewer
                                         {
                                             located = true;
                                         }
+
                                         break;
 
                                     default:
@@ -566,6 +605,7 @@ namespace LogViewer
                             {
                                 line = ll.LineText;
                             }
+
                             var sc = CurSearch;
                             located = false;
                             switch (sc.Type)
@@ -575,6 +615,7 @@ namespace LogViewer
                                     {
                                         located = true;
                                     }
+
                                     break;
 
                                 case Global.SearchType.SubStringCaseSensitive:
@@ -582,13 +623,16 @@ namespace LogViewer
                                     {
                                         located = true;
                                     }
+
                                     break;
 
                                 case Global.SearchType.RegexCaseInsensitive:
-                                    if (Regex.Match(line, sc.Pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled) != Match.Empty)
+                                    if (Regex.Match(line, sc.Pattern,
+                                            RegexOptions.IgnoreCase | RegexOptions.Compiled) != Match.Empty)
                                     {
                                         located = true;
                                     }
+
                                     break;
 
                                 case Global.SearchType.RegexCaseSensitive:
@@ -596,6 +640,7 @@ namespace LogViewer
                                     {
                                         located = true;
                                     }
+
                                     break;
 
                                 default:
@@ -636,6 +681,7 @@ namespace LogViewer
         {
             this.ExportToFile(lines, filePath, ct);
         }
+
         #endregion
 
         public DocLogFile Initialise(string filePath)
@@ -680,14 +726,17 @@ namespace LogViewer
                 {
                     return "1 (2).png";
                 }
+
                 if (log.LogType == Global.LogType.Warning)
                 {
                     return "1 (3).png";
                 }
+
                 if (log.LogType == Global.LogType.Error)
                 {
                     return "1 (1).png";
                 }
+
                 return "";
             };
 
@@ -705,9 +754,11 @@ namespace LogViewer
             lv.AutoArrange = false;
             lv.CausesValidation = false;
             lv.CellEditUseWholeCell = false;
-            lv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            colLineNumber,
-            colText});
+            lv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[]
+            {
+                colLineNumber,
+                colText
+            });
             //lv.ContextMenuStrip = this.contextMenu;
             lv.Dock = System.Windows.Forms.DockStyle.Fill;
             //lv.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -787,6 +838,7 @@ namespace LogViewer
                         return line.IsTerms;
                     }
                 }
+
                 return false;
             });
 
@@ -825,6 +877,7 @@ namespace LogViewer
                         }
                         break;
                 }
+
                 pageForm.GetHighlightTextRenderer().Filter = filter;
             }
 
@@ -867,7 +920,7 @@ namespace LogViewer
             }
             else
             {
-                selectedList = new[] {0};
+                selectedList = new[] { 0 };
             }
 
             if (isNext)
@@ -942,6 +995,7 @@ namespace LogViewer
             {
                 List.EnsureVisible(List.GetItemCount() - 1);
             }
+
             List.Refresh();
         }
 
@@ -984,6 +1038,7 @@ namespace LogViewer
                 {
                     temp = this.Lines.Count - lineNumber - 1;
                 }
+
                 for (int index = 1; index <= temp; index++)
                 {
                     this.Lines[(int)lineNumber + index].IsContextLine = true;
@@ -996,6 +1051,7 @@ namespace LogViewer
                 {
                     temp = lineNumber;
                 }
+
                 for (int index = 1; index <= temp; index++)
                 {
                     this.Lines[(int)lineNumber - index].IsContextLine = true;
@@ -1109,6 +1165,7 @@ namespace LogViewer
                 this.LongestLine.CharCount = charCount;
                 this.LongestLine.LineNumber = ll.LineNumber;
             }
+
             this.Lines.Add(ll);
         }
 
@@ -1238,7 +1295,7 @@ namespace LogViewer
             }
 
             //return Regex.Replace(Encoding.ASCII.GetString(buffer), "[\0-\b\n\v\f\x000E-\x001F\x007F-ÿ]", "", RegexOptions.Compiled);
-            return GetLine(lineNumber) + "\n" + Encoding.UTF8.GetString(buffer);
+            return Encoding.UTF8.GetString(buffer);
         }
 
         public void WriteAdbLines(List<AdbClient.AdbLine> adbLines)
@@ -1277,6 +1334,7 @@ namespace LogViewer
 
                 newLines.Add(ll);
             }
+
             this.readMutex.ReleaseMutex();
 
             pageForm.BeginInvoke(new Action(() =>
@@ -1298,6 +1356,7 @@ namespace LogViewer
                         reWidth = true;
                     }
                 }
+
                 Lines.AddRange(newLines);
                 List.AddObjects(newLines);
                 pageForm.SetTypeCount();
@@ -1306,6 +1365,7 @@ namespace LogViewer
                 {
                     ResizeWidth();
                 }
+
                 if (isScroll && List.Items.Count > 0)
                 {
                     List.EnsureVisible(List.Items.Count - 1);
@@ -1338,7 +1398,8 @@ namespace LogViewer
                 using (var g = Graphics.FromImage(image))
                 {
                     string temp = GetLine(LongestLine.LineNumber);
-                    var result = g.MeasureString(temp, new Font("Consolas", 9.75f, FontStyle.Regular, GraphicsUnit.Point));
+                    var result = g.MeasureString(temp,
+                        new Font("Consolas", 9.75f, FontStyle.Regular, GraphicsUnit.Point));
                     var newWidth = Convert.ToInt32(result.Width + 200);
                     if (List.AllColumns[1].FillsFreeSpace)
                     {
@@ -1362,16 +1423,16 @@ namespace LogViewer
 
         private readonly string[] m_TagStrings = new string[]
         {
-                "b",
-                "i",
-                "color",
-                "size",
-                "material",
-                "quad",
-                "x",
-                "y",
-                "width",
-                "height",
+            "b",
+            "i",
+            "color",
+            "size",
+            "material",
+            "quad",
+            "x",
+            "y",
+            "width",
+            "height",
         };
 
         private readonly StringBuilder m_StringBuilder = new StringBuilder();
@@ -1436,6 +1497,7 @@ namespace LogViewer
                     }
                 }
             }
+
             return -1;
         }
 
@@ -1465,6 +1527,7 @@ namespace LogViewer
                     {
                         m_StringBuilder.Append(input, preStrPos, oldPos - preStrPos);
                     }
+
                     preStrPos = pos + 1;
 
                     if (closing || tagIndex == kTagQuadIndex)
@@ -1474,6 +1537,7 @@ namespace LogViewer
 
                     m_TagStack.Push(tagIndex);
                 }
+
                 pos++;
             }
 
@@ -1486,12 +1550,254 @@ namespace LogViewer
             {
                 m_StringBuilder.Append(input, preStrPos, input.Length - preStrPos);
             }
+
             if (m_StringBuilder.Length > 0)
             {
                 return m_StringBuilder.ToString();
             }
 
             return input;
+        }
+
+        #endregion
+
+        #region Stacktrace
+
+        internal class Constants
+        {
+            public static Color colorNamespace, colorNamespaceAlpha;
+            public static Color colorClass, colorClassAlpha;
+            public static Color colorMethod, colorMethodAlpha;
+            public static Color colorParameters, colorParametersAlpha;
+            public static Color colorPath, colorPathAlpha;
+            public static Color colorFilename, colorFilenameAlpha;
+
+            public static void Init()
+            {
+                colorNamespace = ColorTranslator.FromHtml("#6A87A7");
+                colorClass = ColorTranslator.FromHtml("#1A7ECD");
+                colorMethod = ColorTranslator.FromHtml("#0D9DDC");
+                colorParameters = ColorTranslator.FromHtml("#4F7F9F");
+                colorPath = ColorTranslator.FromHtml("#375E68");
+                colorFilename = ColorTranslator.FromHtml("#4A6E8A");
+                colorNamespaceAlpha = ColorTranslator.FromHtml("#4E5B6A");
+                colorClassAlpha = ColorTranslator.FromHtml("#2A577B");
+                colorMethodAlpha = ColorTranslator.FromHtml("#246581");
+                colorParametersAlpha = ColorTranslator.FromHtml("#425766");
+                colorPathAlpha = ColorTranslator.FromHtml("#375860");
+                colorFilenameAlpha = ColorTranslator.FromHtml("#4A6E8A");
+            }
+        }
+
+        public void ShowLineStackTrace(int lineNumber)
+        {
+            pageForm.StackTraceAppendText(GetLine(lineNumber) + "\n");
+
+            int indexOf;
+            int startIndex = 0;
+            string tempStr = GetLineStackTrace(lineNumber);
+
+            while ((indexOf = tempStr.IndexOf('\n', startIndex)) != -1)
+            {
+                var line = tempStr.Substring(startIndex, indexOf - startIndex);
+                if (!ShowLineStackTraceCSharp(line))
+                {
+                    ShowLineStackTraceLua(line);
+                }
+                startIndex = indexOf + 1;
+            }
+        }
+
+        const string textBeforeFilePath = ") (at ";
+        const string fileInBuildSlave = "C:/buildslave/unity/";
+        const string fileInBuildSlave2 = "D:/unity/";
+
+        private bool ShowLineStackTraceCSharp(string line)
+        {
+            int methodLastIndex = line.IndexOf('(');
+            if (methodLastIndex <= 0)
+            {
+                return false;
+            }
+
+            int argsLastIndex = line.IndexOf(')', methodLastIndex);
+            if (argsLastIndex <= 0)
+            {
+                return false;
+            }
+
+            int methodFirstIndex = line.LastIndexOf(':', methodLastIndex);
+            if (methodFirstIndex <= 0)
+            {
+                methodFirstIndex = line.LastIndexOf('.', methodLastIndex);
+                if (methodFirstIndex <= 0)
+                {
+                    return false;
+                }
+            }
+
+            string methodString = line.Substring(methodFirstIndex + 1, methodLastIndex - methodFirstIndex - 1);
+
+            string classString;
+            string namespaceString = String.Empty;
+            int classFirstIndex = line.LastIndexOf('.', methodFirstIndex - 1);
+            if (classFirstIndex <= 0)
+            {
+                classString = line.Substring(0, methodFirstIndex + 1);
+            }
+            else
+            {
+                classString = line.Substring(classFirstIndex + 1, methodFirstIndex - classFirstIndex);
+                namespaceString = line.Substring(0, classFirstIndex + 1);
+            }
+
+            string argsString = line.Substring(methodLastIndex, argsLastIndex - methodLastIndex + 1);
+            string fileString = String.Empty;
+            string fileNameString = String.Empty;
+            string fileLineString = String.Empty;
+            bool alphaColor = true;
+
+            int filePathIndex = line.IndexOf(textBeforeFilePath, argsLastIndex, StringComparison.Ordinal);
+            if (filePathIndex > 0)
+            {
+                filePathIndex += textBeforeFilePath.Length;
+                if (line[filePathIndex] != '<'
+                ) // sometimes no url is given, just an id between <>, we can't do an hyperlink
+                {
+                    string filePathPart = line.Substring(filePathIndex);
+                    int lineIndex =
+                        filePathPart.LastIndexOf(":",
+                            StringComparison.Ordinal); // LastIndex because the url can contain ':' ex:"C:"
+                    if (lineIndex > 0)
+                    {
+                        int endLineIndex =
+                            filePathPart.LastIndexOf(")",
+                                StringComparison.Ordinal); // LastIndex because files or folder in the url can contain ')'
+                        if (endLineIndex > 0)
+                        {
+                            string filePath = filePathPart.Substring(0, lineIndex);
+
+                            bool isInBuildSlave = filePath.StartsWith(fileInBuildSlave, StringComparison.Ordinal) ||
+                                                  filePath.StartsWith(fileInBuildSlave2, StringComparison.Ordinal);
+                            if (!isInBuildSlave)
+                            {
+                                alphaColor = false;
+                            }
+
+                            fileNameString = System.IO.Path.GetFileName(filePath);
+                            fileString = textBeforeFilePath.Substring(1) +
+                                         filePath.Substring(0, filePath.Length - fileNameString.Length);
+                            fileLineString = filePathPart.Substring(lineIndex, endLineIndex - lineIndex + 1);
+                        }
+                    }
+                }
+                else
+                {
+                    fileString = line.Substring(argsLastIndex + 1);
+                }
+            }
+
+            var colorNamespace = Constants.colorNamespace;
+            var colorClass = Constants.colorClass;
+            var colorMethod = Constants.colorMethod;
+            var colorParameters = Constants.colorParameters;
+            var colorPath = Constants.colorPath;
+            var colorFilename = Constants.colorFilename;
+
+            if (alphaColor)
+            {
+                colorNamespace = Constants.colorNamespaceAlpha;
+                colorClass = Constants.colorClassAlpha;
+                colorMethod = Constants.colorMethodAlpha;
+                colorParameters = Constants.colorParametersAlpha;
+                colorPath = Constants.colorPathAlpha;
+                colorFilename = Constants.colorFilenameAlpha;
+            }
+
+            if (!string.IsNullOrEmpty(namespaceString))
+            {
+                pageForm.StackTraceAppendText(namespaceString, colorNamespace);
+            }
+            pageForm.StackTraceAppendText(classString, colorClass);
+            pageForm.StackTraceAppendText(methodString, colorMethod);
+            pageForm.StackTraceAppendText(argsString, colorParameters);
+            if (!string.IsNullOrEmpty(fileString))
+            {
+                pageForm.StackTraceAppendText(fileString, colorPath);
+                pageForm.StackTraceAppendText(fileNameString, colorFilename);
+                pageForm.StackTraceAppendText(fileLineString, colorPath);
+            }
+
+            pageForm.StackTraceAppendText("\n");
+
+            return true;
+        }
+
+        const string luaCFunction = "[C]";
+        const string luaMethodBefore = ": in function ";
+        const string luaFileExt = ".lua";
+
+        private bool ShowLineStackTraceLua(string line)
+        {
+            if (string.IsNullOrEmpty(line) || line[0] != '	')
+            {
+                return false;
+            }
+
+            string preMethodString = line;
+            string methodString = String.Empty;
+            int methodFirstIndex = line.IndexOf(luaMethodBefore, StringComparison.Ordinal);
+            if (methodFirstIndex > 0)
+            {
+                methodString = line.Substring(methodFirstIndex + luaMethodBefore.Length);
+                preMethodString = preMethodString.Remove(methodFirstIndex + luaMethodBefore.Length);
+            }
+
+            bool cFunction = line.IndexOf(luaCFunction, 1, StringComparison.Ordinal) == 1;
+            if (!cFunction)
+            {
+                int lineIndex = line.IndexOf(':');
+                if (lineIndex > 0)
+                {
+                    int endLineIndex = line.IndexOf(':', lineIndex + 1);
+                    if (endLineIndex > 0)
+                    {
+                        string lineString =
+                            line.Substring(lineIndex + 1, (endLineIndex) - (lineIndex + 1));
+                        string filePath = line.Substring(1, lineIndex - 1);
+                        if (!filePath.EndsWith(luaFileExt, StringComparison.Ordinal))
+                        {
+                            filePath += luaFileExt;
+                        }
+
+                        string namespaceString = String.Empty;
+                        int classFirstIndex = filePath.LastIndexOf('/');
+                        if (classFirstIndex > 0)
+                        {
+                            namespaceString = filePath.Substring(0, classFirstIndex + 1);
+                        }
+
+                        string classString = filePath.Substring(classFirstIndex + 1,
+                            filePath.Length - namespaceString.Length - luaFileExt.Length);
+
+                        pageForm.StackTraceAppendText("	");
+                        pageForm.StackTraceAppendText(namespaceString, Constants.colorNamespace);
+                        pageForm.StackTraceAppendText(classString, Constants.colorClass);
+                        pageForm.StackTraceAppendText(":", Constants.colorPath);
+                        pageForm.StackTraceAppendText(lineString, Constants.colorPath);
+                        pageForm.StackTraceAppendText(luaMethodBefore, Constants.colorPath);
+                        pageForm.StackTraceAppendText(methodString, Constants.colorMethod);
+                    }
+                }
+            }
+            else
+            {
+                pageForm.StackTraceAppendText(preMethodString, Constants.colorPathAlpha);
+                pageForm.StackTraceAppendText(methodString, Constants.colorMethodAlpha);
+            }
+            pageForm.StackTraceAppendText("\n");
+
+            return true;
         }
 
         #endregion

@@ -60,6 +60,7 @@ namespace LogViewer
 
             this.highlightColour = config.GetHighlightColour();
             this.contextColour = config.GetContextColour();
+            LogFile.Constants.Init();
 
             menuFileClose.Enabled = false;
             this.darkDockPanelMain.ContentRemoved += DarkDockPanelMainOnContentRemoved;

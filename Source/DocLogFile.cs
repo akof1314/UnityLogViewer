@@ -173,12 +173,18 @@ namespace LogViewer
                 var selectedObjects = Log.List.SelectedObjects;
                 if (selectedObjects.Count == 1)
                 {
-                    this.richTextBoxStrace.Text = Log.GetLineStackTrace(((LogLine)selectedObjects[0]).LineNumber);
+                    //this.richTextBoxStrace.Text = Log.GetLineStackTrace(((LogLine)selectedObjects[0]).LineNumber);
+                    Log.ShowLineStackTrace(((LogLine)selectedObjects[0]).LineNumber);
                 }
             }
         }
 
-        private void AppendText(string text, Color color)
+        public void StackTraceAppendText(string text)
+        {
+            StackTraceAppendText(text, this.richTextBoxStrace.ForeColor);
+        }
+
+        public void StackTraceAppendText(string text, Color color)
         {
             var box = this.richTextBoxStrace;
             box.SelectionStart = box.TextLength;
