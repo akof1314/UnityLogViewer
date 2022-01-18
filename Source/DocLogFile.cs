@@ -88,6 +88,7 @@ namespace LogViewer
             }
             if (Log.IsAdbLog)
             {
+                ClearAdbDevicesList();
                 DisconnectAdbDevice();
                 GetToolStripStatusLabel().Text = "查找设备中...";
 
@@ -154,6 +155,11 @@ namespace LogViewer
             {
                 this.toolStripButtonWarning.Checked = !this.toolStripButtonWarning.Checked;
             }
+        }
+
+        public void ClearStackTraceText()
+        {
+            this.richTextBoxStrace.Clear();
         }
 
         private void statusProgress_Click(object sender, EventArgs e)
@@ -393,16 +399,13 @@ namespace LogViewer
         /// </summary>
         public void RefreshAdbDevicesList()
         {
-            this.toolStripDropDownButtonAdbDevices.Text = "空设备";
-            this.toolStripDropDownButtonAdbDevices.DropDownItems.Clear();
+            ClearAdbDevicesList();
 
             var idx = 0;
             foreach (var deviceName in adb.DevicesNameList)
             {
                 var item = new System.Windows.Forms.ToolStripMenuItem();
                 item.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
-                item.Checked = true;
-                item.CheckState = System.Windows.Forms.CheckState.Checked;
                 item.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
                 item.Name = "ToolStripMenuItem" + idx++;
                 item.Size = new System.Drawing.Size(184, 22);
@@ -418,31 +421,38 @@ namespace LogViewer
             }
         }
 
+        private void ClearAdbDevicesList()
+        {
+            this.toolStripDropDownButtonAdbDevices.Text = "空设备";
+            this.toolStripDropDownButtonAdbDevices.DropDownItems.Clear();
+        }
+
         private void ChooseAdbDevice(int idx)
         {
-            ConnectAdbDevice();
+            adb.IsPausing = false;
+            DisconnectAdbDevice();
             this.toolStripDropDownButtonAdbDevices.Text = adb.DevicesNameList[idx];
+            GetToolStripStatusLabel().Text = "尝试连接设备： " + this.toolStripDropDownButtonAdbDevices.Text;
             adb.ChooseDevice(idx);
         }
 
         public void DisconnectAdbDevice()
         {
             GetToolStripStatusLabel().Text = "设备断开连接 ";
-            this.toolStripDropDownButtonAdbDevices.Text = "空设备";
-            this.toolStripDropDownButtonAdbDevices.DropDownItems.Clear();
             this.toolStripButtonPauseAdbLog.Visible = false;
             this.toolStripButtonResumeAdbLog.Visible = false;
             this.toolStripButtonClearAdbLog.Visible = false;
             this.toolStripButtonPicAdbLog.Visible = false;
         }
 
-        private void ConnectAdbDevice()
+        public void ConnectAdbDevice()
         {
             adb.IsPausing = false;
             this.toolStripButtonPauseAdbLog.Visible = true;
             this.toolStripButtonResumeAdbLog.Visible = false;
             this.toolStripButtonClearAdbLog.Visible = true;
             this.toolStripButtonPicAdbLog.Visible = true;
+            GetToolStripStatusLabel().Text = "连接设备中： " + this.toolStripDropDownButtonAdbDevices.Text;
         }
 
         /// <summary>
@@ -459,7 +469,7 @@ namespace LogViewer
                     return;
                 }
 
-                var idx = adb.DevicesNameList.IndexOf(btn.Name);
+                var idx = adb.DevicesNameList.IndexOf(btn.Text);
                 if (idx > -1)
                 {
                     ChooseAdbDevice(idx);
@@ -495,7 +505,7 @@ namespace LogViewer
 
         private void toolStripButtonPicAdbLog_Click(object sender, EventArgs e)
         {
-
+            adb.GetScreenCap();
         }
 
         private void toolStripButtonPauseAdbLog_Click(object sender, EventArgs e)
@@ -514,7 +524,7 @@ namespace LogViewer
 
         private void toolStripButtonClearAdbLog_Click(object sender, EventArgs e)
         {
-
+            Log.ClearAdbLines();
         }
 
         #endregion

@@ -50,7 +50,6 @@ namespace LogViewer
         private FileStream fileStream;  // 文件流
         private Mutex readMutex = new Mutex();
         public string FileName { get; private set; }    // 文件名
-        public List<ushort> FilterIds { get; private set; } = new List<ushort>();  // 所有自定义过滤的ID
         public SearchCriteria CurSearch { get; set; } = new SearchCriteria();
         public FastObjectListView List { get; set; }
         public string Guid { get; private set; }
@@ -309,9 +308,7 @@ namespace LogViewer
             this.LongestLine = new LogLine();
             this.LineCount = 0;
             this.FileName = String.Empty;
-            this.FilterIds = new List<ushort>();
             this.List.ModelFilter = null;
-            this.FilterIds.Clear();
             this.List.ClearObjects();
 
             if (this.fileStream != null)
@@ -1257,7 +1254,8 @@ namespace LogViewer
                 var offset = this.fileStream.Seek(0, SeekOrigin.End);
                 this.fileStream.Write(buffer, 0, charCount);
 
-                var ll = NewLine(offset, charCount, true, (Global.LogType)(adbLine.LogType / 10));
+                // 因为行内容包括了CRCF，所以这里要减2，在拼接的时候，才不会出错
+                var ll = NewLine(offset, charCount - 2, true, (Global.LogType)(adbLine.LogType / 10));
                 ll.IsTerms = adbLine.IsTerms;
                 ll.IsCurSearch = adbLine.IsCurSearch;
 
@@ -1271,6 +1269,7 @@ namespace LogViewer
                     ll.StackTraceCharCount = charCount;
                 }
 
+                // Unity格式以空行标记
                 buffer = Encoding.UTF8.GetBytes("\r\n");
                 charCount = buffer.Length;
                 this.fileStream.Seek(0, SeekOrigin.End);
@@ -1312,6 +1311,21 @@ namespace LogViewer
                     List.EnsureVisible(List.Items.Count - 1);
                 }
             }));
+        }
+
+        public void ClearAdbLines()
+        {
+            this.readMutex.WaitOne();
+            this.fileStream.SetLength(0);
+            this.readMutex.ReleaseMutex();
+            Lines.Clear();
+            this.LineCount = 0;
+            TypeInfoCount = 0;
+            TypeWarningCount = 0;
+            TypeErrorCount = 0;
+            List.SetObjects(Lines);
+            pageForm.SetTypeCount();
+            pageForm.ClearStackTraceText();
         }
 
         public void ResizeWidth()

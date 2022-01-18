@@ -55,6 +55,11 @@ namespace LogViewer
         /// </summary>
         private Process adbLogProcess;
 
+        /// <summary>
+        /// 当然操作的设备索引
+        /// </summary>
+        private int curDeviceIdIndex;
+
         private const string BoxCaption = "Adb 提示";
 
         public AdbClient(DocLogFile page)
@@ -70,25 +75,17 @@ namespace LogViewer
 
         public void ClearObjects()
         {
-            if (adbLogProcess != null)
-            {
-                if (!adbLogProcess.HasExited)
-                {
-                    adbLogProcess.Kill();
-                }
-
-                if (adbLogProcess != null)
-                {
-                    adbLogProcess.Close();
-                    adbLogProcess.Dispose();
-                    adbLogProcess = null;
-                }
-            }
+            DisconnectDeviceInter();
         }
 
         private string GetPath()
         {
             return System.IO.Path.Combine(Misc.GetApplicationDirectory(), "adb.exe");
+        }
+
+        private string GetScreenCapPath()
+        {
+            return System.IO.Path.Combine(Misc.GetApplicationDirectory(), "ADBScreenCap");
         }
 
         public void GetDevices()
@@ -98,7 +95,13 @@ namespace LogViewer
 
         public void ChooseDevice(int index)
         {
+            curDeviceIdIndex = index;
             ChooseDeviceInter(DevicesIdList[index]);
+        }
+
+        public void GetScreenCap()
+        {
+            GetScreenCapInter(DevicesIdList[curDeviceIdIndex]);
         }
 
         private void GetDevicesInter()
@@ -195,8 +198,75 @@ namespace LogViewer
             });
         }
 
+        private void GetScreenCapInter(string deviceId)
+        {
+            if (IsBusying)
+            {
+                return;
+            }
+            IsBusying = true;
+
+            var adbProcess = new Process
+            {
+                StartInfo = {
+                FileName = GetPath(),
+                Arguments = "-s " + deviceId + " shell screencap -p /sdcard/unitylogviewer-screencap.png",
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                },
+            };
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    adbProcess.Start();
+                    adbProcess.WaitForExit(5000);
+                    if (!adbProcess.HasExited)
+                    {
+                        adbProcess.Kill();
+                    }
+                    else
+                    {
+                        var destDir = GetScreenCapPath();
+                        if (!System.IO.Directory.Exists(destDir))
+                        {
+                            System.IO.Directory.CreateDirectory(destDir);
+                        }
+
+                        var destPath = string.Format("{0:yyyy-MM-dd_HH-mm-ss-fff}.png", DateTime.Now);
+                        destPath = System.IO.Path.Combine(destDir, destPath);
+                        adbProcess.StartInfo.Arguments = "-s " + deviceId + " pull /sdcard/unitylogviewer-screencap.png \"" + destPath + "\"";
+
+                        adbProcess.Start();
+                        adbProcess.WaitForExit(5000);
+                        if (!adbProcess.HasExited)
+                        {
+                            adbProcess.Kill();
+                        }
+
+                        if (System.IO.File.Exists(destPath))
+                        {
+                            Process.Start(destPath);
+                        }
+                    }
+
+                    adbProcess.Close();
+                    adbProcess.Dispose();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    DarkMessageBox.ShowError(e.Message, BoxCaption);
+                }
+
+                IsBusying = false;
+            });
+        }
+
         private void ChooseDeviceInter(string deviceId)
         {
+            DisconnectDeviceInter();
             var adbProcess = new Process
             {
                 StartInfo = {
@@ -211,6 +281,7 @@ namespace LogViewer
                 },
             };
 
+            bool isConnectOk = false;
             adbProcess.OutputDataReceived += (sender, e) =>
             {
                 var line = e.Data;
@@ -219,6 +290,16 @@ namespace LogViewer
                     return;
                 }
                 Console.WriteLine(line);
+
+                if (!isConnectOk)
+                {
+                    if (line.StartsWith("--------- beginning of", StringComparison.Ordinal))
+                    {
+                        isConnectOk = true;
+                        pageForm.BeginInvoke(new Action(pageForm.ConnectAdbDevice));
+                        return;
+                    }
+                }
 
                 if (IsPausing)
                 {
@@ -254,6 +335,24 @@ namespace LogViewer
             });
         }
 
+        private void DisconnectDeviceInter()
+        {
+            if (adbLogProcess != null)
+            {
+                if (!adbLogProcess.HasExited)
+                {
+                    adbLogProcess.Kill();
+                }
+
+                if (adbLogProcess != null)
+                {
+                    adbLogProcess.Close();
+                    adbLogProcess.Dispose();
+                    adbLogProcess = null;
+                }
+            }
+        }
+
         private string GetStrMid(string text, string left, string right)
         {
             var idx = text.IndexOf(left, StringComparison.Ordinal);
@@ -283,9 +382,7 @@ namespace LogViewer
             if (adbLogProcess.HasExited)
             {
                 Console.WriteLine("adbLogProcess.HasExited");
-                adbLogProcess.Close();
-                adbLogProcess.Dispose();
-                adbLogProcess = null;
+                DisconnectDeviceInter();
 
                 Lines.Clear();
                 pageForm.BeginInvoke(new Action(() => pageForm.DisconnectAdbDevice()));
@@ -296,14 +393,25 @@ namespace LogViewer
             {
                 if (Lines.Count > 0)
                 {
-                    // 如果最后一行还没有结束，先不处理，前提是显示unity日志
-                    if (!Lines[Lines.Count - 1].IsCrLine)
+                    var lastLine = Lines[Lines.Count - 1];
+
+                    // 如果最后一行还没有结束，先移除再添加
+                    if (!lastLine.IsCrLine)
                     {
-                        return;
+                        Lines.RemoveAt(Lines.Count - 1);
+                    }
+                    else
+                    {
+                        lastLine = null;
                     }
 
                     pageForm.Log.WriteAdbLines(Lines);
                     Lines.Clear();
+
+                    if (lastLine != null)
+                    {
+                        Lines.Add(lastLine);
+                    }
                 }
             }
         }
@@ -374,7 +482,7 @@ namespace LogViewer
 
             if (isNew)
             {
-                var newLine = new AdbLine { LineText = line, LogType = logType };
+                var newLine = new AdbLine { LineText = line + "\r\n", LogType = logType };
                 Lines.Add(newLine);
 
                 // 如果的D/V的话，不需要解析堆栈，直接显示
