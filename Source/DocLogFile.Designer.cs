@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DocLogFile));
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle7 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle8 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle9 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle13 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle14 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle15 = new BrightIdeasSoftware.HeaderStateStyle();
             this.statusProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.statusStrip = new DarkUI.Controls.DarkStatusStrip();
             this.statusLabelPage = new System.Windows.Forms.ToolStripStatusLabel();
@@ -70,6 +70,10 @@
             this.toolStripTextBoxAdbConIp = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButtonAdbRefresh = new System.Windows.Forms.ToolStripButton();
             this.toolStripDropDownButtonAdbDevices = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripButtonPicAdbLog = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonPauseAdbLog = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonResumeAdbLog = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonClearAdbLog = new System.Windows.Forms.ToolStripButton();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -179,13 +183,13 @@
             // 
             // headerFormatStyleLog
             // 
-            headerStateStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
-            headerStateStyle7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Hot = headerStateStyle7;
-            headerStateStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
-            headerStateStyle8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Normal = headerStateStyle8;
-            this.headerFormatStyleLog.Pressed = headerStateStyle9;
+            headerStateStyle13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
+            headerStateStyle13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Hot = headerStateStyle13;
+            headerStateStyle14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
+            headerStateStyle14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Normal = headerStateStyle14;
+            this.headerFormatStyleLog.Pressed = headerStateStyle15;
             // 
             // toolStripButtonInfo
             // 
@@ -441,7 +445,11 @@
             this.darkToolStripAdb.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripDropDownButtonAdbCon,
             this.toolStripButtonAdbRefresh,
-            this.toolStripDropDownButtonAdbDevices});
+            this.toolStripDropDownButtonAdbDevices,
+            this.toolStripButtonPicAdbLog,
+            this.toolStripButtonClearAdbLog,
+            this.toolStripButtonResumeAdbLog,
+            this.toolStripButtonPauseAdbLog});
             this.darkToolStripAdb.Location = new System.Drawing.Point(0, 0);
             this.darkToolStripAdb.Name = "darkToolStripAdb";
             this.darkToolStripAdb.Padding = new System.Windows.Forms.Padding(5, 0, 1, 0);
@@ -539,6 +547,54 @@
             this.toolStripDropDownButtonAdbDevices.Size = new System.Drawing.Size(73, 22);
             this.toolStripDropDownButtonAdbDevices.Text = "空设备";
             // 
+            // toolStripButtonPicAdbLog
+            // 
+            this.toolStripButtonPicAdbLog.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButtonPicAdbLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripButtonPicAdbLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripButtonPicAdbLog.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonPicAdbLog.Image")));
+            this.toolStripButtonPicAdbLog.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonPicAdbLog.Name = "toolStripButtonPicAdbLog";
+            this.toolStripButtonPicAdbLog.Size = new System.Drawing.Size(52, 22);
+            this.toolStripButtonPicAdbLog.Text = "截屏";
+            this.toolStripButtonPicAdbLog.Click += new System.EventHandler(this.toolStripButtonPicAdbLog_Click);
+            // 
+            // toolStripButtonPauseAdbLog
+            // 
+            this.toolStripButtonPauseAdbLog.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButtonPauseAdbLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripButtonPauseAdbLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripButtonPauseAdbLog.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonPauseAdbLog.Image")));
+            this.toolStripButtonPauseAdbLog.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonPauseAdbLog.Name = "toolStripButtonPauseAdbLog";
+            this.toolStripButtonPauseAdbLog.Size = new System.Drawing.Size(100, 22);
+            this.toolStripButtonPauseAdbLog.Text = "暂停接收日志";
+            this.toolStripButtonPauseAdbLog.Click += new System.EventHandler(this.toolStripButtonPauseAdbLog_Click);
+            // 
+            // toolStripButtonResumeAdbLog
+            // 
+            this.toolStripButtonResumeAdbLog.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButtonResumeAdbLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripButtonResumeAdbLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripButtonResumeAdbLog.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonResumeAdbLog.Image")));
+            this.toolStripButtonResumeAdbLog.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonResumeAdbLog.Name = "toolStripButtonResumeAdbLog";
+            this.toolStripButtonResumeAdbLog.Size = new System.Drawing.Size(100, 22);
+            this.toolStripButtonResumeAdbLog.Text = "继续接收日志";
+            this.toolStripButtonResumeAdbLog.Click += new System.EventHandler(this.toolStripButtonResumeAdbLog_Click);
+            // 
+            // toolStripButtonClearAdbLog
+            // 
+            this.toolStripButtonClearAdbLog.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButtonClearAdbLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripButtonClearAdbLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripButtonClearAdbLog.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonClearAdbLog.Image")));
+            this.toolStripButtonClearAdbLog.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonClearAdbLog.Name = "toolStripButtonClearAdbLog";
+            this.toolStripButtonClearAdbLog.Size = new System.Drawing.Size(76, 22);
+            this.toolStripButtonClearAdbLog.Text = "清除日志";
+            this.toolStripButtonClearAdbLog.Click += new System.EventHandler(this.toolStripButtonClearAdbLog_Click);
+            // 
             // DocLogFile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -602,5 +658,9 @@
         private System.Windows.Forms.ToolStripTextBox toolStripTextBoxAdbConIp;
         private System.Windows.Forms.ToolStripButton toolStripButtonAdbRefresh;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonAdbDevices;
+        private System.Windows.Forms.ToolStripButton toolStripButtonPicAdbLog;
+        private System.Windows.Forms.ToolStripButton toolStripButtonClearAdbLog;
+        private System.Windows.Forms.ToolStripButton toolStripButtonResumeAdbLog;
+        private System.Windows.Forms.ToolStripButton toolStripButtonPauseAdbLog;
     }
 }

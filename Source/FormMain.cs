@@ -72,6 +72,12 @@ namespace LogViewer
         /// <param name="e"></param>
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            var list = darkDockPanelMain.GetDocuments();
+            foreach (var darkDockContent in list)
+            {
+                this.darkDockPanelMain.RemoveContent(darkDockContent);
+            }
+
             config.HighlightColour = this.highlightColour.ToKnownColor().ToString();
             string ret = config.Save();
             if (ret.Length > 0)

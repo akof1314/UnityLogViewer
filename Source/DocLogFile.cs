@@ -28,6 +28,14 @@ namespace LogViewer
             DockText = text;
         }
 
+        public void ClearObjects()
+        {
+            if (adb != null)
+            {
+                adb.ClearObjects();
+            }
+        }
+
         public FastObjectListView GetFastObjectListView()
         {
             return this.fastObjectListView1;
@@ -80,6 +88,9 @@ namespace LogViewer
             }
             if (Log.IsAdbLog)
             {
+                DisconnectAdbDevice();
+                GetToolStripStatusLabel().Text = "查找设备中...";
+
                 adb = new AdbClient(this);
                 adb.GetDevices();
             }
@@ -399,12 +410,39 @@ namespace LogViewer
                 item.Click += new System.EventHandler(this.toolStripButtonAdbChooseDevice_Click);
                 this.toolStripDropDownButtonAdbDevices.DropDownItems.Add(item);
             }
+            GetToolStripStatusLabel().Text = "发现设备数量： " + adb.DevicesNameList.Count;
 
             if (adb.DevicesNameList.Count > 0)
             {
-                this.toolStripDropDownButtonAdbDevices.Text = adb.DevicesNameList[0];
-                adb.ChooseDevice(0);
+                ChooseAdbDevice(0);
             }
+        }
+
+        private void ChooseAdbDevice(int idx)
+        {
+            ConnectAdbDevice();
+            this.toolStripDropDownButtonAdbDevices.Text = adb.DevicesNameList[idx];
+            adb.ChooseDevice(idx);
+        }
+
+        public void DisconnectAdbDevice()
+        {
+            GetToolStripStatusLabel().Text = "设备断开连接 ";
+            this.toolStripDropDownButtonAdbDevices.Text = "空设备";
+            this.toolStripDropDownButtonAdbDevices.DropDownItems.Clear();
+            this.toolStripButtonPauseAdbLog.Visible = false;
+            this.toolStripButtonResumeAdbLog.Visible = false;
+            this.toolStripButtonClearAdbLog.Visible = false;
+            this.toolStripButtonPicAdbLog.Visible = false;
+        }
+
+        private void ConnectAdbDevice()
+        {
+            adb.IsPausing = false;
+            this.toolStripButtonPauseAdbLog.Visible = true;
+            this.toolStripButtonResumeAdbLog.Visible = false;
+            this.toolStripButtonClearAdbLog.Visible = true;
+            this.toolStripButtonPicAdbLog.Visible = true;
         }
 
         /// <summary>
@@ -424,15 +462,15 @@ namespace LogViewer
                 var idx = adb.DevicesNameList.IndexOf(btn.Name);
                 if (idx > -1)
                 {
-                    this.toolStripDropDownButtonAdbDevices.Text = adb.DevicesNameList[idx];
-                    adb.ChooseDevice(idx);
+                    ChooseAdbDevice(idx);
                 }
             }
         }
 
         private void toolStripButtonAdbRefresh_Click(object sender, EventArgs e)
         {
-
+            GetToolStripStatusLabel().Text = "刷新设备中...";
+            adb.GetDevices();
         }
 
         private void toolStripMenuItemAdbConLocal_Click(object sender, EventArgs e)
@@ -451,6 +489,30 @@ namespace LogViewer
         }
 
         private void toolStripMenuItemAdbConXiao_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonPicAdbLog_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonPauseAdbLog_Click(object sender, EventArgs e)
+        {
+            adb.IsPausing = true;
+            this.toolStripButtonPauseAdbLog.Visible = false;
+            this.toolStripButtonResumeAdbLog.Visible = true;
+        }
+
+        private void toolStripButtonResumeAdbLog_Click(object sender, EventArgs e)
+        {
+            adb.IsPausing = false;
+            this.toolStripButtonPauseAdbLog.Visible = true;
+            this.toolStripButtonResumeAdbLog.Visible = false;
+        }
+
+        private void toolStripButtonClearAdbLog_Click(object sender, EventArgs e)
         {
 
         }

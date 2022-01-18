@@ -318,6 +318,11 @@ namespace LogViewer
             {
                 this.fileStream.Dispose();
             }
+
+            if (pageForm != null)
+            {
+                pageForm.ClearObjects();
+            }
         }
 
         /// <summary>

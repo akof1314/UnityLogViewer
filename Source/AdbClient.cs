@@ -29,6 +29,11 @@ namespace LogViewer
         /// </summary>
         public List<string> DevicesNameList { get; private set; }
 
+        /// <summary>
+        /// 暂停接收日志
+        /// </summary>
+        public bool IsPausing { get; set; }
+
 
         internal class AdbLine
         {
@@ -45,6 +50,11 @@ namespace LogViewer
 
         private System.Timers.Timer timer;
 
+        /// <summary>
+        /// 采集日志的进程
+        /// </summary>
+        private Process adbLogProcess;
+
         private const string BoxCaption = "Adb 提示";
 
         public AdbClient(DocLogFile page)
@@ -56,6 +66,24 @@ namespace LogViewer
             timer = new System.Timers.Timer(300);
             timer.Elapsed += TimerOnElapsed;
             timer.Start();
+        }
+
+        public void ClearObjects()
+        {
+            if (adbLogProcess != null)
+            {
+                if (!adbLogProcess.HasExited)
+                {
+                    adbLogProcess.Kill();
+                }
+
+                if (adbLogProcess != null)
+                {
+                    adbLogProcess.Close();
+                    adbLogProcess.Dispose();
+                    adbLogProcess = null;
+                }
+            }
         }
 
         private string GetPath()
@@ -191,6 +219,11 @@ namespace LogViewer
                     return;
                 }
                 Console.WriteLine(line);
+
+                if (IsPausing)
+                {
+                    return;
+                }
                 ParseLog2(line);
             };
 
@@ -211,6 +244,7 @@ namespace LogViewer
                     adbProcess.Start();
                     adbProcess.BeginOutputReadLine();
                     adbProcess.BeginErrorReadLine();
+                    adbLogProcess = adbProcess;
                 }
                 catch (Exception e)
                 {
@@ -240,6 +274,24 @@ namespace LogViewer
 
         private void TimerOnElapsed(object sender, ElapsedEventArgs e)
         {
+            if (adbLogProcess == null)
+            {
+                return;
+            }
+
+            // 设备失联，进程自动退出
+            if (adbLogProcess.HasExited)
+            {
+                Console.WriteLine("adbLogProcess.HasExited");
+                adbLogProcess.Close();
+                adbLogProcess.Dispose();
+                adbLogProcess = null;
+
+                Lines.Clear();
+                pageForm.BeginInvoke(new Action(() => pageForm.DisconnectAdbDevice()));
+                return;
+            }
+
             lock (Lines)
             {
                 if (Lines.Count > 0)
@@ -324,6 +376,12 @@ namespace LogViewer
             {
                 var newLine = new AdbLine { LineText = line, LogType = logType };
                 Lines.Add(newLine);
+
+                // 如果的D/V的话，不需要解析堆栈，直接显示
+                if (logType == 12 || logType == 13)
+                {
+                    newLine.IsCrLine = true;
+                }
             }
             else if (Lines.Count > 0)
             {
