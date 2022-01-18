@@ -37,6 +37,7 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.menuFileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.menuTools = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuAdbLogcat = new System.Windows.Forms.ToolStripMenuItem();
             this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.menuHelpHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.menuHelpSep1 = new System.Windows.Forms.ToolStripSeparator();
@@ -62,7 +63,6 @@
             this.contextLinesGoToLine = new System.Windows.Forms.ToolStripMenuItem();
             this.contextLinesGoToFirstLine = new System.Windows.Forms.ToolStripMenuItem();
             this.contextLinesGoToLastLine = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuAdbLogcat = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.contextMenu.SuspendLayout();
@@ -144,6 +144,15 @@
             this.menuTools.Size = new System.Drawing.Size(60, 22);
             this.menuTools.Text = "远端(&R)";
             // 
+            // menuAdbLogcat
+            // 
+            this.menuAdbLogcat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.menuAdbLogcat.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.menuAdbLogcat.Name = "menuAdbLogcat";
+            this.menuAdbLogcat.Size = new System.Drawing.Size(180, 22);
+            this.menuAdbLogcat.Text = "ADB Unity 日志";
+            this.menuAdbLogcat.Click += new System.EventHandler(this.menuAdbLogcat_Click);
+            // 
             // menuHelp
             // 
             this.menuHelp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
@@ -161,21 +170,21 @@
             this.menuHelpHelp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.menuHelpHelp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuHelpHelp.Name = "menuHelpHelp";
-            this.menuHelpHelp.Size = new System.Drawing.Size(180, 22);
+            this.menuHelpHelp.Size = new System.Drawing.Size(140, 22);
             this.menuHelpHelp.Text = "查看帮助(&V)";
             this.menuHelpHelp.Click += new System.EventHandler(this.menuHelpHelp_Click);
             // 
             // menuHelpSep1
             // 
             this.menuHelpSep1.Name = "menuHelpSep1";
-            this.menuHelpSep1.Size = new System.Drawing.Size(177, 6);
+            this.menuHelpSep1.Size = new System.Drawing.Size(137, 6);
             // 
             // menuHelpAbout
             // 
             this.menuHelpAbout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.menuHelpAbout.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuHelpAbout.Name = "menuHelpAbout";
-            this.menuHelpAbout.Size = new System.Drawing.Size(180, 22);
+            this.menuHelpAbout.Size = new System.Drawing.Size(140, 22);
             this.menuHelpAbout.Text = "关于(&A)";
             this.menuHelpAbout.Click += new System.EventHandler(this.menuHelpAbout_Click);
             // 
@@ -372,15 +381,6 @@
             this.contextLinesGoToLastLine.Size = new System.Drawing.Size(124, 22);
             this.contextLinesGoToLastLine.Text = "跳转尾行";
             this.contextLinesGoToLastLine.Click += new System.EventHandler(this.contextLinesGoToLastLine_Click);
-            // 
-            // menuAdbLogcat
-            // 
-            this.menuAdbLogcat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
-            this.menuAdbLogcat.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.menuAdbLogcat.Name = "menuAdbLogcat";
-            this.menuAdbLogcat.Size = new System.Drawing.Size(180, 22);
-            this.menuAdbLogcat.Text = "ADB 日志";
-            this.menuAdbLogcat.Click += new System.EventHandler(this.menuAdbLogcat_Click);
             // 
             // FormMain
             // 

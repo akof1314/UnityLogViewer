@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using DarkUI.Docking;
-using DarkUI.Forms;
 
 namespace LogViewer
 {
@@ -455,6 +453,11 @@ namespace LogViewer
             GetToolStripStatusLabel().Text = "连接设备中： " + this.toolStripDropDownButtonAdbDevices.Text;
         }
 
+        public void TipConnectText(string tipText)
+        {
+            GetToolStripStatusLabel().Text = tipText;
+        }
+
         /// <summary>
         /// 选择某个设备
         /// </summary>
@@ -485,22 +488,22 @@ namespace LogViewer
 
         private void toolStripMenuItemAdbConLocal_Click(object sender, EventArgs e)
         {
-
+            adb.SetConnect("127.0.0.1:5555");
         }
 
         private void toolStripMenuItemAdbConMu_Click(object sender, EventArgs e)
         {
-
+            adb.SetConnect("127.0.0.1:7555");
         }
 
         private void toolStripMenuItemAdbConYe_Click(object sender, EventArgs e)
         {
-
+            adb.SetConnect("127.0.0.1:62001");
         }
 
         private void toolStripMenuItemAdbConXiao_Click(object sender, EventArgs e)
         {
-
+            adb.SetConnect("127.0.0.1:21503");
         }
 
         private void toolStripButtonPicAdbLog_Click(object sender, EventArgs e)
@@ -525,6 +528,14 @@ namespace LogViewer
         private void toolStripButtonClearAdbLog_Click(object sender, EventArgs e)
         {
             Log.ClearAdbLines();
+        }
+
+        private void toolStripTextBoxAdbConIp_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                adb.SetConnect(this.toolStripTextBoxAdbConIp.Text);
+            }
         }
 
         #endregion

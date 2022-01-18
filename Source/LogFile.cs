@@ -1306,7 +1306,7 @@ namespace LogViewer
                 {
                     ResizeWidth();
                 }
-                if (isScroll)
+                if (isScroll && List.Items.Count > 0)
                 {
                     List.EnsureVisible(List.Items.Count - 1);
                 }

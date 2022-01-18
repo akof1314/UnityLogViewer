@@ -104,6 +104,11 @@ namespace LogViewer
             GetScreenCapInter(DevicesIdList[curDeviceIdIndex]);
         }
 
+        public void SetConnect(string ipPort)
+        {
+            SetConnectInter(ipPort);
+        }
+
         private void GetDevicesInter()
         {
             if (IsBusying)
@@ -198,6 +203,68 @@ namespace LogViewer
             });
         }
 
+        private void SetConnectInter(string ipPort)
+        {
+            if (IsBusying)
+            {
+                return;
+            }
+            IsBusying = true;
+
+            var adbProcess = new Process
+            {
+                StartInfo = {
+                FileName = GetPath(),
+                Arguments = "connect " + ipPort,
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardError = true,
+                RedirectStandardOutput = true,
+                StandardErrorEncoding = Encoding.UTF8,
+                StandardOutputEncoding = Encoding.UTF8
+                },
+            };
+
+            adbProcess.OutputDataReceived += (sender, e) =>
+            {
+                var line = e.Data;
+                if (string.IsNullOrEmpty(line))
+                {
+                    return;
+                }
+                Console.WriteLine(line);
+                pageForm.BeginInvoke(new Action(() =>
+                {
+                    pageForm.TipConnectText(line);
+                }));
+            };
+            pageForm.TipConnectText("尝试 connect " + ipPort);
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    adbProcess.Start();
+                    adbProcess.BeginOutputReadLine();
+                    adbProcess.WaitForExit(5000);
+                    if (!adbProcess.HasExited)
+                    {
+                        adbProcess.Kill();
+                    }
+
+                    adbProcess.Close();
+                    adbProcess.Dispose();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    DarkMessageBox.ShowError(e.Message, BoxCaption);
+                }
+
+                IsBusying = false;
+            });
+        }
+
         private void GetScreenCapInter(string deviceId)
         {
             if (IsBusying)
@@ -289,7 +356,7 @@ namespace LogViewer
                 {
                     return;
                 }
-                Console.WriteLine(line);
+                //Console.WriteLine(line);
 
                 if (!isConnectOk)
                 {

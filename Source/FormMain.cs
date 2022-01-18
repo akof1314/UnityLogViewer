@@ -839,7 +839,7 @@ namespace LogViewer
                 }
             }
 
-            string filePath = System.IO.Path.Combine(Misc.GetApplicationDirectory(), "ADB日志.log");
+            string filePath = System.IO.Path.Combine(Misc.GetApplicationDirectory(), "ADB-Unity-日志.log");
             try
             {
                 File.WriteAllText(filePath, String.Empty);
