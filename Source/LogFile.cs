@@ -786,6 +786,11 @@ namespace LogViewer
             lv.VirtualMode = true;
             lv.Tag = this.Guid;
             lv.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.FormatRow);
+            lv.ForeColor = Color.FromArgb(204, 204, 204);
+            lv.SelectedForeColor = lv.ForeColor;
+            lv.UnfocusedSelectedForeColor = lv.ForeColor;
+            lv.SelectedBackColor = Color.FromArgb(62, 95, 150);
+            lv.UnfocusedSelectedBackColor = lv.SelectedBackColor;
 
             this.List = lv;
             return pageForm;

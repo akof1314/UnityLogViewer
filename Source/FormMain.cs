@@ -764,6 +764,29 @@ namespace LogViewer
             LoadFile(openFileDialog.FileName);
         }
 
+        private void menuFileOpenUnityLogTab_Click(object sender, EventArgs e)
+        {
+            var dir = @"C:\Users\Administrator\AppData\Local\Unity\Editor";
+            if (!System.IO.Directory.Exists(dir))
+            {
+                DarkMessageBox.ShowError("不存在路径：\n" + dir, String.Empty);
+                return;
+            }
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "All Files|*.*";
+            openFileDialog.FileName = "*.*";
+            openFileDialog.Title = "选择日志文件";
+            openFileDialog.InitialDirectory = dir;
+
+            if (openFileDialog.ShowDialog(this) == System.Windows.Forms.DialogResult.Cancel)
+            {
+                return;
+            }
+
+            LoadFile(openFileDialog.FileName);
+        }
+
         /// <summary>
         /// Close the resources used for opening and processing the log file
         /// </summary>

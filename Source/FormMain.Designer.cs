@@ -63,6 +63,7 @@
             this.contextLinesGoToLine = new System.Windows.Forms.ToolStripMenuItem();
             this.contextLinesGoToFirstLine = new System.Windows.Forms.ToolStripMenuItem();
             this.contextLinesGoToLastLine = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuFileOpenUnityLogTab = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.contextMenu.SuspendLayout();
@@ -88,6 +89,7 @@
             this.menuFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.menuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuFileOpenNewTab,
+            this.menuFileOpenUnityLogTab,
             this.menuFileSep1,
             this.menuFileClose,
             this.toolStripMenuItem3,
@@ -102,35 +104,35 @@
             this.menuFileOpenNewTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.menuFileOpenNewTab.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuFileOpenNewTab.Name = "menuFileOpenNewTab";
-            this.menuFileOpenNewTab.Size = new System.Drawing.Size(118, 22);
+            this.menuFileOpenNewTab.Size = new System.Drawing.Size(198, 22);
             this.menuFileOpenNewTab.Text = "打开(&O)";
             this.menuFileOpenNewTab.Click += new System.EventHandler(this.menuFileOpenNewTab_Click);
             // 
             // menuFileSep1
             // 
             this.menuFileSep1.Name = "menuFileSep1";
-            this.menuFileSep1.Size = new System.Drawing.Size(115, 6);
+            this.menuFileSep1.Size = new System.Drawing.Size(195, 6);
             // 
             // menuFileClose
             // 
             this.menuFileClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.menuFileClose.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuFileClose.Name = "menuFileClose";
-            this.menuFileClose.Size = new System.Drawing.Size(118, 22);
+            this.menuFileClose.Size = new System.Drawing.Size(198, 22);
             this.menuFileClose.Text = "关闭";
             this.menuFileClose.Click += new System.EventHandler(this.menuFileClose_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(115, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(195, 6);
             // 
             // menuFileExit
             // 
             this.menuFileExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.menuFileExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuFileExit.Name = "menuFileExit";
-            this.menuFileExit.Size = new System.Drawing.Size(118, 22);
+            this.menuFileExit.Size = new System.Drawing.Size(198, 22);
             this.menuFileExit.Text = "退出(&X)";
             this.menuFileExit.Click += new System.EventHandler(this.menuFileExit_Click);
             // 
@@ -382,6 +384,15 @@
             this.contextLinesGoToLastLine.Text = "跳转尾行";
             this.contextLinesGoToLastLine.Click += new System.EventHandler(this.contextLinesGoToLastLine_Click);
             // 
+            // menuFileOpenUnityLogTab
+            // 
+            this.menuFileOpenUnityLogTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.menuFileOpenUnityLogTab.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.menuFileOpenUnityLogTab.Name = "menuFileOpenUnityLogTab";
+            this.menuFileOpenUnityLogTab.Size = new System.Drawing.Size(198, 22);
+            this.menuFileOpenUnityLogTab.Text = "打开 Unity Editor &Log";
+            this.menuFileOpenUnityLogTab.Click += new System.EventHandler(this.menuFileOpenUnityLogTab_Click);
+            // 
             // FormMain
             // 
             this.AllowDrop = true;
@@ -446,6 +457,7 @@
         private DarkUI.Docking.DarkDockPanel darkDockPanelMain;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemMatchColor;
         private System.Windows.Forms.ToolStripMenuItem menuAdbLogcat;
+        private System.Windows.Forms.ToolStripMenuItem menuFileOpenUnityLogTab;
     }
 }
 

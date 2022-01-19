@@ -71,6 +71,7 @@ namespace LogViewer
             this.textLine.HideSelection = false;
             this.textLine.Location = new System.Drawing.Point(1, 25);
             this.textLine.Name = "textLine";
+            this.textLine.ReadOnly = true;
             this.textLine.Size = new System.Drawing.Size(546, 132);
             this.textLine.TabIndex = 1;
             this.textLine.Text = "";
