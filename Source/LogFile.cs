@@ -1604,7 +1604,13 @@ namespace LogViewer
 
             while ((indexOf = tempStr.IndexOf('\n', startIndex)) != -1)
             {
-                var line = tempStr.Substring(startIndex, indexOf - startIndex);
+                var charCount = indexOf - startIndex;
+                if (indexOf != 0 && (int)tempStr[Math.Max(0, indexOf - 1)] == 13)
+                {
+                    charCount -= 1;
+                }
+
+                var line = tempStr.Substring(startIndex, charCount);
                 if (!ShowLineStackTraceCSharp(line))
                 {
                     ShowLineStackTraceLua(line);
