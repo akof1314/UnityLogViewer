@@ -103,6 +103,9 @@
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Global.cs" />
+    <Compile Include="HighlightTextColorRenderer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Pattern.cs" />
     <Compile Include="SearchCriteria.cs" />
     <Compile Include="Searches.cs" />

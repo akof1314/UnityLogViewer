@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using DarkUI.Docking;
+using woanware;
 
 namespace LogViewer
 {
@@ -12,11 +13,15 @@ namespace LogViewer
         internal AdbClient adb { get; set; }
         private Configuration config;
         private bool searchHasText;
+        private HighlightTextColorRenderer highlightTextRendererLog;
         private const string CUSTOMSEARCH = "toolStripButtonCustom";
+        private static Font listFont;
+        private static System.Drawing.Text.PrivateFontCollection pfc;
 
         public DocLogFile()
         {
             InitializeComponent();
+            InitListFont();
             SetSearchTip();
         }
 
@@ -163,6 +168,40 @@ namespace LogViewer
         private void statusProgress_Click(object sender, EventArgs e)
         {
             Log.OnProgressCancel();
+        }
+
+        private void InitListFont()
+        {
+            highlightTextRendererLog = new HighlightTextColorRenderer();
+            highlightTextRendererLog.UseRoundedRectangle = false;   // 匹配框是矩形，而不是圆角
+
+            if (listFont == null)
+            {
+                var path = System.IO.Path.Combine(Misc.GetApplicationDirectory(), "YaHei.Consolas.ttf");
+                if (System.IO.File.Exists(path))
+                {
+                    try
+                    {
+                        pfc = new System.Drawing.Text.PrivateFontCollection();
+                        pfc.AddFontFile(path);//字体文件的路径
+                        listFont = new Font(pfc.Families[0], 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                        highlightTextRendererLog.UseGdiTextRendering = false; // 使用GDI+更清晰，但是查找字符的时候，需要字体包含中文，否则定位不到位置
+                        this.richTextBoxStrace.Font = listFont;
+                    }
+                    catch (System.Exception)
+                    {
+                        // ignored
+                    }
+                }
+
+                if (listFont == null)
+                {
+                    //listFont = new Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                    listFont = this.richTextBoxStrace.Font; // 一样的字体
+                }
+            }
+
+            this.fastObjectListView1.Font = listFont;
         }
 
         private void fastObjectListView1_SelectedIndexChanged(object sender, EventArgs e)

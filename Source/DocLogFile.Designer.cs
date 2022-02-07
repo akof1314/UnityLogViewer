@@ -59,7 +59,6 @@
             this.toolStripButtonSearchPrev = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonSearchNext = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonCustom = new System.Windows.Forms.ToolStripButton();
-            this.highlightTextRendererLog = new BrightIdeasSoftware.HighlightTextRenderer();
             this.darkToolStripAdb = new DarkUI.Controls.DarkToolStrip();
             this.toolStripDropDownButtonAdbCon = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripMenuItemAdbConLocal = new System.Windows.Forms.ToolStripMenuItem();
@@ -162,7 +161,6 @@
             this.fastObjectListView1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.fastObjectListView1.CellEditUseWholeCell = false;
             this.fastObjectListView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastObjectListView1.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.fastObjectListView1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.fastObjectListView1.HeaderFormatStyle = this.headerFormatStyleLog;
             this.fastObjectListView1.HideSelection = false;
@@ -480,7 +478,7 @@
             this.toolStripMenuItemAdbConLocal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripMenuItemAdbConLocal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripMenuItemAdbConLocal.Name = "toolStripMenuItemAdbConLocal";
-            this.toolStripMenuItemAdbConLocal.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemAdbConLocal.Size = new System.Drawing.Size(174, 22);
             this.toolStripMenuItemAdbConLocal.Text = "连接本机";
             this.toolStripMenuItemAdbConLocal.Click += new System.EventHandler(this.toolStripMenuItemAdbConLocal_Click);
             // 
@@ -489,7 +487,7 @@
             this.toolStripMenuItemAdbConMu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripMenuItemAdbConMu.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripMenuItemAdbConMu.Name = "toolStripMenuItemAdbConMu";
-            this.toolStripMenuItemAdbConMu.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemAdbConMu.Size = new System.Drawing.Size(174, 22);
             this.toolStripMenuItemAdbConMu.Text = "连接MuMu模拟器";
             this.toolStripMenuItemAdbConMu.Click += new System.EventHandler(this.toolStripMenuItemAdbConMu_Click);
             // 
@@ -498,7 +496,7 @@
             this.toolStripMenuItemAdbConYe.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripMenuItemAdbConYe.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripMenuItemAdbConYe.Name = "toolStripMenuItemAdbConYe";
-            this.toolStripMenuItemAdbConYe.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemAdbConYe.Size = new System.Drawing.Size(174, 22);
             this.toolStripMenuItemAdbConYe.Text = "连接夜神模拟器";
             this.toolStripMenuItemAdbConYe.Click += new System.EventHandler(this.toolStripMenuItemAdbConYe_Click);
             // 
@@ -507,7 +505,7 @@
             this.toolStripMenuItemAdbConXiao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripMenuItemAdbConXiao.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripMenuItemAdbConXiao.Name = "toolStripMenuItemAdbConXiao";
-            this.toolStripMenuItemAdbConXiao.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemAdbConXiao.Size = new System.Drawing.Size(174, 22);
             this.toolStripMenuItemAdbConXiao.Text = "连接逍遥模拟器";
             this.toolStripMenuItemAdbConXiao.Click += new System.EventHandler(this.toolStripMenuItemAdbConXiao_Click);
             // 
@@ -517,7 +515,7 @@
             this.toolStripSeparator2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripSeparator2.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(171, 6);
             // 
             // toolStripTextBoxAdbConIp
             // 
@@ -645,7 +643,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonCancle;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private BrightIdeasSoftware.HeaderFormatStyle headerFormatStyleLog;
-        private BrightIdeasSoftware.HighlightTextRenderer highlightTextRendererLog;
         private System.Windows.Forms.ToolStripButton toolStripButtonErrorNext;
         private System.Windows.Forms.ToolStripButton toolStripButtonErrorPrev;
         private System.Windows.Forms.ToolStripButton toolStripButtonSearchPrev;
