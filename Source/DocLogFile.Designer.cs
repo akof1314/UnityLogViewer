@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DocLogFile));
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle1 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle2 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle3 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle7 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle8 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle9 = new BrightIdeasSoftware.HeaderStateStyle();
             this.statusProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.statusStrip = new DarkUI.Controls.DarkStatusStrip();
             this.statusLabelPage = new System.Windows.Forms.ToolStripStatusLabel();
@@ -182,13 +182,13 @@
             // 
             // headerFormatStyleLog
             // 
-            headerStateStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
-            headerStateStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Hot = headerStateStyle1;
-            headerStateStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
-            headerStateStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Normal = headerStateStyle2;
-            this.headerFormatStyleLog.Pressed = headerStateStyle3;
+            headerStateStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
+            headerStateStyle7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Hot = headerStateStyle7;
+            headerStateStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
+            headerStateStyle8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Normal = headerStateStyle8;
+            this.headerFormatStyleLog.Pressed = headerStateStyle9;
             // 
             // toolStripButtonInfo
             // 
@@ -199,6 +199,7 @@
             this.toolStripButtonInfo.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripButtonInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripButtonInfo.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonInfo.Image")));
+            this.toolStripButtonInfo.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonInfo.Margin = new System.Windows.Forms.Padding(0, 1, 1, 2);
             this.toolStripButtonInfo.Name = "toolStripButtonInfo";
@@ -215,6 +216,7 @@
             this.toolStripButtonWarning.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripButtonWarning.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripButtonWarning.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonWarning.Image")));
+            this.toolStripButtonWarning.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonWarning.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonWarning.Margin = new System.Windows.Forms.Padding(0, 1, 1, 2);
             this.toolStripButtonWarning.Name = "toolStripButtonWarning";
@@ -231,6 +233,7 @@
             this.toolStripButtonError.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripButtonError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripButtonError.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonError.Image")));
+            this.toolStripButtonError.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonError.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonError.Name = "toolStripButtonError";
             this.toolStripButtonError.Size = new System.Drawing.Size(98, 22);
@@ -299,6 +302,7 @@
             this.ToolStripMenuItem4});
             this.toolStripDropDownButtonHistory.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripDropDownButtonHistory.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonHistory.Image")));
+            this.toolStripDropDownButtonHistory.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripDropDownButtonHistory.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButtonHistory.Name = "toolStripDropDownButtonHistory";
             this.toolStripDropDownButtonHistory.Size = new System.Drawing.Size(29, 22);
@@ -313,6 +317,7 @@
             this.toolStripButtonViewMatch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButtonViewMatch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripButtonViewMatch.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonViewMatch.Image")));
+            this.toolStripButtonViewMatch.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonViewMatch.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonViewMatch.Name = "toolStripButtonViewMatch";
             this.toolStripButtonViewMatch.Size = new System.Drawing.Size(23, 22);
@@ -353,6 +358,7 @@
             this.toolStripButtonCancle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButtonCancle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripButtonCancle.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonCancle.Image")));
+            this.toolStripButtonCancle.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonCancle.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCancle.Name = "toolStripButtonCancle";
             this.toolStripButtonCancle.Size = new System.Drawing.Size(23, 22);
@@ -367,6 +373,7 @@
             this.toolStripButtonErrorNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButtonErrorNext.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripButtonErrorNext.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonErrorNext.Image")));
+            this.toolStripButtonErrorNext.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonErrorNext.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonErrorNext.Name = "toolStripButtonErrorNext";
             this.toolStripButtonErrorNext.Size = new System.Drawing.Size(23, 22);
@@ -381,6 +388,7 @@
             this.toolStripButtonErrorPrev.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButtonErrorPrev.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripButtonErrorPrev.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonErrorPrev.Image")));
+            this.toolStripButtonErrorPrev.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonErrorPrev.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonErrorPrev.Name = "toolStripButtonErrorPrev";
             this.toolStripButtonErrorPrev.Size = new System.Drawing.Size(23, 22);
@@ -402,6 +410,7 @@
             this.toolStripButtonSearchPrev.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButtonSearchPrev.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripButtonSearchPrev.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSearchPrev.Image")));
+            this.toolStripButtonSearchPrev.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonSearchPrev.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonSearchPrev.Name = "toolStripButtonSearchPrev";
             this.toolStripButtonSearchPrev.Size = new System.Drawing.Size(23, 22);
@@ -415,6 +424,7 @@
             this.toolStripButtonSearchNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButtonSearchNext.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripButtonSearchNext.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSearchNext.Image")));
+            this.toolStripButtonSearchNext.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonSearchNext.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonSearchNext.Name = "toolStripButtonSearchNext";
             this.toolStripButtonSearchNext.Size = new System.Drawing.Size(23, 22);
@@ -429,6 +439,7 @@
             this.toolStripButtonCustom.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButtonCustom.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripButtonCustom.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonCustom.Image")));
+            this.toolStripButtonCustom.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonCustom.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCustom.Name = "toolStripButtonCustom";
             this.toolStripButtonCustom.Size = new System.Drawing.Size(23, 22);
@@ -468,6 +479,7 @@
             this.toolStripTextBoxAdbConIp});
             this.toolStripDropDownButtonAdbCon.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripDropDownButtonAdbCon.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonAdbCon.Image")));
+            this.toolStripDropDownButtonAdbCon.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripDropDownButtonAdbCon.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButtonAdbCon.Name = "toolStripDropDownButtonAdbCon";
             this.toolStripDropDownButtonAdbCon.Size = new System.Drawing.Size(85, 22);
@@ -532,6 +544,7 @@
             this.toolStripButtonAdbRefresh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripButtonAdbRefresh.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripButtonAdbRefresh.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonAdbRefresh.Image")));
+            this.toolStripButtonAdbRefresh.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonAdbRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonAdbRefresh.Name = "toolStripButtonAdbRefresh";
             this.toolStripButtonAdbRefresh.Size = new System.Drawing.Size(100, 22);
@@ -543,6 +556,7 @@
             this.toolStripDropDownButtonAdbDevices.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripDropDownButtonAdbDevices.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripDropDownButtonAdbDevices.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonAdbDevices.Image")));
+            this.toolStripDropDownButtonAdbDevices.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripDropDownButtonAdbDevices.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButtonAdbDevices.Name = "toolStripDropDownButtonAdbDevices";
             this.toolStripDropDownButtonAdbDevices.Size = new System.Drawing.Size(73, 22);
@@ -554,6 +568,7 @@
             this.toolStripButtonPicAdbLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripButtonPicAdbLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripButtonPicAdbLog.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonPicAdbLog.Image")));
+            this.toolStripButtonPicAdbLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonPicAdbLog.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonPicAdbLog.Name = "toolStripButtonPicAdbLog";
             this.toolStripButtonPicAdbLog.Size = new System.Drawing.Size(52, 22);
@@ -566,6 +581,7 @@
             this.toolStripButtonClearAdbLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripButtonClearAdbLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripButtonClearAdbLog.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonClearAdbLog.Image")));
+            this.toolStripButtonClearAdbLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonClearAdbLog.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonClearAdbLog.Name = "toolStripButtonClearAdbLog";
             this.toolStripButtonClearAdbLog.Size = new System.Drawing.Size(76, 22);
@@ -578,6 +594,7 @@
             this.toolStripButtonResumeAdbLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripButtonResumeAdbLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripButtonResumeAdbLog.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonResumeAdbLog.Image")));
+            this.toolStripButtonResumeAdbLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonResumeAdbLog.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonResumeAdbLog.Name = "toolStripButtonResumeAdbLog";
             this.toolStripButtonResumeAdbLog.Size = new System.Drawing.Size(100, 22);
@@ -590,6 +607,7 @@
             this.toolStripButtonPauseAdbLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripButtonPauseAdbLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripButtonPauseAdbLog.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonPauseAdbLog.Image")));
+            this.toolStripButtonPauseAdbLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonPauseAdbLog.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonPauseAdbLog.Name = "toolStripButtonPauseAdbLog";
             this.toolStripButtonPauseAdbLog.Size = new System.Drawing.Size(100, 22);

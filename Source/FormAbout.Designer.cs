@@ -41,21 +41,23 @@ namespace LogViewer
             // btnClose
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.AutoSize = true;
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(140, 75);
+            this.btnClose.Location = new System.Drawing.Point(195, 101);
             this.btnClose.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnClose.Name = "btnClose";
             this.btnClose.Padding = new System.Windows.Forms.Padding(5);
-            this.btnClose.Size = new System.Drawing.Size(75, 24);
+            this.btnClose.Size = new System.Drawing.Size(75, 39);
             this.btnClose.TabIndex = 23;
             this.btnClose.Text = "关闭";
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // lblVer
             // 
+            this.lblVer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblVer.AutoSize = true;
             this.lblVer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.lblVer.Location = new System.Drawing.Point(119, 9);
+            this.lblVer.Location = new System.Drawing.Point(174, 9);
             this.lblVer.Name = "lblVer";
             this.lblVer.Size = new System.Drawing.Size(46, 19);
             this.lblVer.TabIndex = 29;
@@ -83,9 +85,10 @@ namespace LogViewer
             // 
             // linkLabel1
             // 
+            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.LinkColor = System.Drawing.Color.DodgerBlue;
-            this.linkLabel1.Location = new System.Drawing.Point(119, 38);
+            this.linkLabel1.Location = new System.Drawing.Point(174, 38);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(46, 19);
             this.linkLabel1.TabIndex = 31;
@@ -96,10 +99,10 @@ namespace LogViewer
             // FormAbout
             // 
             this.AcceptButton = this.btnClose;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(227, 109);
+            this.ClientSize = new System.Drawing.Size(282, 150);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.darkLabel1);
             this.Controls.Add(this.lblVer);

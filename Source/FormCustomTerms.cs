@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
 using DarkUI.Controls;
 using DarkUI.Forms;
 
@@ -15,8 +17,23 @@ namespace LogViewer
             InitializeComponent();
             btnOk.Text = "确定";
             btnOk.Click += BtnOkOnClick;
+            btnOk.AutoSize = true;
             btnCancel.Text = "取消";
+            btnCancel.AutoSize = true;
             this.config = config;
+
+            foreach (Control control in Controls)
+            {
+                if (control.Name == "pnlFooter")
+                {
+                    Panel pnlFooter = (Panel) control;
+                    if (pnlFooter != null)
+                    {
+                        pnlFooter.Size = new Size(767, 56);
+                    }
+                    break;
+                }
+            }
 
             listPairs = new List<KeyValuePair<string, int>>();
             for (var i = 0; i < config.SearchTerms.Length; i++)

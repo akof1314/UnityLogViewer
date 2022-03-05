@@ -102,7 +102,7 @@
             this.ToolStripMenuItemDel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.ToolStripMenuItemDel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.ToolStripMenuItemDel.Name = "ToolStripMenuItemDel";
-            this.ToolStripMenuItemDel.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemDel.Size = new System.Drawing.Size(100, 22);
             this.ToolStripMenuItemDel.Text = "删除";
             this.ToolStripMenuItemDel.Click += new System.EventHandler(this.ToolStripMenuItemDel_Click);
             // 
@@ -129,10 +129,11 @@
             // 
             // darkButtonAdd
             // 
-            this.darkButtonAdd.Location = new System.Drawing.Point(399, 44);
+            this.darkButtonAdd.AutoSize = true;
+            this.darkButtonAdd.Location = new System.Drawing.Point(398, 34);
             this.darkButtonAdd.Name = "darkButtonAdd";
             this.darkButtonAdd.Padding = new System.Windows.Forms.Padding(5);
-            this.darkButtonAdd.Size = new System.Drawing.Size(75, 23);
+            this.darkButtonAdd.Size = new System.Drawing.Size(75, 39);
             this.darkButtonAdd.TabIndex = 2;
             this.darkButtonAdd.Text = "新增";
             this.darkButtonAdd.Click += new System.EventHandler(this.darkButtonAdd_Click);
@@ -164,8 +165,8 @@
             // 
             // FormCustomTerms
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(512, 381);
             this.Controls.Add(this.panel1);
             this.DialogButtons = DarkUI.Forms.DarkDialogButton.OkCancel;

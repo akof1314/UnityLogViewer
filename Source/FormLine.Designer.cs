@@ -40,11 +40,12 @@ namespace LogViewer
             // buttonClose
             // 
             this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonClose.AutoSize = true;
             this.buttonClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonClose.Location = new System.Drawing.Point(485, 176);
+            this.buttonClose.Location = new System.Drawing.Point(485, 198);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonClose.Size = new System.Drawing.Size(75, 24);
+            this.buttonClose.Size = new System.Drawing.Size(75, 35);
             this.buttonClose.TabIndex = 1;
             this.buttonClose.Text = "关闭";
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
@@ -58,7 +59,7 @@ namespace LogViewer
             this.darkSectionPanel1.Location = new System.Drawing.Point(12, 12);
             this.darkSectionPanel1.Name = "darkSectionPanel1";
             this.darkSectionPanel1.SectionHeader = null;
-            this.darkSectionPanel1.Size = new System.Drawing.Size(548, 158);
+            this.darkSectionPanel1.Size = new System.Drawing.Size(548, 180);
             this.darkSectionPanel1.TabIndex = 2;
             // 
             // textLine
@@ -72,17 +73,17 @@ namespace LogViewer
             this.textLine.Location = new System.Drawing.Point(1, 25);
             this.textLine.Name = "textLine";
             this.textLine.ReadOnly = true;
-            this.textLine.Size = new System.Drawing.Size(546, 132);
+            this.textLine.Size = new System.Drawing.Size(546, 154);
             this.textLine.TabIndex = 1;
             this.textLine.Text = "";
             // 
             // FormLine
             // 
             this.AcceptButton = this.buttonClose;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.buttonClose;
-            this.ClientSize = new System.Drawing.Size(572, 212);
+            this.ClientSize = new System.Drawing.Size(572, 245);
             this.Controls.Add(this.darkSectionPanel1);
             this.Controls.Add(this.buttonClose);
             this.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -95,6 +96,7 @@ namespace LogViewer
             this.Text = "行内容";
             this.darkSectionPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

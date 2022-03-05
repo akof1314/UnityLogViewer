@@ -60,11 +60,12 @@ namespace LogViewer
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCancel.AutoSize = true;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(160, 50);
+            this.buttonCancel.Location = new System.Drawing.Point(160, 58);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonCancel.Size = new System.Drawing.Size(75, 24);
+            this.buttonCancel.Size = new System.Drawing.Size(75, 35);
             this.buttonCancel.TabIndex = 3;
             this.buttonCancel.Text = "取消";
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -72,10 +73,11 @@ namespace LogViewer
             // buttonOK
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOK.Location = new System.Drawing.Point(76, 50);
+            this.buttonOK.AutoSize = true;
+            this.buttonOK.Location = new System.Drawing.Point(76, 58);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonOK.Size = new System.Drawing.Size(75, 24);
+            this.buttonOK.Size = new System.Drawing.Size(75, 35);
             this.buttonOK.TabIndex = 2;
             this.buttonOK.Text = "确定";
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
@@ -83,10 +85,10 @@ namespace LogViewer
             // FormGoToLine
             // 
             this.AcceptButton = this.buttonOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(247, 86);
+            this.ClientSize = new System.Drawing.Size(247, 105);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.textLineNum);

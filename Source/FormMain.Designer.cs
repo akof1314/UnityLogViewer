@@ -32,6 +32,7 @@
             this.menuStrip = new DarkUI.Controls.DarkMenuStrip();
             this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFileOpenNewTab = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuFileOpenUnityLogTab = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFileSep1 = new System.Windows.Forms.ToolStripSeparator();
             this.menuFileClose = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
@@ -50,7 +51,6 @@
             this.contextMenuFilterClear = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuSep1 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuSearch = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripMenuItemMatchColor = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuSep2 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuExport = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,7 +63,6 @@
             this.contextLinesGoToLine = new System.Windows.Forms.ToolStripMenuItem();
             this.contextLinesGoToFirstLine = new System.Windows.Forms.ToolStripMenuItem();
             this.contextLinesGoToLastLine = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuFileOpenUnityLogTab = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.contextMenu.SuspendLayout();
@@ -108,6 +107,15 @@
             this.menuFileOpenNewTab.Text = "打开(&O)";
             this.menuFileOpenNewTab.Click += new System.EventHandler(this.menuFileOpenNewTab_Click);
             // 
+            // menuFileOpenUnityLogTab
+            // 
+            this.menuFileOpenUnityLogTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.menuFileOpenUnityLogTab.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.menuFileOpenUnityLogTab.Name = "menuFileOpenUnityLogTab";
+            this.menuFileOpenUnityLogTab.Size = new System.Drawing.Size(198, 22);
+            this.menuFileOpenUnityLogTab.Text = "打开 Unity Editor &Log";
+            this.menuFileOpenUnityLogTab.Click += new System.EventHandler(this.menuFileOpenUnityLogTab_Click);
+            // 
             // menuFileSep1
             // 
             this.menuFileSep1.Name = "menuFileSep1";
@@ -151,7 +159,7 @@
             this.menuAdbLogcat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.menuAdbLogcat.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuAdbLogcat.Name = "menuAdbLogcat";
-            this.menuAdbLogcat.Size = new System.Drawing.Size(180, 22);
+            this.menuAdbLogcat.Size = new System.Drawing.Size(162, 22);
             this.menuAdbLogcat.Text = "ADB Unity 日志";
             this.menuAdbLogcat.Click += new System.EventHandler(this.menuAdbLogcat_Click);
             // 
@@ -225,7 +233,7 @@
             this.toolStripMenuItem5,
             this.contextLines});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(125, 142);
+            this.contextMenu.Size = new System.Drawing.Size(181, 164);
             this.contextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenu_Opening);
             // 
             // contextMenuFilter
@@ -267,17 +275,11 @@
             // 
             this.contextMenuSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.contextMenuSearch.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem4,
             this.ToolStripMenuItemMatchColor});
             this.contextMenuSearch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.contextMenuSearch.Name = "contextMenuSearch";
-            this.contextMenuSearch.Size = new System.Drawing.Size(124, 22);
+            this.contextMenuSearch.Size = new System.Drawing.Size(180, 22);
             this.contextMenuSearch.Text = "搜索颜色";
-            // 
-            // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(121, 6);
             // 
             // ToolStripMenuItemMatchColor
             // 
@@ -384,15 +386,6 @@
             this.contextLinesGoToLastLine.Text = "跳转尾行";
             this.contextLinesGoToLastLine.Click += new System.EventHandler(this.contextLinesGoToLastLine_Click);
             // 
-            // menuFileOpenUnityLogTab
-            // 
-            this.menuFileOpenUnityLogTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
-            this.menuFileOpenUnityLogTab.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.menuFileOpenUnityLogTab.Name = "menuFileOpenUnityLogTab";
-            this.menuFileOpenUnityLogTab.Size = new System.Drawing.Size(198, 22);
-            this.menuFileOpenUnityLogTab.Text = "打开 Unity Editor &Log";
-            this.menuFileOpenUnityLogTab.Click += new System.EventHandler(this.menuFileOpenUnityLogTab_Click);
-            // 
             // FormMain
             // 
             this.AllowDrop = true;
@@ -444,7 +437,6 @@
         private System.Windows.Forms.ToolStripMenuItem contextMenuExportAll;
         private System.Windows.Forms.ToolStripMenuItem contextMenuExportSelected;
         private System.Windows.Forms.ToolStripMenuItem menuTools;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem contextLines;
         private System.Windows.Forms.ToolStripMenuItem contextLinesGoToLine;
