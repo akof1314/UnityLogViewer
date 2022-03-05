@@ -186,7 +186,7 @@ namespace LogViewer
                         pfc.AddFontFile(path);//字体文件的路径
                         listFont = new Font(pfc.Families[0], 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                         highlightTextRendererLog.UseGdiTextRendering = false; // 使用GDI+更清晰，但是查找字符的时候，需要字体包含中文，否则定位不到位置
-                        this.richTextBoxStrace.Font = listFont;
+                        //this.richTextBoxStrace.Font = listFont; 不要设置rich的字体，会导致行间距变大
                     }
                     catch (System.Exception)
                     {

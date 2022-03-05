@@ -247,14 +247,16 @@ namespace LogViewer
                                     }
                                     else
                                     {
-                                        if (preCr)
+                                        // 不能以换行符来作为新行，因为tiny都是有标记，所以按标记就可以，这样就可以显示日志带换行的
+                                        if (newStartOffset == 13)
                                         {
-                                            AddLine(lineStartOffset + newStartOffset, charCount - newStartOffset, curCr,
+                                            SetLastLineCr();
+                                            AddLine(lineStartOffset + newStartOffset, charCount - newStartOffset, false,
                                                 logType);
                                         }
                                         else
                                         {
-                                            AppendLineStackTrace(lineStartOffset, charCount, curCr);
+                                            AppendLineStackTrace(lineStartOffset, charCount, false);
                                         }
                                     }
 
