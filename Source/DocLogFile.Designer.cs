@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DocLogFile));
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle1 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle2 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle3 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle22 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle23 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle24 = new BrightIdeasSoftware.HeaderStateStyle();
             this.statusProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.statusStrip = new DarkUI.Controls.DarkStatusStrip();
             this.statusLabelPage = new System.Windows.Forms.ToolStripStatusLabel();
@@ -73,6 +73,16 @@
             this.toolStripButtonClearAdbLog = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonResumeAdbLog = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonPauseAdbLog = new System.Windows.Forms.ToolStripButton();
+            this.darkToolStripUdp = new DarkUI.Controls.DarkToolStrip();
+            this.toolStripButtonClearUdpLog = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonResumeUdpLog = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonPauseUdpLog = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabelUdpConTip = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBoxEndPoint = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripButtonConEndPoint = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -81,6 +91,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
             this.toolStripTab.SuspendLayout();
             this.darkToolStripAdb.SuspendLayout();
+            this.darkToolStripUdp.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusProgress
@@ -122,7 +133,7 @@
             this.richTextBoxStrace.Location = new System.Drawing.Point(4, 0);
             this.richTextBoxStrace.Name = "richTextBoxStrace";
             this.richTextBoxStrace.ReadOnly = true;
-            this.richTextBoxStrace.Size = new System.Drawing.Size(888, 162);
+            this.richTextBoxStrace.Size = new System.Drawing.Size(888, 155);
             this.richTextBoxStrace.TabIndex = 0;
             this.richTextBoxStrace.Text = "";
             this.richTextBoxStrace.WordWrap = false;
@@ -138,7 +149,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 50);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 75);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -151,8 +162,8 @@
             this.splitContainer1.Panel2.AutoScroll = true;
             this.splitContainer1.Panel2.Controls.Add(this.richTextBoxStrace);
             this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(4, 0, 2, 20);
-            this.splitContainer1.Size = new System.Drawing.Size(894, 589);
-            this.splitContainer1.SplitterDistance = 403;
+            this.splitContainer1.Size = new System.Drawing.Size(894, 564);
+            this.splitContainer1.SplitterDistance = 385;
             this.splitContainer1.TabIndex = 5;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
             // 
@@ -170,7 +181,7 @@
             this.fastObjectListView1.SelectedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(110)))), ((int)(((byte)(175)))));
             this.fastObjectListView1.SelectedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.fastObjectListView1.ShowGroups = false;
-            this.fastObjectListView1.Size = new System.Drawing.Size(894, 403);
+            this.fastObjectListView1.Size = new System.Drawing.Size(894, 385);
             this.fastObjectListView1.SmallImageList = this.imageListLog;
             this.fastObjectListView1.TabIndex = 0;
             this.fastObjectListView1.UnfocusedSelectedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(92)))), ((int)(((byte)(92)))));
@@ -183,13 +194,13 @@
             // 
             // headerFormatStyleLog
             // 
-            headerStateStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
-            headerStateStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Hot = headerStateStyle1;
-            headerStateStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
-            headerStateStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Normal = headerStateStyle2;
-            this.headerFormatStyleLog.Pressed = headerStateStyle3;
+            headerStateStyle22.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
+            headerStateStyle22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Hot = headerStateStyle22;
+            headerStateStyle23.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
+            headerStateStyle23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Normal = headerStateStyle23;
+            this.headerFormatStyleLog.Pressed = headerStateStyle24;
             // 
             // toolStripButtonInfo
             // 
@@ -346,7 +357,7 @@
             this.toolStripButtonSearchPrev,
             this.toolStripButtonSearchNext,
             this.toolStripButtonCustom});
-            this.toolStripTab.Location = new System.Drawing.Point(0, 25);
+            this.toolStripTab.Location = new System.Drawing.Point(0, 50);
             this.toolStripTab.Name = "toolStripTab";
             this.toolStripTab.Padding = new System.Windows.Forms.Padding(5, 0, 1, 0);
             this.toolStripTab.Size = new System.Drawing.Size(894, 25);
@@ -461,7 +472,7 @@
             this.toolStripButtonClearAdbLog,
             this.toolStripButtonResumeAdbLog,
             this.toolStripButtonPauseAdbLog});
-            this.darkToolStripAdb.Location = new System.Drawing.Point(0, 0);
+            this.darkToolStripAdb.Location = new System.Drawing.Point(0, 25);
             this.darkToolStripAdb.Name = "darkToolStripAdb";
             this.darkToolStripAdb.Padding = new System.Windows.Forms.Padding(5, 0, 1, 0);
             this.darkToolStripAdb.Size = new System.Drawing.Size(894, 25);
@@ -615,6 +626,126 @@
             this.toolStripButtonPauseAdbLog.Text = "暂停接收日志";
             this.toolStripButtonPauseAdbLog.Click += new System.EventHandler(this.toolStripButtonPauseAdbLog_Click);
             // 
+            // darkToolStripUdp
+            // 
+            this.darkToolStripUdp.AutoSize = false;
+            this.darkToolStripUdp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.darkToolStripUdp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.darkToolStripUdp.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.darkToolStripUdp.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonClearUdpLog,
+            this.toolStripButtonResumeUdpLog,
+            this.toolStripButtonPauseUdpLog,
+            this.toolStripLabelUdpConTip,
+            this.toolStripTextBoxEndPoint,
+            this.toolStripButtonConEndPoint,
+            this.toolStripSeparator3,
+            this.toolStripTextBox1,
+            this.toolStripLabel1});
+            this.darkToolStripUdp.Location = new System.Drawing.Point(0, 0);
+            this.darkToolStripUdp.Name = "darkToolStripUdp";
+            this.darkToolStripUdp.Padding = new System.Windows.Forms.Padding(5, 0, 1, 0);
+            this.darkToolStripUdp.Size = new System.Drawing.Size(894, 25);
+            this.darkToolStripUdp.TabIndex = 8;
+            this.darkToolStripUdp.Text = "toolStrip1";
+            // 
+            // toolStripButtonClearUdpLog
+            // 
+            this.toolStripButtonClearUdpLog.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButtonClearUdpLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripButtonClearUdpLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripButtonClearUdpLog.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonClearUdpLog.Image")));
+            this.toolStripButtonClearUdpLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButtonClearUdpLog.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonClearUdpLog.Name = "toolStripButtonClearUdpLog";
+            this.toolStripButtonClearUdpLog.Size = new System.Drawing.Size(76, 22);
+            this.toolStripButtonClearUdpLog.Text = "清除日志";
+            this.toolStripButtonClearUdpLog.Click += new System.EventHandler(this.toolStripButtonClearUdpLog_Click);
+            // 
+            // toolStripButtonResumeUdpLog
+            // 
+            this.toolStripButtonResumeUdpLog.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButtonResumeUdpLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripButtonResumeUdpLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripButtonResumeUdpLog.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonResumeUdpLog.Image")));
+            this.toolStripButtonResumeUdpLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButtonResumeUdpLog.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonResumeUdpLog.Name = "toolStripButtonResumeUdpLog";
+            this.toolStripButtonResumeUdpLog.Size = new System.Drawing.Size(100, 22);
+            this.toolStripButtonResumeUdpLog.Text = "继续接收日志";
+            this.toolStripButtonResumeUdpLog.Click += new System.EventHandler(this.toolStripButtonResumeUdpLog_Click);
+            // 
+            // toolStripButtonPauseUdpLog
+            // 
+            this.toolStripButtonPauseUdpLog.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButtonPauseUdpLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripButtonPauseUdpLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripButtonPauseUdpLog.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonPauseUdpLog.Image")));
+            this.toolStripButtonPauseUdpLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButtonPauseUdpLog.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonPauseUdpLog.Name = "toolStripButtonPauseUdpLog";
+            this.toolStripButtonPauseUdpLog.Size = new System.Drawing.Size(100, 22);
+            this.toolStripButtonPauseUdpLog.Text = "暂停接收日志";
+            this.toolStripButtonPauseUdpLog.Click += new System.EventHandler(this.toolStripButtonPauseUdpLog_Click);
+            // 
+            // toolStripLabelUdpConTip
+            // 
+            this.toolStripLabelUdpConTip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripLabelUdpConTip.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripLabelUdpConTip.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLabelUdpConTip.Image")));
+            this.toolStripLabelUdpConTip.Name = "toolStripLabelUdpConTip";
+            this.toolStripLabelUdpConTip.Size = new System.Drawing.Size(72, 22);
+            this.toolStripLabelUdpConTip.Text = "目标地址";
+            // 
+            // toolStripTextBoxEndPoint
+            // 
+            this.toolStripTextBoxEndPoint.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripTextBoxEndPoint.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.toolStripTextBoxEndPoint.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripTextBoxEndPoint.Name = "toolStripTextBoxEndPoint";
+            this.toolStripTextBoxEndPoint.Size = new System.Drawing.Size(120, 25);
+            this.toolStripTextBoxEndPoint.Text = "192.168.255.255";
+            this.toolStripTextBoxEndPoint.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBoxEndPoint_KeyDown);
+            // 
+            // toolStripButtonConEndPoint
+            // 
+            this.toolStripButtonConEndPoint.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripButtonConEndPoint.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripButtonConEndPoint.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonConEndPoint.Image")));
+            this.toolStripButtonConEndPoint.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonConEndPoint.Name = "toolStripButtonConEndPoint";
+            this.toolStripButtonConEndPoint.Size = new System.Drawing.Size(52, 22);
+            this.toolStripButtonConEndPoint.Text = "连接";
+            this.toolStripButtonConEndPoint.Click += new System.EventHandler(this.toolStripButtonConEndPoint_Click);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripLabel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(32, 22);
+            this.toolStripLabel1.Text = "命令";
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.toolStripTextBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(150, 25);
+            this.toolStripTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBox1_KeyDown);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripSeparator3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripSeparator3.Margin = new System.Windows.Forms.Padding(0, 0, 2, 0);
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
             // DocLogFile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -623,6 +754,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStripTab);
             this.Controls.Add(this.darkToolStripAdb);
+            this.Controls.Add(this.darkToolStripUdp);
             this.Name = "DocLogFile";
             this.Size = new System.Drawing.Size(894, 639);
             this.statusStrip.ResumeLayout(false);
@@ -636,6 +768,8 @@
             this.toolStripTab.PerformLayout();
             this.darkToolStripAdb.ResumeLayout(false);
             this.darkToolStripAdb.PerformLayout();
+            this.darkToolStripUdp.ResumeLayout(false);
+            this.darkToolStripUdp.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -681,5 +815,15 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonClearAdbLog;
         private System.Windows.Forms.ToolStripButton toolStripButtonResumeAdbLog;
         private System.Windows.Forms.ToolStripButton toolStripButtonPauseAdbLog;
+        private DarkUI.Controls.DarkToolStrip darkToolStripUdp;
+        private System.Windows.Forms.ToolStripButton toolStripButtonClearUdpLog;
+        private System.Windows.Forms.ToolStripButton toolStripButtonResumeUdpLog;
+        private System.Windows.Forms.ToolStripButton toolStripButtonPauseUdpLog;
+        private System.Windows.Forms.ToolStripLabel toolStripLabelUdpConTip;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBoxEndPoint;
+        private System.Windows.Forms.ToolStripButton toolStripButtonConEndPoint;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
     }
 }

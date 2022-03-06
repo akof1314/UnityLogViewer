@@ -296,6 +296,10 @@ namespace LogViewer
                 {
                     lf.IsAdbLog = true;
                 }
+                else if (logType == 2)
+                {
+                    lf.IsUdpLog = true;
+                }
 
                 this.darkDockPanelMain.AddContent(lf.Initialise(filePath));
                 lf.pageForm.SetConfig(config);
@@ -473,6 +477,7 @@ namespace LogViewer
                 this.hourGlass.Dispose();
                 this.processing = false;
                 lf.pageForm.SetAdbStart();
+                lf.pageForm.SetUdpStart();
 
             }), null);
         }
@@ -900,6 +905,42 @@ namespace LogViewer
                 Global.ShowErrorDialog(exception.Message);
             }
         }
+
+        /// <summary>
+        /// 打开UDP日志
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void menuUdpLogcat_Click(object sender, EventArgs e)
+        {
+            var list = darkDockPanelMain.GetDocuments();
+            foreach (var darkDockContent in list)
+            {
+                DocLogFile doc = darkDockContent as DocLogFile;
+                if (doc == null)
+                {
+                    continue;
+                }
+
+                if (doc.Log.IsUdpLog)
+                {
+                    darkDockPanelMain.ActiveContent = doc;
+                    return;
+                }
+            }
+
+            string filePath = System.IO.Path.Combine(Misc.GetApplicationDirectory(), "UDP-Unity-日志.log");
+            try
+            {
+                File.WriteAllText(filePath, String.Empty);
+                LoadFile(filePath, 2);
+            }
+            catch (Exception exception)
+            {
+                Global.ShowErrorDialog(exception.Message);
+            }
+        }
+
         #endregion
 
         #region UI Methods

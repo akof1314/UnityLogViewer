@@ -72,6 +72,7 @@ namespace LogViewer
         public bool ShowTypeWarning { get; set; } = true;
         public bool ShowTypeError { get; set; } = true;
         public bool IsAdbLog { get; set; } = false;
+        public bool IsUdpLog { get; set; } = false;
 
         #endregion
 
@@ -107,7 +108,7 @@ namespace LogViewer
                     byte[] tempBuffer = new byte[1024 * 1024];
 
                     this.fileStream = new FileStream(filePath, FileMode.Open,
-                        IsAdbLog ? FileAccess.ReadWrite : FileAccess.Read);
+                        (IsAdbLog || IsUdpLog) ? FileAccess.ReadWrite : FileAccess.Read);
                     FileInfo fileInfo = new FileInfo(filePath);
 
                     // Calcs and finally point the position to the end of the line
@@ -1134,6 +1135,14 @@ namespace LogViewer
             });
         }
 
+        /// <summary>
+        /// 动态新增一行
+        /// </summary>
+        /// <param name="offset"></param>
+        /// <param name="charCount"></param>
+        /// <param name="endCr"></param>
+        /// <param name="logType"></param>
+        /// <returns></returns>
         private LogLine NewLine(long offset, int charCount, bool endCr, Global.LogType logType)
         {
             LogLine ll = new LogLine();
@@ -1306,6 +1315,41 @@ namespace LogViewer
             return Encoding.UTF8.GetString(buffer);
         }
 
+        private void ListAddLines(List<LogLine> newLines)
+        {
+            bool isScroll = true;
+            if (List.Items.Count > 0)
+            {
+                // 判断最后一项是否可见，可见的话，说明要自动滚动
+                isScroll = List.Items[List.Items.Count - 1].Bounds.IntersectsWith(List.ClientRectangle);
+            }
+
+            bool reWidth = false;
+            foreach (var ll in newLines)
+            {
+                if (ll.CharCount > this.LongestLine.CharCount)
+                {
+                    this.LongestLine.CharCount = ll.CharCount;
+                    this.LongestLine.LineNumber = ll.LineNumber;
+                    reWidth = true;
+                }
+            }
+
+            Lines.AddRange(newLines);
+            List.AddObjects(newLines);
+            pageForm.SetTypeCount();
+
+            if (reWidth)
+            {
+                ResizeWidth();
+            }
+
+            if (isScroll && List.Items.Count > 0)
+            {
+                List.EnsureVisible(List.Items.Count - 1);
+            }
+        }
+
         public void WriteAdbLines(List<AdbClient.AdbLine> adbLines)
         {
             List<LogLine> newLines = new List<LogLine>(adbLines.Count);
@@ -1342,42 +1386,11 @@ namespace LogViewer
 
                 newLines.Add(ll);
             }
-
             this.readMutex.ReleaseMutex();
 
             pageForm.BeginInvoke(new Action(() =>
             {
-                bool isScroll = true;
-                if (List.Items.Count > 0)
-                {
-                    // 判断最后一项是否可见，可见的话，说明要自动滚动
-                    isScroll = List.Items[List.Items.Count - 1].Bounds.IntersectsWith(List.ClientRectangle);
-                }
-
-                bool reWidth = false;
-                foreach (var ll in newLines)
-                {
-                    if (ll.CharCount > this.LongestLine.CharCount)
-                    {
-                        this.LongestLine.CharCount = ll.CharCount;
-                        this.LongestLine.LineNumber = ll.LineNumber;
-                        reWidth = true;
-                    }
-                }
-
-                Lines.AddRange(newLines);
-                List.AddObjects(newLines);
-                pageForm.SetTypeCount();
-
-                if (reWidth)
-                {
-                    ResizeWidth();
-                }
-
-                if (isScroll && List.Items.Count > 0)
-                {
-                    List.EnsureVisible(List.Items.Count - 1);
-                }
+                ListAddLines(newLines);
             }));
         }
 
@@ -1394,6 +1407,57 @@ namespace LogViewer
             List.SetObjects(Lines);
             pageForm.SetTypeCount();
             pageForm.ClearStackTraceText();
+        }
+
+        public void WriteUdpLine(byte[] receiveBytes)
+        {
+            Global.LogType logType = Global.LogType.Info;
+            // ConsoleTiny 的解析
+            if (receiveBytes.Length > 13 && receiveBytes[9] == '-' && receiveBytes[7] == 't')
+            {
+                if (receiveBytes[8] == '3')
+                {
+                    logType = Global.LogType.Error;
+                }
+                else if (receiveBytes[8] == '2')
+                {
+                    logType = Global.LogType.Warning;
+                }
+                else if (receiveBytes[8] == '1')
+                {
+                    logType = Global.LogType.Info;
+                }
+            }
+
+            this.readMutex.WaitOne();
+            byte[] buffer = receiveBytes;
+            var bufferCount = buffer.Length;
+            var offset = this.fileStream.Seek(0, SeekOrigin.End);
+            this.fileStream.Write(buffer, 0, bufferCount);
+            this.readMutex.ReleaseMutex();
+
+            // 不管log是不是多行，都只把第一行当做信息
+            // 转成字节，找到\n的位置，不能用字符串直接找，会有编码位置不同的问题
+            var charCount = 0;
+            for (int i = 0; i < buffer.Length; i++)
+            {
+                if (buffer[i] == 10)
+                {
+                    charCount = i;
+                    break;
+                }
+            }
+
+            var ll = NewLine(offset + 13, charCount - 13, true, logType);
+            ll.StackTraceOffset = offset + charCount;
+            ll.StackTraceCharCount = bufferCount - charCount;
+            List<LogLine> newLines = new List<LogLine>(1);
+            newLines.Add(ll);
+
+            pageForm.BeginInvoke(new Action(() =>
+            {
+                ListAddLines(newLines);
+            }));
         }
 
         public void ResizeWidth()

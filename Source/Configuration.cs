@@ -22,6 +22,8 @@ namespace LogViewer
         public int[] FormSize { get; set; } = new int[0];
         public bool FormMaximized { get; set; } = false;
         public int SplitterDistance { get; set; } = 0;
+        public string UdpIpAddress { get; set; } = "127.0.0.1";
+        public int UdpIpPort { get; set; } = 22233;
         private const string FILENAME = "LogViewer.toml";
         #endregion
 
@@ -50,6 +52,7 @@ namespace LogViewer
                 this.FormSize = c.FormSize;
                 this.FormMaximized = c.FormMaximized;
                 this.SplitterDistance = c.SplitterDistance;
+                this.UdpIpAddress = c.UdpIpAddress;
 
                 if (this.MultiSelectLimit > 10000)
                 {

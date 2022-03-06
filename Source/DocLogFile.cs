@@ -11,6 +11,7 @@ namespace LogViewer
     {
         internal LogFile Log { get; set; }
         internal AdbClient adb { get; set; }
+        internal NetClient udp { get; set; }
         private Configuration config;
         private bool searchHasText;
         private HighlightTextColorRenderer highlightTextRendererLog;
@@ -36,6 +37,10 @@ namespace LogViewer
             if (adb != null)
             {
                 adb.ClearObjects();
+            }
+            if (udp != null)
+            {
+                udp.ClearObjects();
             }
         }
 
@@ -69,6 +74,7 @@ namespace LogViewer
             AllSearchTerms();
             SetMatchColor();
             this.darkToolStripAdb.Visible = Log.IsAdbLog;
+            this.darkToolStripUdp.Visible = Log.IsUdpLog;
         }
 
         /// <summary>
@@ -101,6 +107,21 @@ namespace LogViewer
 
                 adb = new AdbClient(this);
                 adb.GetDevices();
+            }
+        }
+
+        public void SetUdpStart()
+        {
+            if (udp != null)
+            {
+                throw new Exception("重复创建");
+            }
+            if (Log.IsUdpLog)
+            {
+                GetToolStripStatusLabel().Text = "尝试连接设备中...";
+                this.toolStripTextBoxEndPoint.Text = config.UdpIpAddress;
+                udp = new NetClient(this);
+                udp.SetEndPoint(config.UdpIpAddress, config.UdpIpPort);
             }
         }
 
@@ -598,6 +619,49 @@ namespace LogViewer
             {
                 adb.SetConnect(this.toolStripTextBoxAdbConIp.Text);
             }
+        }
+
+        #endregion
+
+        #region UDP
+
+        private void toolStripTextBoxEndPoint_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (udp.SetEndPoint(this.toolStripTextBoxEndPoint.Text, config.UdpIpPort))
+                {
+                    config.UdpIpAddress = this.toolStripTextBoxEndPoint.Text;
+                }
+            }
+        }
+
+        private void toolStripButtonConEndPoint_Click(object sender, EventArgs e)
+        {
+            if (udp.SetEndPoint(this.toolStripTextBoxEndPoint.Text, config.UdpIpPort))
+            {
+                config.UdpIpAddress = this.toolStripTextBoxEndPoint.Text;
+            }
+        }
+
+        private void toolStripTextBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonPauseUdpLog_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonResumeUdpLog_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonClearUdpLog_Click(object sender, EventArgs e)
+        {
+
         }
 
         #endregion

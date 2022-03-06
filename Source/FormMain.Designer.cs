@@ -63,6 +63,7 @@
             this.contextLinesGoToLine = new System.Windows.Forms.ToolStripMenuItem();
             this.contextLinesGoToFirstLine = new System.Windows.Forms.ToolStripMenuItem();
             this.contextLinesGoToLastLine = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuUdpLogcat = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.contextMenu.SuspendLayout();
@@ -148,7 +149,8 @@
             // 
             this.menuTools.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.menuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuAdbLogcat});
+            this.menuAdbLogcat,
+            this.menuUdpLogcat});
             this.menuTools.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuTools.Name = "menuTools";
             this.menuTools.Size = new System.Drawing.Size(60, 22);
@@ -159,7 +161,7 @@
             this.menuAdbLogcat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.menuAdbLogcat.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.menuAdbLogcat.Name = "menuAdbLogcat";
-            this.menuAdbLogcat.Size = new System.Drawing.Size(162, 22);
+            this.menuAdbLogcat.Size = new System.Drawing.Size(180, 22);
             this.menuAdbLogcat.Text = "ADB Unity 日志";
             this.menuAdbLogcat.Click += new System.EventHandler(this.menuAdbLogcat_Click);
             // 
@@ -386,6 +388,15 @@
             this.contextLinesGoToLastLine.Text = "跳转尾行";
             this.contextLinesGoToLastLine.Click += new System.EventHandler(this.contextLinesGoToLastLine_Click);
             // 
+            // menuUdpLogcat
+            // 
+            this.menuUdpLogcat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.menuUdpLogcat.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.menuUdpLogcat.Name = "menuUdpLogcat";
+            this.menuUdpLogcat.Size = new System.Drawing.Size(180, 22);
+            this.menuUdpLogcat.Text = "UDP Unity 日志";
+            this.menuUdpLogcat.Click += new System.EventHandler(this.menuUdpLogcat_Click);
+            // 
             // FormMain
             // 
             this.AllowDrop = true;
@@ -451,6 +462,7 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemMatchColor;
         private System.Windows.Forms.ToolStripMenuItem menuAdbLogcat;
         private System.Windows.Forms.ToolStripMenuItem menuFileOpenUnityLogTab;
+        private System.Windows.Forms.ToolStripMenuItem menuUdpLogcat;
     }
 }
 
