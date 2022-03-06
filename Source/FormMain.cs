@@ -55,11 +55,27 @@ namespace LogViewer
             string ret = this.config.Load();
             if (ret.Length > 0)
             {
-                DarkMessageBox.ShowError( ret, String.Empty);
+                Global.ShowErrorDialog(ret);
             }
 
             this.highlightColour = config.GetHighlightColour();
             this.contextColour = config.GetContextColour();
+            if (config.FormSize.Length > 0)
+            {
+                this.Size = new Size(config.FormSize[0], config.FormSize[1]);
+                if (this.Width > Screen.PrimaryScreen.WorkingArea.Width)
+                {
+                    this.Width = Screen.PrimaryScreen.WorkingArea.Width;
+                }
+                if (this.Height > Screen.PrimaryScreen.WorkingArea.Height)
+                {
+                    this.Height = Screen.PrimaryScreen.WorkingArea.Height;
+                }
+            }
+            if (config.FormMaximized)
+            {
+                WindowState = FormWindowState.Maximized;
+            }
             LogFile.Constants.Init();
 
             menuFileClose.Enabled = false;
@@ -79,12 +95,22 @@ namespace LogViewer
                 this.darkDockPanelMain.RemoveContent(darkDockContent);
             }
 
+            config.FormMaximized = WindowState == FormWindowState.Maximized;
+            if (WindowState == FormWindowState.Normal)
+            {
+                config.FormSize = new[] { Size.Width, Size.Height };
+            }
+            else
+            {
+                config.FormSize = new[] { RestoreBounds.Size.Width, RestoreBounds.Size.Height };
+            }
             config.HighlightColour = this.highlightColour.ToKnownColor().ToString();
             string ret = config.Save();
             if (ret.Length > 0)
             {
-                DarkMessageBox.ShowError( ret, String.Empty);
+                Global.ShowErrorDialog(ret);
             }
+
         }
 
         /// <summary>
@@ -107,7 +133,7 @@ namespace LogViewer
 
             if (files.Length > 1)
             {
-                DarkMessageBox.ShowError("一次只能处理一个文件", "拖曳提示");
+                Global.ShowErrorDialog("一次只能处理一个文件");
                 return;
             }
 
@@ -308,7 +334,7 @@ namespace LogViewer
                 return;
             }
             doc.GetToolStripProgressBar().Visible = true;
-            
+
             if (doc.Log.List.ModelFilter == null)
             {
                 doc.Log.Export(filePath, cancellationTokenSource.Token);
@@ -348,7 +374,7 @@ namespace LogViewer
         /// <param name="message"></param>
         private void LogFile_LoadError(LogFile lf, string fileName, string message)
         {
-            DarkMessageBox.ShowError( message + " (" + fileName + ")", String.Empty);
+            Global.ShowErrorDialog(message + " (" + fileName + ")");
 
             synchronizationContext.Post(new SendOrPostCallback(o =>
             {
@@ -496,7 +522,7 @@ namespace LogViewer
 
             if (files.Length > 1)
             {
-                DarkMessageBox.ShowError("一次只能处理一个文件", "拖曳提示");
+                Global.ShowErrorDialog("一次只能处理一个文件");
                 return;
             }
 
@@ -643,7 +669,7 @@ namespace LogViewer
             {
                 sb.AppendLine(lf.GetLine(ll.LineNumber));
             }
-            
+
             Clipboard.SetText(sb.ToString());
         }
 
@@ -769,7 +795,7 @@ namespace LogViewer
             var dir = @"C:\Users\Administrator\AppData\Local\Unity\Editor";
             if (!System.IO.Directory.Exists(dir))
             {
-                DarkMessageBox.ShowError("不存在路径：\n" + dir, String.Empty);
+                Global.ShowErrorDialog("不存在路径：\n" + dir);
                 return;
             }
 
@@ -871,7 +897,7 @@ namespace LogViewer
             }
             catch (Exception exception)
             {
-                DarkMessageBox.ShowError( exception.Message, String.Empty);
+                Global.ShowErrorDialog(exception.Message);
             }
         }
         #endregion

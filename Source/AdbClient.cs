@@ -60,8 +60,6 @@ namespace LogViewer
         /// </summary>
         private int curDeviceIdIndex;
 
-        private const string BoxCaption = "Adb 提示";
-
         public AdbClient(DocLogFile page)
         {
             pageForm = page;
@@ -192,7 +190,7 @@ namespace LogViewer
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    DarkMessageBox.ShowError(e.Message, BoxCaption);
+                    Global.ShowErrorDialog(e.Message);
                 }
 
                 IsBusying = false;
@@ -258,7 +256,7 @@ namespace LogViewer
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    DarkMessageBox.ShowError(e.Message, BoxCaption);
+                    Global.ShowErrorDialog(e.Message);
                 }
 
                 IsBusying = false;
@@ -324,7 +322,7 @@ namespace LogViewer
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    DarkMessageBox.ShowError(e.Message, BoxCaption);
+                    Global.ShowErrorDialog(e.Message);
                 }
 
                 IsBusying = false;
@@ -397,7 +395,7 @@ namespace LogViewer
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    DarkMessageBox.ShowError(e.Message, BoxCaption);
+                    Global.ShowErrorDialog(e.Message);
                 }
             });
         }

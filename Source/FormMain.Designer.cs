@@ -233,7 +233,7 @@
             this.toolStripMenuItem5,
             this.contextLines});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(181, 164);
+            this.contextMenu.Size = new System.Drawing.Size(125, 142);
             this.contextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenu_Opening);
             // 
             // contextMenuFilter
@@ -278,7 +278,7 @@
             this.ToolStripMenuItemMatchColor});
             this.contextMenuSearch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.contextMenuSearch.Name = "contextMenuSearch";
-            this.contextMenuSearch.Size = new System.Drawing.Size(180, 22);
+            this.contextMenuSearch.Size = new System.Drawing.Size(124, 22);
             this.contextMenuSearch.Text = "搜索颜色";
             // 
             // ToolStripMenuItemMatchColor
@@ -398,6 +398,7 @@
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip;
             this.Margin = new System.Windows.Forms.Padding(2);
+            this.MinimumSize = new System.Drawing.Size(680, 460);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Unity Log Viewer";

@@ -750,6 +750,7 @@ namespace LogViewer
             logPage.GetHighlightTextRenderer().FillBrush = Brushes.Transparent;
             lv.DefaultRenderer = logPage.GetHighlightTextRenderer();
 
+            colLineNumber.Width = Convert.ToInt32(colLineNumber.Width * lv.DeviceDpi / 96f);
             lv.AllColumns.Add(colLineNumber);
             lv.AllColumns.Add(colText);
             lv.AllowDrop = true;
@@ -1405,9 +1406,8 @@ namespace LogViewer
                 using (var g = Graphics.FromImage(image))
                 {
                     string temp = GetLine(LongestLine.LineNumber);
-                    var result = g.MeasureString(temp,
-                        new Font("Consolas", 9.75f, FontStyle.Regular, GraphicsUnit.Point));
-                    var newWidth = Convert.ToInt32(result.Width + 200);
+                    var result = g.MeasureString(temp, List.Font);
+                    var newWidth = Convert.ToInt32(result.Width * List.DeviceDpi / 96f + 200);
                     if (List.AllColumns[1].FillsFreeSpace)
                     {
                         if (List.Columns[1].Width < newWidth)
@@ -1426,6 +1426,7 @@ namespace LogViewer
 
         #region HTMLTag
 
+        private const int kTagColorIndex = 2;
         private const int kTagQuadIndex = 5;
 
         private readonly string[] m_TagStrings = new string[]
@@ -1564,6 +1565,13 @@ namespace LogViewer
             }
 
             return input;
+        }
+
+        private Color ParseHTMLColor(string input, int oldPos, int endPos)
+        {
+            Console.WriteLine(input.Substring(oldPos + 7, endPos - oldPos - 7));
+            return Color.AliceBlue;
+            
         }
 
         #endregion

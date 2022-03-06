@@ -30,14 +30,14 @@ namespace LogViewer
         {
             if (textLineNum.Text.Trim().Length == 0)
             {
-                DarkMessageBox.ShowError( "The line number must be entered", String.Empty);
+                Global.ShowErrorDialog( "The line number must be entered");
                 textLineNum.Select();
                 return;
             }
 
             if (Misc.IsNumber(textLineNum.Text) == false)
             {
-                DarkMessageBox.ShowError( "The line number value is invalid", String.Empty);
+                Global.ShowErrorDialog( "The line number value is invalid");
                 textLineNum.Select();
                 return;
             }

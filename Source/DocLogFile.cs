@@ -62,6 +62,10 @@ namespace LogViewer
         public void SetConfig(Configuration configuration)
         {
             config = configuration;
+            if (config.SplitterDistance > 0)
+            {
+                this.splitContainer1.SplitterDistance = config.SplitterDistance;
+            }
             AllSearchTerms();
             SetMatchColor();
             this.darkToolStripAdb.Visible = Log.IsAdbLog;
@@ -433,6 +437,19 @@ namespace LogViewer
         private void toolStripTextBoxSearch_Leave(object sender, EventArgs e)
         {
             SetSearchTip();
+        }
+
+        /// <summary>
+        /// 拆分器滑动后，保存滑动距离
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+            if (config != null)
+            {
+                config.SplitterDistance = this.splitContainer1.SplitterDistance;
+            }
         }
 
         #region ADB

@@ -29,7 +29,7 @@ namespace LogViewer
                     Panel pnlFooter = (Panel) control;
                     if (pnlFooter != null)
                     {
-                        pnlFooter.Size = new Size(767, 56);
+                        pnlFooter.Size = new Size(767, Convert.ToInt32(56 * pnlFooter.DeviceDpi / 96f));
                     }
                     break;
                 }
@@ -75,7 +75,7 @@ namespace LogViewer
             var searchText = this.darkTextBoxAdd.Text;
             if (string.IsNullOrEmpty(searchText))
             {
-                DarkMessageBox.ShowError("请输入新增的搜索内容", "提示");
+                Global.ShowErrorDialog("请输入新增的搜索内容");
                 return;
             }
 
@@ -83,7 +83,7 @@ namespace LogViewer
             {
                 if (this.darkTextBoxAdd.Text == pair.Key)
                 {
-                    DarkMessageBox.ShowError("新增的搜索内容已存在", "提示");
+                    Global.ShowErrorDialog("新增的搜索内容已存在");
                     return;
                 }
             }

@@ -19,6 +19,9 @@ namespace LogViewer
         public int NumContextLines { get; set; } = 0; // 上下文的最大数
         public string[] SearchTerms { get; set; } = new string[0];
         public int[] SearchTypes { get; set; } = new int[0];
+        public int[] FormSize { get; set; } = new int[0];
+        public bool FormMaximized { get; set; } = false;
+        public int SplitterDistance { get; set; } = 0;
         private const string FILENAME = "LogViewer.toml";
         #endregion
 
@@ -44,6 +47,9 @@ namespace LogViewer
                 this.NumContextLines = c.NumContextLines;
                 this.SearchTerms = c.SearchTerms;
                 this.SearchTypes = c.SearchTypes;
+                this.FormSize = c.FormSize;
+                this.FormMaximized = c.FormMaximized;
+                this.SplitterDistance = c.SplitterDistance;
 
                 if (this.MultiSelectLimit > 10000)
                 {
