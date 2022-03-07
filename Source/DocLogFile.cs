@@ -118,7 +118,7 @@ namespace LogViewer
             }
             if (Log.IsUdpLog)
             {
-                GetToolStripStatusLabel().Text = "尝试连接设备中...";
+                DisconnectUdpDevice();
                 this.toolStripTextBoxEndPoint.Text = config.UdpIpAddress;
                 udp = new NetClient(this);
                 udp.SetEndPoint(config.UdpIpAddress, config.UdpIpPort);
@@ -625,6 +625,27 @@ namespace LogViewer
 
         #region UDP
 
+        public void DisconnectUdpDevice()
+        {
+            GetToolStripStatusLabel().Text = "目标断开连接 ";
+            this.toolStripButtonPauseUdpLog.Visible = false;
+            this.toolStripButtonResumeUdpLog.Visible = false;
+            this.toolStripButtonClearUdpLog.Visible = false;
+            this.toolStripLabelUdpPm.Visible = false;
+            this.toolStripTextBoxUdpPm.Visible = false;
+        }
+
+        public void ConnectUdpDevice()
+        {
+            udp.IsPausing = false;
+            this.toolStripButtonPauseUdpLog.Visible = true;
+            this.toolStripButtonResumeUdpLog.Visible = false;
+            this.toolStripButtonClearUdpLog.Visible = true;
+            this.toolStripLabelUdpPm.Visible = true;
+            this.toolStripTextBoxUdpPm.Visible = true;
+            GetToolStripStatusLabel().Text = "连接目标中： " + this.toolStripTextBoxEndPoint.Text;
+        }
+
         private void toolStripTextBoxEndPoint_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -646,16 +667,28 @@ namespace LogViewer
 
         private void toolStripTextBox1_KeyDown(object sender, KeyEventArgs e)
         {
-
+            if (e.KeyCode == Keys.Enter)
+            {
+                var pmStr = this.toolStripTextBoxUdpPm.Text.Trim();
+                if (!string.IsNullOrEmpty(pmStr))
+                {
+                }
+            }
         }
 
         private void toolStripButtonPauseUdpLog_Click(object sender, EventArgs e)
         {
+            udp.IsPausing = true;
+            this.toolStripButtonPauseUdpLog.Visible = false;
+            this.toolStripButtonResumeUdpLog.Visible = true;
 
         }
 
         private void toolStripButtonResumeUdpLog_Click(object sender, EventArgs e)
         {
+            udp.IsPausing = false;
+            this.toolStripButtonPauseUdpLog.Visible = true;
+            this.toolStripButtonResumeUdpLog.Visible = false;
 
         }
 

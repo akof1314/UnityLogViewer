@@ -63,14 +63,14 @@ namespace LogViewer
             if (config.FormSize.Length > 0)
             {
                 this.Size = new Size(config.FormSize[0], config.FormSize[1]);
-                if (this.Width > Screen.PrimaryScreen.WorkingArea.Width)
-                {
-                    this.Width = Screen.PrimaryScreen.WorkingArea.Width;
-                }
-                if (this.Height > Screen.PrimaryScreen.WorkingArea.Height)
-                {
-                    this.Height = Screen.PrimaryScreen.WorkingArea.Height;
-                }
+            }
+            if (this.Width > Screen.PrimaryScreen.WorkingArea.Width)
+            {
+                this.Width = Screen.PrimaryScreen.WorkingArea.Width;
+            }
+            if (this.Height > Screen.PrimaryScreen.WorkingArea.Height)
+            {
+                this.Height = Screen.PrimaryScreen.WorkingArea.Height;
             }
             if (config.FormMaximized)
             {

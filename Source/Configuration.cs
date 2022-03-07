@@ -53,6 +53,7 @@ namespace LogViewer
                 this.FormMaximized = c.FormMaximized;
                 this.SplitterDistance = c.SplitterDistance;
                 this.UdpIpAddress = c.UdpIpAddress;
+                this.UdpIpPort = c.UdpIpPort;
 
                 if (this.MultiSelectLimit > 10000)
                 {

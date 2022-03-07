@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using DarkUI.Forms;
+using LogViewer.ControlEx;
 
 namespace LogViewer
 {
@@ -41,37 +42,8 @@ namespace LogViewer
         public static DialogResult ShowErrorDialog(
             string message)
         {
-            using (DarkMessageBox darkMessageBox = new DarkMessageBox(message, "提示", DarkMessageBoxIcon.Error, DarkDialogButton.Ok))
+            using (DarkMessageBoxDpi darkMessageBox = new DarkMessageBoxDpi(message, "提示", DarkMessageBoxIcon.Error, DarkDialogButton.Ok))
             {
-                darkMessageBox.AutoScaleMode = AutoScaleMode.Dpi;
-                foreach (Control control in darkMessageBox.Controls)
-                {
-                    if (control.Name == "pnlFooter")
-                    {
-                        Panel pnlFooter = (Panel) control;
-                        if (pnlFooter != null)
-                        {
-                            pnlFooter.Size = new Size(pnlFooter.Size.Width, Convert.ToInt32(56 * pnlFooter.DeviceDpi / 96f));
-                        }
-
-                        foreach (Control pnlFooterControl in pnlFooter.Controls)
-                        {
-                            if (pnlFooterControl.Name == "flowInner")
-                            {
-                                foreach (Control flowInnerControl in pnlFooterControl.Controls)
-                                {
-                                    if (flowInnerControl.Name == "btnOk")
-                                    {
-                                        flowInnerControl.Text = "确定";
-                                        flowInnerControl.AutoSize = true;
-                                    }
-                                }
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                }
                 return darkMessageBox.ShowDialog();
             }
         }

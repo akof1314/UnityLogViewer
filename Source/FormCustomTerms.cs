@@ -4,10 +4,11 @@ using System.Drawing;
 using System.Windows.Forms;
 using DarkUI.Controls;
 using DarkUI.Forms;
+using LogViewer.ControlEx;
 
 namespace LogViewer
 {
-    public partial class FormCustomTerms : DarkDialog
+    public partial class FormCustomTerms : DarkDialogDpi
     {
         private Configuration config;
         private List<KeyValuePair<string, int>> listPairs;
@@ -15,25 +16,8 @@ namespace LogViewer
         public FormCustomTerms(Configuration config)
         {
             InitializeComponent();
-            btnOk.Text = "确定";
-            btnOk.Click += BtnOkOnClick;
-            btnOk.AutoSize = true;
-            btnCancel.Text = "取消";
-            btnCancel.AutoSize = true;
             this.config = config;
-
-            foreach (Control control in Controls)
-            {
-                if (control.Name == "pnlFooter")
-                {
-                    Panel pnlFooter = (Panel) control;
-                    if (pnlFooter != null)
-                    {
-                        pnlFooter.Size = new Size(767, Convert.ToInt32(56 * pnlFooter.DeviceDpi / 96f));
-                    }
-                    break;
-                }
-            }
+            btnOk.Click += BtnOkOnClick;
 
             listPairs = new List<KeyValuePair<string, int>>();
             for (var i = 0; i < config.SearchTerms.Length; i++)

@@ -60,11 +60,14 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Utility">
-      <HintPath>..\Dependencies\woanware\Utility.dll</HintPath>
+      <HintPath>Dependencies\woanware\Utility.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdbClient.cs" />
+    <Compile Include="ControlEx\DarkDialogDpi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RemoteClient\AdbClient.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="DocLogFile.cs">
       <SubType>UserControl</SubType>
@@ -103,10 +106,10 @@
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Global.cs" />
-    <Compile Include="HighlightTextColorRenderer.cs">
+    <Compile Include="ControlEx\HighlightTextColorRenderer.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="NetClient.cs" />
+    <Compile Include="RemoteClient\NetClient.cs" />
     <Compile Include="Pattern.cs" />
     <Compile Include="SearchCriteria.cs" />
     <Compile Include="Searches.cs" />
