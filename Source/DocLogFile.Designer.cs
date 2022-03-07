@@ -712,6 +712,7 @@
             this.toolStripButtonConEndPoint.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripButtonConEndPoint.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripButtonConEndPoint.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonConEndPoint.Image")));
+            this.toolStripButtonConEndPoint.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonConEndPoint.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonConEndPoint.Name = "toolStripButtonConEndPoint";
             this.toolStripButtonConEndPoint.Size = new System.Drawing.Size(52, 22);

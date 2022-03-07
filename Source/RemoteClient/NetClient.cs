@@ -52,6 +52,23 @@ namespace LogViewer
             udpClient = null;
         }
 
+        /// <summary>
+        /// 发送命令
+        /// </summary>
+        /// <param name="msg"></param>
+        public void SendShellMsg(string msg)
+        {
+            byte[] sendBytes = Encoding.UTF8.GetBytes("pm:" + msg);
+            int sendCount = udpClient.Send(sendBytes, sendBytes.Length, endPoint);
+            Console.WriteLine("send pm ok" + sendCount);
+        }
+
+        /// <summary>
+        /// 设置目标地址，会自动进行连接
+        /// </summary>
+        /// <param name="ipStr"></param>
+        /// <param name="ipPort"></param>
+        /// <returns></returns>
         public bool SetEndPoint(string ipStr, int ipPort)
         {
             if (IPAddress.TryParse(ipStr, out var ipAddress))
@@ -87,7 +104,6 @@ namespace LogViewer
 
         private void SendAckToRemoteInter()
         {
-            Console.WriteLine("send ack");
             byte[] sendBytes = Encoding.UTF8.GetBytes("ack");
             int sendCount = udpClient.Send(sendBytes, sendBytes.Length, endPoint);
             Console.WriteLine("send ack ok" + sendCount);
@@ -105,7 +121,7 @@ namespace LogViewer
 
         public static void ReceiveCallback(IAsyncResult ar)
         {
-            NetClient n = (NetClient) ar.AsyncState;
+            NetClient n = (NetClient)ar.AsyncState;
 
             if (n.udpClient == null || n.udpClient.Client == null)
             {
@@ -127,7 +143,10 @@ namespace LogViewer
                         n.pageForm.BeginInvoke(new Action(n.pageForm.ConnectUdpDevice));
                     }
 
-                    n.pageForm.Log.WriteUdpLine(receiveBytes);
+                    if (!n.IsPausing)
+                    {
+                        n.pageForm.Log.WriteUdpLine(receiveBytes);
+                    }
                 }
 
                 //Console.WriteLine(receiveString);

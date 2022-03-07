@@ -672,6 +672,7 @@ namespace LogViewer
                 var pmStr = this.toolStripTextBoxUdpPm.Text.Trim();
                 if (!string.IsNullOrEmpty(pmStr))
                 {
+                    udp.SendShellMsg(pmStr);
                 }
             }
         }
@@ -681,7 +682,6 @@ namespace LogViewer
             udp.IsPausing = true;
             this.toolStripButtonPauseUdpLog.Visible = false;
             this.toolStripButtonResumeUdpLog.Visible = true;
-
         }
 
         private void toolStripButtonResumeUdpLog_Click(object sender, EventArgs e)
@@ -689,12 +689,11 @@ namespace LogViewer
             udp.IsPausing = false;
             this.toolStripButtonPauseUdpLog.Visible = true;
             this.toolStripButtonResumeUdpLog.Visible = false;
-
         }
 
         private void toolStripButtonClearUdpLog_Click(object sender, EventArgs e)
         {
-
+            Log.ClearAdbLines();
         }
 
         #endregion
