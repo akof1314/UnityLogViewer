@@ -523,7 +523,7 @@ namespace LogViewer
         /// 对后面新增的也进行搜索
         /// </summary>
         /// <param name="numContextLines"></param>
-        public void SearchNewLines(List<AdbClient.AdbLine> newLines)
+        public void SearchNewLines<T>(List<T> newLines) where T:AdbClient.BaseLine
         {
             {
                 try
@@ -547,7 +547,7 @@ namespace LogViewer
 
                                 if (string.IsNullOrEmpty(line))
                                 {
-                                    line = ll.LineText;
+                                    line = GetPureLines(ll.GetLineText());
                                 }
 
                                 located = false;
@@ -606,7 +606,7 @@ namespace LogViewer
                         {
                             if (string.IsNullOrEmpty(line))
                             {
-                                line = ll.LineText;
+                                line = GetPureLines(ll.GetLineText());
                             }
 
                             var sc = CurSearch;
@@ -1409,50 +1409,27 @@ namespace LogViewer
             pageForm.ClearStackTraceText();
         }
 
-        public void WriteUdpLine(byte[] receiveBytes)
+        public void WriteUdpLine(List<NetClient.UdpLine> udpLines)
         {
-            Global.LogType logType = Global.LogType.Info;
-            // ConsoleTiny 的解析
-            if (receiveBytes.Length > 13 && receiveBytes[9] == '-' && receiveBytes[7] == 't')
-            {
-                if (receiveBytes[8] == '3')
-                {
-                    logType = Global.LogType.Error;
-                }
-                else if (receiveBytes[8] == '2')
-                {
-                    logType = Global.LogType.Warning;
-                }
-                else if (receiveBytes[8] == '1')
-                {
-                    logType = Global.LogType.Info;
-                }
-            }
+            List<LogLine> newLines = new List<LogLine>(udpLines.Count);
+            SearchNewLines(udpLines);
 
             this.readMutex.WaitOne();
-            byte[] buffer = receiveBytes;
-            var bufferCount = buffer.Length;
-            var offset = this.fileStream.Seek(0, SeekOrigin.End);
-            this.fileStream.Write(buffer, 0, bufferCount);
-            this.readMutex.ReleaseMutex();
-
-            // 不管log是不是多行，都只把第一行当做信息
-            // 转成字节，找到\n的位置，不能用字符串直接找，会有编码位置不同的问题
-            var charCount = 0;
-            for (int i = 0; i < buffer.Length; i++)
+            foreach (var udpLine in udpLines)
             {
-                if (buffer[i] == 10)
-                {
-                    charCount = i;
-                    break;
-                }
+                byte[] buffer = udpLine.ByteArray;
+                var bufferCount = buffer.Length;
+                var offset = this.fileStream.Seek(0, SeekOrigin.End);
+                this.fileStream.Write(buffer, 0, bufferCount);
+                
+                var ll = NewLine(offset + 13, udpLine.CharCount - 13, true, (Global.LogType)udpLine.LogType);
+                ll.StackTraceOffset = offset + udpLine.CharCount;
+                ll.StackTraceCharCount = bufferCount - udpLine.CharCount;
+                ll.IsTerms = udpLine.IsTerms;
+                ll.IsCurSearch = udpLine.IsCurSearch;
+                newLines.Add(ll);
             }
-
-            var ll = NewLine(offset + 13, charCount - 13, true, logType);
-            ll.StackTraceOffset = offset + charCount;
-            ll.StackTraceCharCount = bufferCount - charCount;
-            List<LogLine> newLines = new List<LogLine>(1);
-            newLines.Add(ll);
+            this.readMutex.ReleaseMutex();
 
             pageForm.BeginInvoke(new Action(() =>
             {

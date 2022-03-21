@@ -44,7 +44,7 @@ namespace LogViewer.ControlEx
             var pnl = btnOk.Parent.Parent;
             pnl.Size = new Size(767, Convert.ToInt32(56 * pnl.DeviceDpi / 96f));
 
-            Size = new Size(Size.Width, Convert.ToInt32(Size.Height * DeviceDpi / 96f));
+            Size = new Size(Convert.ToInt32(Size.Width * DeviceDpi / 96f), Convert.ToInt32(Size.Height * DeviceDpi / 96f));
         }
     }
 }

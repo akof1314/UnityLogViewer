@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DocLogFile));
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle1 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle2 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle3 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle28 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle29 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle30 = new BrightIdeasSoftware.HeaderStateStyle();
             this.statusProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.statusStrip = new DarkUI.Controls.DarkStatusStrip();
             this.statusLabelPage = new System.Windows.Forms.ToolStripStatusLabel();
@@ -97,7 +97,7 @@
             // statusProgress
             // 
             this.statusProgress.Name = "statusProgress";
-            this.statusProgress.Size = new System.Drawing.Size(67, 16);
+            this.statusProgress.Size = new System.Drawing.Size(100, 24);
             this.statusProgress.Visible = false;
             this.statusProgress.Click += new System.EventHandler(this.statusProgress_Click);
             // 
@@ -110,10 +110,10 @@
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusProgress,
             this.statusLabelPage});
-            this.statusStrip.Location = new System.Drawing.Point(0, 617);
+            this.statusStrip.Location = new System.Drawing.Point(0, 925);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 9, 0);
-            this.statusStrip.Size = new System.Drawing.Size(894, 22);
+            this.statusStrip.Padding = new System.Windows.Forms.Padding(2, 0, 14, 0);
+            this.statusStrip.Size = new System.Drawing.Size(1341, 33);
             this.statusStrip.SizingGrip = false;
             this.statusStrip.TabIndex = 6;
             this.statusStrip.Text = "statusStrip1";
@@ -121,7 +121,7 @@
             // statusLabelPage
             // 
             this.statusLabelPage.Name = "statusLabelPage";
-            this.statusLabelPage.Size = new System.Drawing.Size(0, 17);
+            this.statusLabelPage.Size = new System.Drawing.Size(0, 28);
             // 
             // richTextBoxStrace
             // 
@@ -130,10 +130,11 @@
             this.richTextBoxStrace.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBoxStrace.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBoxStrace.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
-            this.richTextBoxStrace.Location = new System.Drawing.Point(4, 0);
+            this.richTextBoxStrace.Location = new System.Drawing.Point(6, 0);
+            this.richTextBoxStrace.Margin = new System.Windows.Forms.Padding(4);
             this.richTextBoxStrace.Name = "richTextBoxStrace";
             this.richTextBoxStrace.ReadOnly = true;
-            this.richTextBoxStrace.Size = new System.Drawing.Size(888, 155);
+            this.richTextBoxStrace.Size = new System.Drawing.Size(1332, 232);
             this.richTextBoxStrace.TabIndex = 0;
             this.richTextBoxStrace.Text = "";
             this.richTextBoxStrace.WordWrap = false;
@@ -149,21 +150,25 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 75);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 114);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.fastObjectListView1);
+            this.splitContainer1.Panel1MinSize = 100;
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.AutoScroll = true;
             this.splitContainer1.Panel2.Controls.Add(this.richTextBoxStrace);
-            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(4, 0, 2, 20);
-            this.splitContainer1.Size = new System.Drawing.Size(894, 564);
-            this.splitContainer1.SplitterDistance = 385;
+            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(6, 0, 3, 30);
+            this.splitContainer1.Panel2MinSize = 100;
+            this.splitContainer1.Size = new System.Drawing.Size(1341, 844);
+            this.splitContainer1.SplitterDistance = 576;
+            this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 5;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
             // 
@@ -177,11 +182,12 @@
             this.fastObjectListView1.HeaderFormatStyle = this.headerFormatStyleLog;
             this.fastObjectListView1.HideSelection = false;
             this.fastObjectListView1.Location = new System.Drawing.Point(0, 0);
+            this.fastObjectListView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.fastObjectListView1.Name = "fastObjectListView1";
             this.fastObjectListView1.SelectedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(110)))), ((int)(((byte)(175)))));
             this.fastObjectListView1.SelectedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.fastObjectListView1.ShowGroups = false;
-            this.fastObjectListView1.Size = new System.Drawing.Size(894, 385);
+            this.fastObjectListView1.Size = new System.Drawing.Size(1341, 576);
             this.fastObjectListView1.SmallImageList = this.imageListLog;
             this.fastObjectListView1.TabIndex = 0;
             this.fastObjectListView1.UnfocusedSelectedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(92)))), ((int)(((byte)(92)))));
@@ -194,13 +200,13 @@
             // 
             // headerFormatStyleLog
             // 
-            headerStateStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
-            headerStateStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Hot = headerStateStyle1;
-            headerStateStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
-            headerStateStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Normal = headerStateStyle2;
-            this.headerFormatStyleLog.Pressed = headerStateStyle3;
+            headerStateStyle28.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
+            headerStateStyle28.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Hot = headerStateStyle28;
+            headerStateStyle29.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
+            headerStateStyle29.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Normal = headerStateStyle29;
+            this.headerFormatStyleLog.Pressed = headerStateStyle30;
             // 
             // toolStripButtonInfo
             // 
@@ -215,7 +221,7 @@
             this.toolStripButtonInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonInfo.Margin = new System.Windows.Forms.Padding(0, 1, 1, 2);
             this.toolStripButtonInfo.Name = "toolStripButtonInfo";
-            this.toolStripButtonInfo.Size = new System.Drawing.Size(77, 22);
+            this.toolStripButtonInfo.Size = new System.Drawing.Size(107, 35);
             this.toolStripButtonInfo.Text = "1111111";
             this.toolStripButtonInfo.CheckedChanged += new System.EventHandler(this.toolStripButtonInfo_CheckedChanged);
             // 
@@ -232,7 +238,7 @@
             this.toolStripButtonWarning.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonWarning.Margin = new System.Windows.Forms.Padding(0, 1, 1, 2);
             this.toolStripButtonWarning.Name = "toolStripButtonWarning";
-            this.toolStripButtonWarning.Size = new System.Drawing.Size(77, 22);
+            this.toolStripButtonWarning.Size = new System.Drawing.Size(107, 35);
             this.toolStripButtonWarning.Text = "2222222";
             this.toolStripButtonWarning.CheckedChanged += new System.EventHandler(this.toolStripButtonWarning_CheckedChanged);
             // 
@@ -248,7 +254,7 @@
             this.toolStripButtonError.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonError.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonError.Name = "toolStripButtonError";
-            this.toolStripButtonError.Size = new System.Drawing.Size(98, 22);
+            this.toolStripButtonError.Size = new System.Drawing.Size(140, 35);
             this.toolStripButtonError.Text = "3332222222";
             this.toolStripButtonError.CheckedChanged += new System.EventHandler(this.toolStripButtonError_CheckedChanged);
             // 
@@ -260,7 +266,7 @@
             this.toolStripTextBoxSearch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolStripTextBoxSearch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripTextBoxSearch.Name = "toolStripTextBoxSearch";
-            this.toolStripTextBoxSearch.Size = new System.Drawing.Size(300, 25);
+            this.toolStripTextBoxSearch.Size = new System.Drawing.Size(449, 38);
             this.toolStripTextBoxSearch.Enter += new System.EventHandler(this.toolStripTextBoxSearch_Enter);
             this.toolStripTextBoxSearch.Leave += new System.EventHandler(this.toolStripTextBoxSearch_Leave);
             this.toolStripTextBoxSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBoxSearch_KeyDown);
@@ -270,7 +276,7 @@
             this.ToolStripMenuItem4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.ToolStripMenuItem4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.ToolStripMenuItem4.Name = "ToolStripMenuItem4";
-            this.ToolStripMenuItem4.Size = new System.Drawing.Size(184, 22);
+            this.ToolStripMenuItem4.Size = new System.Drawing.Size(254, 30);
             this.ToolStripMenuItem4.Text = "匹配大小写（正则）";
             this.ToolStripMenuItem4.Click += new System.EventHandler(this.ToolStripMenuItem4_Click);
             // 
@@ -279,7 +285,7 @@
             this.ToolStripMenuItem3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.ToolStripMenuItem3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.ToolStripMenuItem3.Name = "ToolStripMenuItem3";
-            this.ToolStripMenuItem3.Size = new System.Drawing.Size(184, 22);
+            this.ToolStripMenuItem3.Size = new System.Drawing.Size(254, 30);
             this.ToolStripMenuItem3.Text = "忽略大小写（正则）";
             this.ToolStripMenuItem3.Click += new System.EventHandler(this.ToolStripMenuItem3_Click);
             // 
@@ -288,7 +294,7 @@
             this.ToolStripMenuItem2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.ToolStripMenuItem2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.ToolStripMenuItem2.Name = "ToolStripMenuItem2";
-            this.ToolStripMenuItem2.Size = new System.Drawing.Size(184, 22);
+            this.ToolStripMenuItem2.Size = new System.Drawing.Size(254, 30);
             this.ToolStripMenuItem2.Text = "匹配大小写";
             this.ToolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2_Click);
             // 
@@ -299,7 +305,7 @@
             this.ToolStripMenuItem1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToolStripMenuItem1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.ToolStripMenuItem1.Name = "ToolStripMenuItem1";
-            this.ToolStripMenuItem1.Size = new System.Drawing.Size(184, 22);
+            this.ToolStripMenuItem1.Size = new System.Drawing.Size(254, 30);
             this.ToolStripMenuItem1.Text = "忽略大小写";
             this.ToolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
             // 
@@ -317,7 +323,7 @@
             this.toolStripDropDownButtonHistory.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripDropDownButtonHistory.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButtonHistory.Name = "toolStripDropDownButtonHistory";
-            this.toolStripDropDownButtonHistory.Size = new System.Drawing.Size(29, 22);
+            this.toolStripDropDownButtonHistory.Size = new System.Drawing.Size(34, 35);
             this.toolStripDropDownButtonHistory.Text = "搜索模式";
             // 
             // toolStripButtonViewMatch
@@ -332,7 +338,7 @@
             this.toolStripButtonViewMatch.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonViewMatch.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonViewMatch.Name = "toolStripButtonViewMatch";
-            this.toolStripButtonViewMatch.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonViewMatch.Size = new System.Drawing.Size(23, 35);
             this.toolStripButtonViewMatch.Text = "只显示搜索";
             this.toolStripButtonViewMatch.ToolTipText = "只显示搜索(F12)";
             this.toolStripButtonViewMatch.CheckedChanged += new System.EventHandler(this.toolStripButtonViewMatch_CheckedChanged);
@@ -343,6 +349,7 @@
             this.toolStripTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripTab.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripTab.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStripTab.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStripTab.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonViewMatch,
             this.toolStripDropDownButtonHistory,
@@ -357,10 +364,10 @@
             this.toolStripButtonSearchPrev,
             this.toolStripButtonSearchNext,
             this.toolStripButtonCustom});
-            this.toolStripTab.Location = new System.Drawing.Point(0, 50);
+            this.toolStripTab.Location = new System.Drawing.Point(0, 76);
             this.toolStripTab.Name = "toolStripTab";
-            this.toolStripTab.Padding = new System.Windows.Forms.Padding(5, 0, 1, 0);
-            this.toolStripTab.Size = new System.Drawing.Size(894, 25);
+            this.toolStripTab.Padding = new System.Windows.Forms.Padding(8, 0, 2, 0);
+            this.toolStripTab.Size = new System.Drawing.Size(1341, 38);
             this.toolStripTab.TabIndex = 4;
             this.toolStripTab.Text = "toolStrip1";
             // 
@@ -373,7 +380,7 @@
             this.toolStripButtonCancle.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonCancle.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCancle.Name = "toolStripButtonCancle";
-            this.toolStripButtonCancle.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonCancle.Size = new System.Drawing.Size(23, 35);
             this.toolStripButtonCancle.Text = "X";
             this.toolStripButtonCancle.ToolTipText = "清除搜索";
             this.toolStripButtonCancle.Click += new System.EventHandler(this.toolStripButtonCancle_Click);
@@ -388,7 +395,7 @@
             this.toolStripButtonErrorNext.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonErrorNext.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonErrorNext.Name = "toolStripButtonErrorNext";
-            this.toolStripButtonErrorNext.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonErrorNext.Size = new System.Drawing.Size(23, 35);
             this.toolStripButtonErrorNext.Text = "下一个错误日志";
             this.toolStripButtonErrorNext.ToolTipText = "下一个错误日志(F8)";
             this.toolStripButtonErrorNext.Click += new System.EventHandler(this.toolStripButtonErrorNext_Click);
@@ -403,7 +410,7 @@
             this.toolStripButtonErrorPrev.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonErrorPrev.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonErrorPrev.Name = "toolStripButtonErrorPrev";
-            this.toolStripButtonErrorPrev.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonErrorPrev.Size = new System.Drawing.Size(23, 35);
             this.toolStripButtonErrorPrev.Text = "上一个错误日志";
             this.toolStripButtonErrorPrev.ToolTipText = "上一个错误日志(F7)";
             this.toolStripButtonErrorPrev.Click += new System.EventHandler(this.toolStripButtonErrorPrev_Click);
@@ -414,7 +421,7 @@
             this.toolStripSeparator1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripSeparator1.Margin = new System.Windows.Forms.Padding(0, 0, 2, 0);
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
             // 
             // toolStripButtonSearchPrev
             // 
@@ -425,7 +432,7 @@
             this.toolStripButtonSearchPrev.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonSearchPrev.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonSearchPrev.Name = "toolStripButtonSearchPrev";
-            this.toolStripButtonSearchPrev.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonSearchPrev.Size = new System.Drawing.Size(23, 35);
             this.toolStripButtonSearchPrev.Text = "上一个搜索日志";
             this.toolStripButtonSearchPrev.ToolTipText = "上一个搜索日志(Shitf+F3)";
             this.toolStripButtonSearchPrev.Click += new System.EventHandler(this.toolStripButtonSearchPrev_Click);
@@ -439,7 +446,7 @@
             this.toolStripButtonSearchNext.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonSearchNext.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonSearchNext.Name = "toolStripButtonSearchNext";
-            this.toolStripButtonSearchNext.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonSearchNext.Size = new System.Drawing.Size(23, 35);
             this.toolStripButtonSearchNext.Text = "下一个搜索日志";
             this.toolStripButtonSearchNext.ToolTipText = "下一个搜索日志(F3)";
             this.toolStripButtonSearchNext.Click += new System.EventHandler(this.toolStripButtonSearchNext_Click);
@@ -454,7 +461,7 @@
             this.toolStripButtonCustom.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonCustom.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCustom.Name = "toolStripButtonCustom";
-            this.toolStripButtonCustom.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonCustom.Size = new System.Drawing.Size(23, 35);
             this.toolStripButtonCustom.Text = "自定义过滤";
             this.toolStripButtonCustom.Click += new System.EventHandler(this.toolStripButtonCustom_Click);
             // 
@@ -464,6 +471,7 @@
             this.darkToolStripAdb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.darkToolStripAdb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.darkToolStripAdb.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.darkToolStripAdb.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.darkToolStripAdb.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripDropDownButtonAdbCon,
             this.toolStripButtonAdbRefresh,
@@ -472,10 +480,10 @@
             this.toolStripButtonClearAdbLog,
             this.toolStripButtonResumeAdbLog,
             this.toolStripButtonPauseAdbLog});
-            this.darkToolStripAdb.Location = new System.Drawing.Point(0, 25);
+            this.darkToolStripAdb.Location = new System.Drawing.Point(0, 38);
             this.darkToolStripAdb.Name = "darkToolStripAdb";
-            this.darkToolStripAdb.Padding = new System.Windows.Forms.Padding(5, 0, 1, 0);
-            this.darkToolStripAdb.Size = new System.Drawing.Size(894, 25);
+            this.darkToolStripAdb.Padding = new System.Windows.Forms.Padding(8, 0, 2, 0);
+            this.darkToolStripAdb.Size = new System.Drawing.Size(1341, 38);
             this.darkToolStripAdb.TabIndex = 7;
             this.darkToolStripAdb.Text = "toolStrip1";
             // 
@@ -494,7 +502,7 @@
             this.toolStripDropDownButtonAdbCon.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripDropDownButtonAdbCon.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButtonAdbCon.Name = "toolStripDropDownButtonAdbCon";
-            this.toolStripDropDownButtonAdbCon.Size = new System.Drawing.Size(85, 22);
+            this.toolStripDropDownButtonAdbCon.Size = new System.Drawing.Size(116, 35);
             this.toolStripDropDownButtonAdbCon.Text = "连接本机";
             // 
             // toolStripMenuItemAdbConLocal
@@ -502,7 +510,7 @@
             this.toolStripMenuItemAdbConLocal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripMenuItemAdbConLocal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripMenuItemAdbConLocal.Name = "toolStripMenuItemAdbConLocal";
-            this.toolStripMenuItemAdbConLocal.Size = new System.Drawing.Size(174, 22);
+            this.toolStripMenuItemAdbConLocal.Size = new System.Drawing.Size(240, 30);
             this.toolStripMenuItemAdbConLocal.Text = "连接本机";
             this.toolStripMenuItemAdbConLocal.Click += new System.EventHandler(this.toolStripMenuItemAdbConLocal_Click);
             // 
@@ -511,7 +519,7 @@
             this.toolStripMenuItemAdbConMu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripMenuItemAdbConMu.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripMenuItemAdbConMu.Name = "toolStripMenuItemAdbConMu";
-            this.toolStripMenuItemAdbConMu.Size = new System.Drawing.Size(174, 22);
+            this.toolStripMenuItemAdbConMu.Size = new System.Drawing.Size(240, 30);
             this.toolStripMenuItemAdbConMu.Text = "连接MuMu模拟器";
             this.toolStripMenuItemAdbConMu.Click += new System.EventHandler(this.toolStripMenuItemAdbConMu_Click);
             // 
@@ -520,7 +528,7 @@
             this.toolStripMenuItemAdbConYe.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripMenuItemAdbConYe.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripMenuItemAdbConYe.Name = "toolStripMenuItemAdbConYe";
-            this.toolStripMenuItemAdbConYe.Size = new System.Drawing.Size(174, 22);
+            this.toolStripMenuItemAdbConYe.Size = new System.Drawing.Size(240, 30);
             this.toolStripMenuItemAdbConYe.Text = "连接夜神模拟器";
             this.toolStripMenuItemAdbConYe.Click += new System.EventHandler(this.toolStripMenuItemAdbConYe_Click);
             // 
@@ -529,7 +537,7 @@
             this.toolStripMenuItemAdbConXiao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripMenuItemAdbConXiao.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripMenuItemAdbConXiao.Name = "toolStripMenuItemAdbConXiao";
-            this.toolStripMenuItemAdbConXiao.Size = new System.Drawing.Size(174, 22);
+            this.toolStripMenuItemAdbConXiao.Size = new System.Drawing.Size(240, 30);
             this.toolStripMenuItemAdbConXiao.Text = "连接逍遥模拟器";
             this.toolStripMenuItemAdbConXiao.Click += new System.EventHandler(this.toolStripMenuItemAdbConXiao_Click);
             // 
@@ -539,7 +547,7 @@
             this.toolStripSeparator2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripSeparator2.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(171, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(237, 6);
             // 
             // toolStripTextBoxAdbConIp
             // 
@@ -547,7 +555,7 @@
             this.toolStripTextBoxAdbConIp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolStripTextBoxAdbConIp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripTextBoxAdbConIp.Name = "toolStripTextBoxAdbConIp";
-            this.toolStripTextBoxAdbConIp.Size = new System.Drawing.Size(100, 23);
+            this.toolStripTextBoxAdbConIp.Size = new System.Drawing.Size(100, 30);
             this.toolStripTextBoxAdbConIp.Text = "127.0.0.1:53001";
             this.toolStripTextBoxAdbConIp.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBoxAdbConIp_KeyDown);
             // 
@@ -559,7 +567,7 @@
             this.toolStripButtonAdbRefresh.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonAdbRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonAdbRefresh.Name = "toolStripButtonAdbRefresh";
-            this.toolStripButtonAdbRefresh.Size = new System.Drawing.Size(100, 22);
+            this.toolStripButtonAdbRefresh.Size = new System.Drawing.Size(139, 35);
             this.toolStripButtonAdbRefresh.Text = "刷新Adb设备";
             this.toolStripButtonAdbRefresh.Click += new System.EventHandler(this.toolStripButtonAdbRefresh_Click);
             // 
@@ -571,7 +579,7 @@
             this.toolStripDropDownButtonAdbDevices.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripDropDownButtonAdbDevices.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButtonAdbDevices.Name = "toolStripDropDownButtonAdbDevices";
-            this.toolStripDropDownButtonAdbDevices.Size = new System.Drawing.Size(73, 22);
+            this.toolStripDropDownButtonAdbDevices.Size = new System.Drawing.Size(98, 35);
             this.toolStripDropDownButtonAdbDevices.Text = "空设备";
             // 
             // toolStripButtonPicAdbLog
@@ -583,7 +591,7 @@
             this.toolStripButtonPicAdbLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonPicAdbLog.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonPicAdbLog.Name = "toolStripButtonPicAdbLog";
-            this.toolStripButtonPicAdbLog.Size = new System.Drawing.Size(52, 22);
+            this.toolStripButtonPicAdbLog.Size = new System.Drawing.Size(66, 35);
             this.toolStripButtonPicAdbLog.Text = "截屏";
             this.toolStripButtonPicAdbLog.Click += new System.EventHandler(this.toolStripButtonPicAdbLog_Click);
             // 
@@ -596,7 +604,7 @@
             this.toolStripButtonClearAdbLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonClearAdbLog.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonClearAdbLog.Name = "toolStripButtonClearAdbLog";
-            this.toolStripButtonClearAdbLog.Size = new System.Drawing.Size(76, 22);
+            this.toolStripButtonClearAdbLog.Size = new System.Drawing.Size(102, 35);
             this.toolStripButtonClearAdbLog.Text = "清除日志";
             this.toolStripButtonClearAdbLog.Click += new System.EventHandler(this.toolStripButtonClearAdbLog_Click);
             // 
@@ -609,7 +617,7 @@
             this.toolStripButtonResumeAdbLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonResumeAdbLog.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonResumeAdbLog.Name = "toolStripButtonResumeAdbLog";
-            this.toolStripButtonResumeAdbLog.Size = new System.Drawing.Size(100, 22);
+            this.toolStripButtonResumeAdbLog.Size = new System.Drawing.Size(138, 35);
             this.toolStripButtonResumeAdbLog.Text = "继续接收日志";
             this.toolStripButtonResumeAdbLog.Click += new System.EventHandler(this.toolStripButtonResumeAdbLog_Click);
             // 
@@ -622,7 +630,7 @@
             this.toolStripButtonPauseAdbLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonPauseAdbLog.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonPauseAdbLog.Name = "toolStripButtonPauseAdbLog";
-            this.toolStripButtonPauseAdbLog.Size = new System.Drawing.Size(100, 22);
+            this.toolStripButtonPauseAdbLog.Size = new System.Drawing.Size(138, 35);
             this.toolStripButtonPauseAdbLog.Text = "暂停接收日志";
             this.toolStripButtonPauseAdbLog.Click += new System.EventHandler(this.toolStripButtonPauseAdbLog_Click);
             // 
@@ -632,6 +640,7 @@
             this.darkToolStripUdp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.darkToolStripUdp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.darkToolStripUdp.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.darkToolStripUdp.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.darkToolStripUdp.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonClearUdpLog,
             this.toolStripButtonResumeUdpLog,
@@ -644,8 +653,8 @@
             this.toolStripLabelUdpPm});
             this.darkToolStripUdp.Location = new System.Drawing.Point(0, 0);
             this.darkToolStripUdp.Name = "darkToolStripUdp";
-            this.darkToolStripUdp.Padding = new System.Windows.Forms.Padding(5, 0, 1, 0);
-            this.darkToolStripUdp.Size = new System.Drawing.Size(894, 25);
+            this.darkToolStripUdp.Padding = new System.Windows.Forms.Padding(8, 0, 2, 0);
+            this.darkToolStripUdp.Size = new System.Drawing.Size(1341, 38);
             this.darkToolStripUdp.TabIndex = 8;
             this.darkToolStripUdp.Text = "toolStrip1";
             // 
@@ -658,7 +667,7 @@
             this.toolStripButtonClearUdpLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonClearUdpLog.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonClearUdpLog.Name = "toolStripButtonClearUdpLog";
-            this.toolStripButtonClearUdpLog.Size = new System.Drawing.Size(76, 22);
+            this.toolStripButtonClearUdpLog.Size = new System.Drawing.Size(102, 35);
             this.toolStripButtonClearUdpLog.Text = "清除日志";
             this.toolStripButtonClearUdpLog.Click += new System.EventHandler(this.toolStripButtonClearUdpLog_Click);
             // 
@@ -671,7 +680,7 @@
             this.toolStripButtonResumeUdpLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonResumeUdpLog.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonResumeUdpLog.Name = "toolStripButtonResumeUdpLog";
-            this.toolStripButtonResumeUdpLog.Size = new System.Drawing.Size(100, 22);
+            this.toolStripButtonResumeUdpLog.Size = new System.Drawing.Size(138, 35);
             this.toolStripButtonResumeUdpLog.Text = "继续接收日志";
             this.toolStripButtonResumeUdpLog.Click += new System.EventHandler(this.toolStripButtonResumeUdpLog_Click);
             // 
@@ -684,7 +693,7 @@
             this.toolStripButtonPauseUdpLog.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonPauseUdpLog.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonPauseUdpLog.Name = "toolStripButtonPauseUdpLog";
-            this.toolStripButtonPauseUdpLog.Size = new System.Drawing.Size(100, 22);
+            this.toolStripButtonPauseUdpLog.Size = new System.Drawing.Size(138, 35);
             this.toolStripButtonPauseUdpLog.Text = "暂停接收日志";
             this.toolStripButtonPauseUdpLog.Click += new System.EventHandler(this.toolStripButtonPauseUdpLog_Click);
             // 
@@ -694,7 +703,7 @@
             this.toolStripLabelUdpConTip.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripLabelUdpConTip.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLabelUdpConTip.Image")));
             this.toolStripLabelUdpConTip.Name = "toolStripLabelUdpConTip";
-            this.toolStripLabelUdpConTip.Size = new System.Drawing.Size(72, 22);
+            this.toolStripLabelUdpConTip.Size = new System.Drawing.Size(106, 35);
             this.toolStripLabelUdpConTip.Text = "目标地址";
             // 
             // toolStripTextBoxEndPoint
@@ -703,7 +712,7 @@
             this.toolStripTextBoxEndPoint.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolStripTextBoxEndPoint.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripTextBoxEndPoint.Name = "toolStripTextBoxEndPoint";
-            this.toolStripTextBoxEndPoint.Size = new System.Drawing.Size(120, 25);
+            this.toolStripTextBoxEndPoint.Size = new System.Drawing.Size(179, 38);
             this.toolStripTextBoxEndPoint.Text = "192.168.255.255";
             this.toolStripTextBoxEndPoint.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBoxEndPoint_KeyDown);
             // 
@@ -715,7 +724,7 @@
             this.toolStripButtonConEndPoint.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonConEndPoint.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonConEndPoint.Name = "toolStripButtonConEndPoint";
-            this.toolStripButtonConEndPoint.Size = new System.Drawing.Size(52, 22);
+            this.toolStripButtonConEndPoint.Size = new System.Drawing.Size(66, 35);
             this.toolStripButtonConEndPoint.Text = "连接";
             this.toolStripButtonConEndPoint.Click += new System.EventHandler(this.toolStripButtonConEndPoint_Click);
             // 
@@ -726,7 +735,7 @@
             this.toolStripSeparator3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripSeparator3.Margin = new System.Windows.Forms.Padding(0, 0, 2, 0);
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 38);
             // 
             // toolStripTextBoxUdpPm
             // 
@@ -735,7 +744,7 @@
             this.toolStripTextBoxUdpPm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolStripTextBoxUdpPm.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripTextBoxUdpPm.Name = "toolStripTextBoxUdpPm";
-            this.toolStripTextBoxUdpPm.Size = new System.Drawing.Size(150, 25);
+            this.toolStripTextBoxUdpPm.Size = new System.Drawing.Size(224, 38);
             this.toolStripTextBoxUdpPm.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBox1_KeyDown);
             // 
             // toolStripLabelUdpPm
@@ -744,20 +753,21 @@
             this.toolStripLabelUdpPm.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripLabelUdpPm.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripLabelUdpPm.Name = "toolStripLabelUdpPm";
-            this.toolStripLabelUdpPm.Size = new System.Drawing.Size(32, 22);
+            this.toolStripLabelUdpPm.Size = new System.Drawing.Size(46, 35);
             this.toolStripLabelUdpPm.Text = "命令";
             // 
             // DocLogFile
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStripTab);
             this.Controls.Add(this.darkToolStripAdb);
             this.Controls.Add(this.darkToolStripUdp);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "DocLogFile";
-            this.Size = new System.Drawing.Size(894, 639);
+            this.Size = new System.Drawing.Size(1341, 958);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);

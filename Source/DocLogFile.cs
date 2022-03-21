@@ -24,6 +24,7 @@ namespace LogViewer
             InitializeComponent();
             InitListFont();
             SetSearchTip();
+            //InitDpi();
         }
 
         public DocLogFile(string text)
@@ -193,6 +194,19 @@ namespace LogViewer
         private void statusProgress_Click(object sender, EventArgs e)
         {
             Log.OnProgressCancel();
+        }
+
+        private void InitDpi()
+        {
+            var allSize = this.statusStrip.Size.Height + this.toolStripTab.Size.Height;
+            this.statusStrip.Size = new Size(this.statusStrip.Size.Width,
+                Convert.ToInt32(this.statusStrip.Size.Height * DeviceDpi / 96f));
+            this.toolStripTab.Size = new Size(this.toolStripTab.Size.Width,
+                Convert.ToInt32(this.toolStripTab.Size.Height * DeviceDpi / 96f));
+            
+            var ma = this.splitContainer1.Panel2.Padding;
+            ma.Bottom = ma.Bottom + Convert.ToInt32(allSize * (DeviceDpi / 96f - 1f));
+            this.splitContainer1.Panel2.Padding = ma;
         }
 
         private void InitListFont()

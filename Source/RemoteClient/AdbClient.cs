@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
@@ -32,21 +33,35 @@ namespace LogViewer
         /// </summary>
         public bool IsPausing { get; set; }
 
-
-        internal class AdbLine
+        internal class BaseLine
         {
             #region Member Variables/Properties
-            public string LineText { get; set; } = String.Empty;
-            public string StackTraceText { get; set; } = String.Empty;
             public int LogType { get; set; } = 0;
             public bool IsCrLine { get; set; } = false;
             public bool IsTerms { get; set; } = true;
             public bool IsCurSearch { get; set; }
+
+            public virtual string GetLineText()
+            {
+                return String.Empty;
+            }
+            #endregion
+        }
+        internal class AdbLine : BaseLine
+        {
+            #region Member Variables/Properties
+            public string LineText { get; set; } = String.Empty;
+            public string StackTraceText { get; set; } = String.Empty;
+
+            public override string GetLineText()
+            {
+                return LineText;
+            }
             #endregion
         }
         internal List<AdbLine> Lines { get; private set; }
 
-        private System.Timers.Timer timer;
+        private Timer tickTimer;
 
         /// <summary>
         /// 采集日志的进程
@@ -58,15 +73,26 @@ namespace LogViewer
         /// </summary>
         private int curDeviceIdIndex;
 
+        /// <summary>
+        /// adb的路径
+        /// </summary>
+        private string adbPath;
+
+        /// <summary>
+        /// 锁对象
+        /// </summary>
+        private readonly object balanceLock = new object();
+
         public AdbClient(DocLogFile page)
         {
             pageForm = page;
+            FindAdbPath();
             DevicesIdList = new List<string>();
             DevicesNameList = new List<string>();
             Lines = new List<AdbLine>();
-            timer = new System.Timers.Timer(300);
-            timer.Elapsed += TimerOnElapsed;
-            timer.Start();
+            tickTimer = new Timer(30);
+            tickTimer.Elapsed += TimerOnElapsed;
+            tickTimer.Start();
         }
 
         public void ClearObjects()
@@ -74,9 +100,28 @@ namespace LogViewer
             DisconnectDeviceInter();
         }
 
+        private void FindAdbPath()
+        {
+            const string kAdbExe = "adb.exe";
+            var paths = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
+            if (!string.IsNullOrEmpty(paths))
+            {
+                var files = paths.Split(';');
+                foreach (var path in files)
+                {
+                    if (!String.IsNullOrEmpty(path) && File.Exists(System.IO.Path.Combine(path, kAdbExe)))
+                    {
+                        adbPath = kAdbExe;
+                        return;
+                    }
+                }
+            }
+            adbPath = System.IO.Path.Combine(Misc.GetApplicationDirectory(), kAdbExe);
+        }
+
         private string GetPath()
         {
-            return System.IO.Path.Combine(Misc.GetApplicationDirectory(), "adb.exe");
+            return adbPath;
         }
 
         private string GetScreenCapPath()
@@ -452,7 +497,7 @@ namespace LogViewer
                 return;
             }
 
-            lock (Lines)
+            lock (balanceLock)
             {
                 if (Lines.Count > 0)
                 {
@@ -512,7 +557,7 @@ namespace LogViewer
             var idx = line.IndexOf(':');
             if (idx > -1)
             {
-                lock (Lines)
+                lock (balanceLock)
                 {
                     ParseLog(line.Substring(idx + 2), logType);
                 }
