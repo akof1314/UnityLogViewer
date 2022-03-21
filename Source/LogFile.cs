@@ -714,7 +714,7 @@ namespace LogViewer
                     return "";
                 }
 
-                return (this.GetLine(((LogLine)x).LineNumber));
+                return (this.GetLineEx(((LogLine)x).LineNumber));
             };
 
             colText.ImageGetter = delegate (object x)
@@ -795,6 +795,22 @@ namespace LogViewer
             lv.UnfocusedSelectedForeColor = lv.ForeColor;
             lv.SelectedBackColor = Color.FromArgb(62, 95, 150);
             lv.UnfocusedSelectedBackColor = lv.SelectedBackColor;
+
+            // 开启cell事件，来绘制不同行的颜色，注意这会轻微影响性能
+            lv.UseCellFormatEvents = true;
+            lv.FormatCell += (sender, e) =>
+            {
+                if (e.ColumnIndex == 1)
+                {
+                    if (e.Model is LogLine logLine)
+                    {
+                        if (!logLine.ForeColor.IsEmpty)
+                        {
+                            e.SubItem.ForeColor = logLine.ForeColor;
+                        }
+                    }
+                }
+            };
 
             this.List = lv;
             return pageForm;
@@ -1291,6 +1307,37 @@ namespace LogViewer
             return str;
         }
 
+        public string GetLineEx(int lineNumber)
+        {
+            if (lineNumber >= this.Lines.Count)
+            {
+                return string.Empty;
+            }
+
+            byte[] buffer = new byte[this.Lines[lineNumber].CharCount];
+            try
+            {
+                this.readMutex.WaitOne();
+                this.fileStream.Seek(this.Lines[lineNumber].Offset, SeekOrigin.Begin);
+                this.fileStream.Read(buffer, 0, this.Lines[lineNumber].CharCount);
+                this.readMutex.ReleaseMutex();
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+
+            //return Regex.Replace(Encoding.ASCII.GetString(buffer), "[\0-\b\n\v\f\x000E-\x001F\x007F-ÿ]", "", RegexOptions.Compiled);
+            var str = Encoding.UTF8.GetString(buffer);
+            string htmlColor;
+            str = GetPureLinesEx(str, out htmlColor);
+            if (!string.IsNullOrEmpty(htmlColor))
+            {
+                this.Lines[lineNumber].ForeColor = Constants.GetColor(htmlColor);
+            }
+            return str;
+        }
+
         public string GetLineStackTrace(int lineNumber)
         {
             if (lineNumber >= this.Lines.Count)
@@ -1608,11 +1655,67 @@ namespace LogViewer
             return input;
         }
 
-        private Color ParseHTMLColor(string input, int oldPos, int endPos)
+        private string GetPureLinesEx(string input, out string htmlColor)
         {
-            Console.WriteLine(input.Substring(oldPos + 7, endPos - oldPos - 7));
-            return Color.AliceBlue;
-            
+            htmlColor = String.Empty;
+            m_StringBuilder.Length = 0;
+            m_TagStack.Clear();
+
+            int preStrPos = 0;
+            int pos = 0;
+            while (pos < input.Length)
+            {
+                int oldPos = pos;
+                bool closing;
+                int tagIndex = GetTagIndex(input, ref pos, out closing);
+                if (tagIndex != -1)
+                {
+                    if (closing)
+                    {
+                        if (m_TagStack.Count == 0 || m_TagStack.Pop() != tagIndex)
+                        {
+                            return input;
+                        }
+                    }
+                    else if (tagIndex == kTagColorIndex)
+                    {
+                        htmlColor = input.Substring(oldPos + 7, pos - oldPos - 7);
+                    }
+
+                    if (preStrPos != oldPos)
+                    {
+                        m_StringBuilder.Append(input, preStrPos, oldPos - preStrPos);
+                    }
+
+                    preStrPos = pos + 1;
+
+                    if (closing || tagIndex == kTagQuadIndex)
+                    {
+                        continue;
+                    }
+
+                    m_TagStack.Push(tagIndex);
+                }
+
+                pos++;
+            }
+
+            if (m_TagStack.Count > 0)
+            {
+                return input;
+            }
+
+            if (preStrPos > 0 && preStrPos < input.Length)
+            {
+                m_StringBuilder.Append(input, preStrPos, input.Length - preStrPos);
+            }
+
+            if (m_StringBuilder.Length > 0)
+            {
+                return m_StringBuilder.ToString();
+            }
+
+            return input;
         }
 
         #endregion
@@ -1627,9 +1730,11 @@ namespace LogViewer
             public static Color colorParameters, colorParametersAlpha;
             public static Color colorPath, colorPathAlpha;
             public static Color colorFilename, colorFilenameAlpha;
+            public static Dictionary<string, Color> colorByHtml;
 
             public static void Init()
             {
+                colorByHtml = new Dictionary<string, Color>();
                 colorNamespace = ColorTranslator.FromHtml("#6A87A7");
                 colorClass = ColorTranslator.FromHtml("#1A7ECD");
                 colorMethod = ColorTranslator.FromHtml("#0D9DDC");
@@ -1642,6 +1747,18 @@ namespace LogViewer
                 colorParametersAlpha = ColorTranslator.FromHtml("#425766");
                 colorPathAlpha = ColorTranslator.FromHtml("#375860");
                 colorFilenameAlpha = ColorTranslator.FromHtml("#4A6E8A");
+            }
+
+            public static Color GetColor(string htmlColor)
+            {
+                if (colorByHtml.TryGetValue(htmlColor, out var clr))
+                {
+                    return clr;
+                }
+
+                clr = ColorTranslator.FromHtml(htmlColor);
+                colorByHtml.Add(htmlColor, clr);
+                return clr;
             }
         }
 

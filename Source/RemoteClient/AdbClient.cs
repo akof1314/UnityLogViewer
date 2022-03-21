@@ -97,6 +97,10 @@ namespace LogViewer
 
         public void ClearObjects()
         {
+            if (tickTimer != null)
+            {
+                tickTimer.Stop();
+            }
             DisconnectDeviceInter();
         }
 

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Drawing;
 
 namespace LogViewer
 {
@@ -18,6 +18,7 @@ namespace LogViewer
         public int StackTraceCharCount { get; set; } = 0;
         public bool IsCrLine { get; set; } = false;
         public Global.LogType LogType { get; set; } = 0;
+        public Color ForeColor { get; set; }       // 前景色
         #endregion
     }
 }
