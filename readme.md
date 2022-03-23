@@ -3,7 +3,7 @@
 - A lightweight, standalone Unity log viewer
 - Quick view Unity `Editor.log` file
 - ADB logcat viewer, filter by `Unity` tag
-- UDP remote log, remote debug command
+- [UDP remote log](https://github.com/akof1314/UnityLogViewer/blob/master/UnityLogUdp/readme.md), remote debug command
 - View [Unity-ConsoleTiny](https://github.com/akof1314/Unity-ConsoleTiny) export log file
 
 

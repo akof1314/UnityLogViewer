@@ -115,7 +115,7 @@ namespace LogViewer
                 {
                     if (!String.IsNullOrEmpty(path) && File.Exists(System.IO.Path.Combine(path, kAdbExe)))
                     {
-                        adbPath = kAdbExe;
+                        adbPath = System.IO.Path.Combine(path, kAdbExe);
                         return;
                     }
                 }

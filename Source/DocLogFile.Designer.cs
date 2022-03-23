@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DocLogFile));
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle28 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle29 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle30 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle1 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle2 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle3 = new BrightIdeasSoftware.HeaderStateStyle();
             this.statusProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.statusStrip = new DarkUI.Controls.DarkStatusStrip();
             this.statusLabelPage = new System.Windows.Forms.ToolStripStatusLabel();
@@ -44,7 +44,7 @@
             this.toolStripButtonInfo = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonWarning = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonError = new System.Windows.Forms.ToolStripButton();
-            this.toolStripTextBoxSearch = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripTextBoxSearch = new LogViewer.ControlEx.ToolStripSuggestTextBox();
             this.ToolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,7 +81,7 @@
             this.toolStripTextBoxEndPoint = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButtonConEndPoint = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripTextBoxUdpPm = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripTextBoxUdpPm = new LogViewer.ControlEx.ToolStripSuggestTextBox();
             this.toolStripLabelUdpPm = new System.Windows.Forms.ToolStripLabel();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -97,7 +97,7 @@
             // statusProgress
             // 
             this.statusProgress.Name = "statusProgress";
-            this.statusProgress.Size = new System.Drawing.Size(100, 24);
+            this.statusProgress.Size = new System.Drawing.Size(100, 27);
             this.statusProgress.Visible = false;
             this.statusProgress.Click += new System.EventHandler(this.statusProgress_Click);
             // 
@@ -182,7 +182,7 @@
             this.fastObjectListView1.HeaderFormatStyle = this.headerFormatStyleLog;
             this.fastObjectListView1.HideSelection = false;
             this.fastObjectListView1.Location = new System.Drawing.Point(0, 0);
-            this.fastObjectListView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.fastObjectListView1.Margin = new System.Windows.Forms.Padding(4);
             this.fastObjectListView1.Name = "fastObjectListView1";
             this.fastObjectListView1.SelectedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(110)))), ((int)(((byte)(175)))));
             this.fastObjectListView1.SelectedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
@@ -200,13 +200,13 @@
             // 
             // headerFormatStyleLog
             // 
-            headerStateStyle28.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
-            headerStateStyle28.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Hot = headerStateStyle28;
-            headerStateStyle29.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
-            headerStateStyle29.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.headerFormatStyleLog.Normal = headerStateStyle29;
-            this.headerFormatStyleLog.Pressed = headerStateStyle30;
+            headerStateStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(77)))), ((int)(((byte)(95)))));
+            headerStateStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Hot = headerStateStyle1;
+            headerStateStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(62)))));
+            headerStateStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.headerFormatStyleLog.Normal = headerStateStyle2;
+            this.headerFormatStyleLog.Pressed = headerStateStyle3;
             // 
             // toolStripButtonInfo
             // 
@@ -260,7 +260,6 @@
             // 
             // toolStripTextBoxSearch
             // 
-            this.toolStripTextBoxSearch.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.toolStripTextBoxSearch.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.toolStripTextBoxSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripTextBoxSearch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -739,6 +738,7 @@
             // 
             // toolStripTextBoxUdpPm
             // 
+            this.toolStripTextBoxUdpPm.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.toolStripTextBoxUdpPm.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripTextBoxUdpPm.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.toolStripTextBoxUdpPm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -765,7 +765,7 @@
             this.Controls.Add(this.toolStripTab);
             this.Controls.Add(this.darkToolStripAdb);
             this.Controls.Add(this.darkToolStripUdp);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "DocLogFile";
             this.Size = new System.Drawing.Size(1341, 958);
             this.statusStrip.ResumeLayout(false);
@@ -796,7 +796,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonInfo;
         private System.Windows.Forms.ToolStripButton toolStripButtonWarning;
         private System.Windows.Forms.ToolStripButton toolStripButtonError;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBoxSearch;
+        private LogViewer.ControlEx.ToolStripSuggestTextBox toolStripTextBoxSearch;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem2;
@@ -834,7 +834,7 @@
         private System.Windows.Forms.ToolStripTextBox toolStripTextBoxEndPoint;
         private System.Windows.Forms.ToolStripButton toolStripButtonConEndPoint;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBoxUdpPm;
+        private LogViewer.ControlEx.ToolStripSuggestTextBox toolStripTextBoxUdpPm;
         private System.Windows.Forms.ToolStripLabel toolStripLabelUdpPm;
     }
 }

@@ -23,6 +23,8 @@ namespace LogViewer
         {
             InitializeComponent();
             InitListFont();
+            this.toolStripTextBoxSearch.SelectedSuggest += ToolStripTextBoxSearchOnSelectedSuggest;
+            this.toolStripTextBoxUdpPm.SelectedSuggest += ToolStripTextBoxUdpPmOnSelectedSuggest;
             SetSearchTip();
             //InitDpi();
         }
@@ -367,8 +369,28 @@ namespace LogViewer
                 Log.CurSearch.Pattern = this.toolStripTextBoxSearch.Text;
                 Log.CurSearch.Type = this.GetSearchType();
                 Log.OnSearchBegin();
+
+                foreach (string autoText in this.toolStripTextBoxSearch.AutoCompleteCustomSource)
+                {
+                    if (autoText == this.toolStripTextBoxSearch.Text)
+                    {
+                        return;
+                    }
+                }
                 this.toolStripTextBoxSearch.AutoCompleteCustomSource.Add(this.toolStripTextBoxSearch.Text);
             }
+        }
+
+        private void ToolStripTextBoxSearchOnSelectedSuggest(object sender, EventArgs e)
+        {
+            if (!searchHasText)
+            {
+                this.toolStripTextBoxSearch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            }
+            //Perform search
+            Log.CurSearch.Pattern = this.toolStripTextBoxSearch.Text;
+            Log.CurSearch.Type = this.GetSearchType();
+            Log.OnSearchBegin();
         }
 
         private void toolStripButtonViewMatch_CheckedChanged(object sender, EventArgs e)
@@ -687,7 +709,25 @@ namespace LogViewer
                 if (!string.IsNullOrEmpty(pmStr))
                 {
                     udp.SendShellMsg(pmStr);
+
+                    foreach (string autoText in this.toolStripTextBoxUdpPm.AutoCompleteCustomSource)
+                    {
+                        if (autoText == pmStr)
+                        {
+                            return;
+                        }
+                    }
+                    this.toolStripTextBoxUdpPm.AutoCompleteCustomSource.Add(pmStr);
                 }
+            }
+        }
+
+        private void ToolStripTextBoxUdpPmOnSelectedSuggest(object sender, EventArgs e)
+        {
+            var pmStr = this.toolStripTextBoxUdpPm.Text.Trim();
+            if (!string.IsNullOrEmpty(pmStr))
+            {
+                udp.SendShellMsg(pmStr);
             }
         }
 
