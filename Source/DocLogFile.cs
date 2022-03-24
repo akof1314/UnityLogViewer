@@ -669,6 +669,7 @@ namespace LogViewer
             this.toolStripButtonClearUdpLog.Visible = false;
             this.toolStripLabelUdpPm.Visible = false;
             this.toolStripTextBoxUdpPm.Visible = false;
+            this.toolStripButtonPicUdpLog.Visible = false;
         }
 
         public void ConnectUdpDevice()
@@ -679,6 +680,7 @@ namespace LogViewer
             this.toolStripButtonClearUdpLog.Visible = true;
             this.toolStripLabelUdpPm.Visible = true;
             this.toolStripTextBoxUdpPm.Visible = true;
+            this.toolStripButtonPicUdpLog.Visible = true;
             GetToolStripStatusLabel().Text = "连接目标中： " + this.toolStripTextBoxEndPoint.Text;
         }
 
@@ -748,6 +750,11 @@ namespace LogViewer
         private void toolStripButtonClearUdpLog_Click(object sender, EventArgs e)
         {
             Log.ClearAdbLines();
+        }
+
+        private void toolStripButtonPicUdpLog_Click(object sender, EventArgs e)
+        {
+            udp.GetScreenCap();
         }
 
         #endregion

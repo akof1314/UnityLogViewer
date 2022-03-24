@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Timers;
+using woanware;
 
 namespace LogViewer
 {
@@ -20,6 +23,11 @@ namespace LogViewer
         /// upd客户端
         /// </summary>
         private UdpClient udpClient;
+
+        /// <summary>
+        /// upd客户端-专门接收图片
+        /// </summary>
+        private UdpClient pngClient;
 
         /// <summary>
         /// 目标地址
@@ -66,12 +74,24 @@ namespace LogViewer
         /// </summary>
         private readonly object balanceLock = new object();
 
+        /// <summary>
+        /// 开始png接收
+        /// </summary>
+        private bool startPngRecv;
+
+        /// <summary>
+        /// 数组png
+        /// </summary>
+        private List<byte> bufferPngBytes;
+
         public NetClient(DocLogFile page)
         {
             pageForm = page;
             lines = new List<UdpLine>();
             udpClient = new UdpClient(22234);
             udpClient.BeginReceive(ReceiveCallback, this);
+            pngClient = new UdpClient(22235);
+            pngClient.BeginReceive(ReceivePngCallback, this);
             tickTimer = new Timer(30);
             tickTimer.Elapsed += TickTimerOnElapsed;
             tickTimer.Start();
@@ -89,6 +109,8 @@ namespace LogViewer
             }
             udpClient.Close();
             udpClient = null;
+            pngClient.Close();
+            pngClient = null;
         }
 
         /// <summary>
@@ -98,6 +120,13 @@ namespace LogViewer
         public void SendShellMsg(string msg)
         {
             byte[] sendBytes = Encoding.UTF8.GetBytes("pm:" + msg);
+            int sendCount = udpClient.Send(sendBytes, sendBytes.Length, endPoint);
+            Console.WriteLine("send pm ok" + sendCount);
+        }
+
+        public void GetScreenCap()
+        {
+            byte[] sendBytes = Encoding.UTF8.GetBytes("pm:logscreenshot");
             int sendCount = udpClient.Send(sendBytes, sendBytes.Length, endPoint);
             Console.WriteLine("send pm ok" + sendCount);
         }
@@ -261,6 +290,111 @@ namespace LogViewer
             if (n.udpClient != null)
             {
                 n.udpClient.BeginReceive(ReceiveCallback, n);
+            }
+        }
+
+        private static string GetScreenCapPath()
+        {
+            return System.IO.Path.Combine(Misc.GetApplicationDirectory(), "UDPScreenCap");
+        }
+
+        public static void ReceivePngCallback(IAsyncResult ar)
+        {
+            NetClient n = (NetClient)ar.AsyncState;
+
+            if (n.pngClient?.Client == null)
+            {
+                return;
+            }
+
+            try
+            {
+                IPEndPoint pngPoint = null;
+                byte[] receiveBytes = n.pngClient.EndReceive(ar, ref pngPoint);
+
+                // 判断目标地址
+                if (Equals(pngPoint.Address, n.endPoint.Address))
+                {
+                    // 判断开头
+                    if (!n.startPngRecv)
+                    {
+                        var pattern = new byte[] { 137, 80, 78, 71, 13, 10, 26, 10 };
+                        if (receiveBytes.Length > pattern.Length)
+                        {
+                            bool isMatch = true;
+                            for (int i = 0; i < pattern.Length; i++)
+                            {
+                                if (pattern[i] != receiveBytes[i])
+                                {
+                                    isMatch = false;
+                                    break;
+                                }
+                            }
+
+                            n.startPngRecv = isMatch;
+                            if (isMatch)
+                            {
+                                n.bufferPngBytes = new List<byte>();
+                            }
+                        }
+                    }
+
+                    // 是的话，再接收
+                    if (n.startPngRecv)
+                    {
+                        n.bufferPngBytes.AddRange(receiveBytes);
+                    }
+
+                    // 判断结尾
+                    {
+                        var pattern = new byte[] {0, 0, 0, 0, 73, 69, 78, 68, 174, 66, 96, 130};
+                        if (receiveBytes.Length > pattern.Length)
+                        {
+                            bool isMatch = true;
+
+                            for (int i = 0; i < pattern.Length; i++)
+                            {
+                                if (pattern[pattern.Length - 1 - i] != receiveBytes[receiveBytes.Length - 1 - i])
+                                {
+                                    isMatch = false;
+                                    break;
+                                }
+                            }
+
+                            if (isMatch)
+                            {
+                                var destDir = GetScreenCapPath();
+                                if (!System.IO.Directory.Exists(destDir))
+                                {
+                                    System.IO.Directory.CreateDirectory(destDir);
+                                }
+
+                                var destPath = string.Format("{0:yyyy-MM-dd_HH-mm-ss-fff}.png", DateTime.Now);
+                                destPath = System.IO.Path.Combine(destDir, destPath);
+
+                                File.WriteAllBytes(destPath, n.bufferPngBytes.ToArray());
+                                n.startPngRecv = false;
+                                n.bufferPngBytes.Clear();
+
+                                if (System.IO.File.Exists(destPath))
+                                {
+                                    Process.Start(destPath);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //Console.WriteLine(receiveString);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            if (n.pngClient != null)
+            {
+                n.pngClient.BeginReceive(ReceivePngCallback, n);
             }
         }
     }

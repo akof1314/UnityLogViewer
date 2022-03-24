@@ -57,6 +57,7 @@ namespace LogViewer
         public Global.ViewMode ViewMode { get; set; } = Global.ViewMode.Standard;
         public List<LogLine> Lines { get; private set; } = new List<LogLine>(); // 所有行
         public LogLine LongestLine { get; private set; } = new LogLine(); // 最长的行
+        private int LongestWidth;
         public int LineCount { get; private set; } = 0; //总行数
         private FileStream fileStream; // 文件流
         private Mutex readMutex = new Mutex();
@@ -750,6 +751,7 @@ namespace LogViewer
             lv.HeaderUsesThemes = false;
             logPage.GetHighlightTextRenderer().FillBrush = Brushes.Transparent;
             lv.DefaultRenderer = logPage.GetHighlightTextRenderer();
+            logPage.Resize += LogPageOnResize;
 
             colLineNumber.Width = Convert.ToInt32(colLineNumber.Width * lv.DeviceDpi / 96f);
             lv.AllColumns.Add(colLineNumber);
@@ -1496,19 +1498,24 @@ namespace LogViewer
                     string temp = GetLine(LongestLine.LineNumber);
                     var result = g.MeasureString(temp, List.Font);
                     var newWidth = Convert.ToInt32(result.Width * List.DeviceDpi / 96f + 200);
-                    if (List.AllColumns[1].FillsFreeSpace)
-                    {
-                        if (List.Columns[1].Width < newWidth)
-                        {
-                            List.AllColumns[1].FillsFreeSpace = false;
-                            List.Columns[1].Width = newWidth;
-                        }
-                    }
-                    else
-                    {
-                        List.Columns[1].Width = newWidth;
-                    }
+                    LongestWidth = newWidth;
+                    List.AllColumns[1].FillsFreeSpace = false;
+
+                    LogPageOnResize(null, EventArgs.Empty);
                 }
+            }
+        }
+
+        private void LogPageOnResize(object sender, EventArgs e)
+        {
+            var w = List.Width - List.AllColumns[0].Width - 4;
+            if (w < LongestWidth)
+            {
+                List.Columns[1].Width = LongestWidth;
+            }
+            else
+            {
+                List.Columns[1].Width = w;
             }
         }
 
