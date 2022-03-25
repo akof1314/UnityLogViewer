@@ -72,6 +72,11 @@ namespace LogViewer
             {
                 this.Height = Screen.PrimaryScreen.WorkingArea.Height;
             }
+            if (config.FormPos.Length > 0)
+            {
+                StartPosition = FormStartPosition.Manual;
+                Location = new Point(config.FormPos[0], config.FormPos[1]);
+            }
             if (config.FormMaximized)
             {
                 WindowState = FormWindowState.Maximized;
@@ -99,10 +104,12 @@ namespace LogViewer
             if (WindowState == FormWindowState.Normal)
             {
                 config.FormSize = new[] { Size.Width, Size.Height };
+                config.FormPos = new[] { Location.X, Location.Y };
             }
             else
             {
                 config.FormSize = new[] { RestoreBounds.Size.Width, RestoreBounds.Size.Height };
+                config.FormPos = new[] { RestoreBounds.Location.X, RestoreBounds.Location.Y };
             }
             config.HighlightColour = this.highlightColour.ToKnownColor().ToString();
             string ret = config.Save();

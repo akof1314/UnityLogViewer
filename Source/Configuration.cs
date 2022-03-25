@@ -20,6 +20,7 @@ namespace LogViewer
         public string[] SearchTerms { get; set; } = new string[0];
         public int[] SearchTypes { get; set; } = new int[0];
         public int[] FormSize { get; set; } = new int[0];
+        public int[] FormPos { get; set; } = new int[0];
         public bool FormMaximized { get; set; } = false;
         public int SplitterDistance { get; set; } = 0;
         public string UdpIpAddress { get; set; } = "127.0.0.1";
@@ -50,6 +51,7 @@ namespace LogViewer
                 this.SearchTerms = c.SearchTerms;
                 this.SearchTypes = c.SearchTypes;
                 this.FormSize = c.FormSize;
+                this.FormPos = c.FormPos;
                 this.FormMaximized = c.FormMaximized;
                 this.SplitterDistance = c.SplitterDistance;
                 this.UdpIpAddress = c.UdpIpAddress;

@@ -88,10 +88,27 @@ namespace LogViewer
         {
             pageForm = page;
             lines = new List<UdpLine>();
-            udpClient = new UdpClient(22234);
-            udpClient.BeginReceive(ReceiveCallback, this);
-            pngClient = new UdpClient(22235);
-            pngClient.BeginReceive(ReceivePngCallback, this);
+            try
+            {
+                udpClient = new UdpClient(22234);
+                udpClient.BeginReceive(ReceiveCallback, this);
+            }
+            catch (Exception e)
+            {
+                Global.ShowErrorDialog($"UDP 创建链接失败，端口 {22234}，原因：{e.Message}");
+                pageForm.Close();
+                return;
+            }
+
+            try
+            {
+                pngClient = new UdpClient(22235);
+                pngClient.BeginReceive(ReceivePngCallback, this);
+            }
+            catch (Exception e)
+            {
+                Global.ShowErrorDialog($"UDP 创建链接失败，端口 {22235}，原因：{e.Message}");
+            }
             tickTimer = new Timer(30);
             tickTimer.Elapsed += TickTimerOnElapsed;
             tickTimer.Start();
@@ -107,10 +124,16 @@ namespace LogViewer
             {
                 tickTimer.Stop();
             }
-            udpClient.Close();
-            udpClient = null;
-            pngClient.Close();
-            pngClient = null;
+            if (udpClient != null)
+            {
+                udpClient.Close();
+                udpClient = null;
+            }
+            if (pngClient != null)
+            {
+                pngClient.Close();
+                pngClient = null;
+            }
         }
 
         /// <summary>
@@ -155,6 +178,11 @@ namespace LogViewer
 
         private void SendAckToRemote()
         {
+            if (udpClient == null)
+            {
+                return;
+            }
+
             if (ackTimer == null)
             {
                 ackTimer = new System.Timers.Timer(2000);
@@ -172,6 +200,11 @@ namespace LogViewer
 
         private void SendAckToRemoteInter()
         {
+            if (udpClient == null)
+            {
+                return;
+            }
+
             try
             {
                 byte[] sendBytes = Encoding.UTF8.GetBytes("ack");
@@ -287,9 +320,16 @@ namespace LogViewer
                 Console.WriteLine(e);
             }
 
-            if (n.udpClient != null)
+            try
             {
-                n.udpClient.BeginReceive(ReceiveCallback, n);
+                if (n.udpClient != null)
+                {
+                    n.udpClient.BeginReceive(ReceiveCallback, n);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
 
@@ -392,9 +432,16 @@ namespace LogViewer
                 Console.WriteLine(e);
             }
 
-            if (n.pngClient != null)
+            try
             {
-                n.pngClient.BeginReceive(ReceivePngCallback, n);
+                if (n.pngClient != null)
+                {
+                    n.pngClient.BeginReceive(ReceivePngCallback, n);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
     }

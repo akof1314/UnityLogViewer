@@ -1939,6 +1939,7 @@ namespace LogViewer
                 preMethodString = preMethodString.Remove(methodFirstIndex + luaMethodBefore.Length);
             }
 
+            bool isAdd = false;
             bool cFunction = line.IndexOf(luaCFunction, 1, StringComparison.Ordinal) == 1;
             if (!cFunction)
             {
@@ -1973,10 +1974,11 @@ namespace LogViewer
                         pageForm.StackTraceAppendText(lineString, Constants.colorPath);
                         pageForm.StackTraceAppendText(luaMethodBefore, Constants.colorPath);
                         pageForm.StackTraceAppendText(methodString, Constants.colorMethod);
+                        isAdd = true;
                     }
                 }
             }
-            else
+            if (!isAdd)
             {
                 pageForm.StackTraceAppendText(preMethodString, Constants.colorPathAlpha);
                 pageForm.StackTraceAppendText(methodString, Constants.colorMethodAlpha);
