@@ -72,7 +72,7 @@ namespace LogViewer
         /// <summary>
         /// 锁对象
         /// </summary>
-        private readonly object balanceLock = new object();
+        private static readonly object balanceLock = new object();
 
         /// <summary>
         /// 开始png接收
@@ -119,19 +119,23 @@ namespace LogViewer
             if (ackTimer != null)
             {
                 ackTimer.Stop();
+                ackTimer.Dispose();
+                ackTimer = null;
             }
             if (tickTimer != null)
             {
                 tickTimer.Stop();
+                tickTimer.Dispose();
+                tickTimer = null;
             }
             if (udpClient != null)
             {
-                udpClient.Close();
+                udpClient.Dispose();
                 udpClient = null;
             }
             if (pngClient != null)
             {
-                pngClient.Close();
+                pngClient.Dispose();
                 pngClient = null;
             }
         }
@@ -304,7 +308,7 @@ namespace LogViewer
 
                             var newLine = new UdpLine { CharCount = charCount, ByteArray = receiveBytes, LogType = (int)logType };
                             
-                            lock (n.balanceLock)
+                            lock (balanceLock)
                             {
                                 // 定时器去写入GUI，否则每条都刷新，导致要刷很久
                                 n.lines.Add(newLine);

@@ -81,7 +81,7 @@ namespace LogViewer
         /// <summary>
         /// 锁对象
         /// </summary>
-        private readonly object balanceLock = new object();
+        private static readonly object balanceLock = new object();
 
         public AdbClient(DocLogFile page)
         {
@@ -100,6 +100,8 @@ namespace LogViewer
             if (tickTimer != null)
             {
                 tickTimer.Stop();
+                tickTimer.Dispose();
+                tickTimer = null;
             }
             DisconnectDeviceInter();
         }
