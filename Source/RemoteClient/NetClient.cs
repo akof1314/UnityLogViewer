@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 using System.Timers;
 using woanware;
 
@@ -153,9 +154,24 @@ namespace LogViewer
 
         public void GetScreenCap()
         {
+            pageForm.SetUdpPicEnable(false);
             byte[] sendBytes = Encoding.UTF8.GetBytes("pm:logscreenshot");
             int sendCount = udpClient.Send(sendBytes, sendBytes.Length, endPoint);
             Console.WriteLine("send pm ok" + sendCount);
+
+            Task.Run(async () =>
+            {
+                // 延迟显示激活，避免连续点击，因为点击样式不明显
+                await Task.Delay(1000);
+
+                if (pageForm != null)
+                {
+                    pageForm.BeginInvoke(new Action(() =>
+                    {
+                        pageForm.SetUdpPicEnable(true);
+                    }));
+                }
+            });
         }
 
         /// <summary>
@@ -307,7 +323,7 @@ namespace LogViewer
                             }
 
                             var newLine = new UdpLine { CharCount = charCount, ByteArray = receiveBytes, LogType = (int)logType };
-                            
+
                             lock (balanceLock)
                             {
                                 // 定时器去写入GUI，否则每条都刷新，导致要刷很久
@@ -391,7 +407,7 @@ namespace LogViewer
 
                     // 判断结尾
                     {
-                        var pattern = new byte[] {0, 0, 0, 0, 73, 69, 78, 68, 174, 66, 96, 130};
+                        var pattern = new byte[] { 0, 0, 0, 0, 73, 69, 78, 68, 174, 66, 96, 130 };
                         if (receiveBytes.Length > pattern.Length)
                         {
                             bool isMatch = true;

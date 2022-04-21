@@ -52,6 +52,7 @@ namespace LogViewer
             #region Member Variables/Properties
             public string LineText { get; set; } = String.Empty;
             public string StackTraceText { get; set; } = String.Empty;
+            public string TimeText { get; set; } = String.Empty;
 
             public override string GetLineText()
             {
@@ -319,6 +320,7 @@ namespace LogViewer
                 return;
             }
             IsBusying = true;
+            pageForm.SetAdbPicEnable(false);
 
             var adbProcess = new Process
             {
@@ -375,6 +377,10 @@ namespace LogViewer
                 }
 
                 IsBusying = false;
+                pageForm.BeginInvoke(new Action(() =>
+                {
+                    pageForm.SetAdbPicEnable(true);
+                }));
             });
         }
 
@@ -385,7 +391,7 @@ namespace LogViewer
             {
                 StartInfo = {
                 FileName = GetPath(),
-                Arguments = "-s " + deviceId + " logcat -v brief -s \"Unity\"",
+                Arguments = "-s " + deviceId + " logcat -v time -s \"Unity\"",
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardError = true,
@@ -507,52 +513,42 @@ namespace LogViewer
             {
                 if (Lines.Count > 0)
                 {
-                    var lastLine = Lines[Lines.Count - 1];
-
-                    // 如果最后一行还没有结束，先移除再添加
-                    if (!lastLine.IsCrLine)
-                    {
-                        Lines.RemoveAt(Lines.Count - 1);
-                    }
-                    else
-                    {
-                        lastLine = null;
-                    }
+                    // 如果最后一行还没有结束，也认为直接添加
+                    // 正常一条Unity日志都是一起的，暂时未发现分散在不同时间
+                    // 另外也因为不一定以空行结尾，所以只能这样
 
                     pageForm.Log.WriteAdbLines(Lines);
                     Lines.Clear();
-
-                    if (lastLine != null)
-                    {
-                        Lines.Add(lastLine);
-                    }
                 }
             }
         }
 
+        private const int kTimeLen = 19;
+        private const int kUnityLen = 7;
+
         private void ParseLog2(string line)
         {
-            if (line.StartsWith("I/Unity", StringComparison.Ordinal))
+            if (string.CompareOrdinal(line, kTimeLen, "I/Unity", 0, kUnityLen) == 0)
             {
                 ParseLog3(line, 11);
             }
-            else if (line.StartsWith("W/Unity", StringComparison.Ordinal))
+            else if (string.CompareOrdinal(line, kTimeLen, "W/Unity", 0, kUnityLen) == 0)
             {
                 ParseLog3(line, 21);
             }
-            else if (line.StartsWith("D/Unity", StringComparison.Ordinal))
+            else if (string.CompareOrdinal(line, kTimeLen, "D/Unity", 0, kUnityLen) == 0)
             {
                 ParseLog3(line, 12);
             }
-            else if (line.StartsWith("V/Unity", StringComparison.Ordinal))
+            else if (string.CompareOrdinal(line, kTimeLen, "V/Unity", 0, kUnityLen) == 0)
             {
                 ParseLog3(line, 13);
             }
-            else if (line.StartsWith("E/Unity", StringComparison.Ordinal))
+            else if (string.CompareOrdinal(line, kTimeLen, "E/Unity", 0, kUnityLen) == 0)
             {
                 ParseLog3(line, 41);
             }
-            else if (line.StartsWith("F/Unity", StringComparison.Ordinal))
+            else if (string.CompareOrdinal(line, kTimeLen, "F/Unity", 0, kUnityLen) == 0)
             {
                 ParseLog3(line, 42);
             }
@@ -560,28 +556,18 @@ namespace LogViewer
 
         private void ParseLog3(string line, int logType)
         {
-            var idx = line.IndexOf(':');
+            var idx = line.IndexOf(':', kTimeLen);
             if (idx > -1)
             {
                 lock (balanceLock)
                 {
-                    ParseLog(line.Substring(idx + 2), logType);
+                    ParseLog(line.Substring(0, kTimeLen), line.Substring(idx + 2), logType);
                 }
             }
         }
 
-        private void ParseLog(string line, int logType)
+        private void ParseLog(string timeText, string line, int logType)
         {
-            // 长度为空，代表一个日志结束
-            if (line.Length == 0)
-            {
-                if (Lines.Count > 0)
-                {
-                    Lines[Lines.Count - 1].IsCrLine = true;
-                }
-                return;
-            }
-
             bool isNew = true;
             if (Lines.Count > 0)
             {
@@ -592,11 +578,18 @@ namespace LogViewer
                     Lines[Lines.Count - 1].IsCrLine = true;
                     isNew = true;
                 }
+
+                // 鼠标点击连续输出日志，会没有空行来区分，所以增加时间来判断
+                if (!isNew && Lines[Lines.Count - 1].TimeText != timeText)
+                {
+                    Lines[Lines.Count - 1].IsCrLine = true;
+                    isNew = true;
+                }
             }
 
             if (isNew)
             {
-                var newLine = new AdbLine { LineText = line + "\r\n", LogType = logType };
+                var newLine = new AdbLine { LineText = line + "\r\n", LogType = logType, TimeText = timeText};
                 Lines.Add(newLine);
 
                 // 如果的D/V的话，不需要解析堆栈，直接显示

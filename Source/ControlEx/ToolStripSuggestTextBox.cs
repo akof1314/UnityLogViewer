@@ -1,9 +1,29 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
+using DarkUI.Config;
 using DarkUI.Controls;
 
 namespace LogViewer.ControlEx
 {
+    class DarkListViewBorder : DarkListView
+    {
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            var g = e.Graphics;
+            var rect = ClientRectangle;
+
+            // Draw border
+            using (var p = new Pen(Colors.DarkBorder, 1))
+            {
+                var modRect = new Rectangle(rect.Left, rect.Top, rect.Width - 1, rect.Height - 1);
+
+                g.DrawRectangle(p, modRect);
+            }
+        }
+    }
+
     class ToolStripSuggestTextBox : ToolStripTextBox
     {
         private DarkListView _listBox;
@@ -20,7 +40,7 @@ namespace LogViewer.ControlEx
 
         private void InitializeComponent()
         {
-            _listBox = new DarkListView();
+            _listBox = new DarkListViewBorder();
             _listBox.Font = Font;
             _listBox.Height = 150;
             _listBox.DoubleClick += ListBoxOnDoubleClick;
@@ -43,10 +63,14 @@ namespace LogViewer.ControlEx
             if (!_isAdded)
             {
                 Parent.Parent.Controls.Add(_listBox);
-                _listBox.Left = TextBox.Left;
-                _listBox.Top = TextBox.Top + Height;
                 _isAdded = true;
             }
+
+            var p1 = TextBox.PointToScreen(new Point(0, 0));
+            var p2 = Parent.Parent.PointToScreen(new Point(0, 0));
+            _listBox.Top = p1.Y - p2.Y + Height;
+
+            _listBox.Left = TextBox.Left;
             _listBox.Width = Width;
             _listBox.Visible = true;
             _listBox.BringToFront();

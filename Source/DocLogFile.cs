@@ -572,6 +572,11 @@ namespace LogViewer
             GetToolStripStatusLabel().Text = "连接设备中： " + this.toolStripDropDownButtonAdbDevices.Text;
         }
 
+        public void SetAdbPicEnable(bool isEnabled)
+        {
+            this.toolStripButtonPicAdbLog.Enabled = isEnabled;
+        }
+
         public void TipConnectText(string tipText)
         {
             GetToolStripStatusLabel().Text = tipText;
@@ -682,6 +687,11 @@ namespace LogViewer
             this.toolStripTextBoxUdpPm.Visible = true;
             this.toolStripButtonPicUdpLog.Visible = true;
             GetToolStripStatusLabel().Text = "连接目标中： " + this.toolStripTextBoxEndPoint.Text;
+        }
+
+        public void SetUdpPicEnable(bool isEnabled)
+        {
+            this.toolStripButtonPicUdpLog.Enabled = isEnabled;
         }
 
         private void toolStripTextBoxEndPoint_KeyDown(object sender, KeyEventArgs e)

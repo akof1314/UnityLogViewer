@@ -524,7 +524,7 @@ namespace LogViewer
         /// 对后面新增的也进行搜索
         /// </summary>
         /// <param name="numContextLines"></param>
-        public void SearchNewLines<T>(List<T> newLines) where T:AdbClient.BaseLine
+        public void SearchNewLines<T>(List<T> newLines) where T : AdbClient.BaseLine
         {
             {
                 try
@@ -1412,7 +1412,7 @@ namespace LogViewer
                 var offset = this.fileStream.Seek(0, SeekOrigin.End);
                 this.fileStream.Write(buffer, 0, charCount);
 
-                // 因为行内容包括了CRCF，所以这里要减2，在拼接的时候，才不会出错
+                // 因为行内容包括了CRLF，所以这里要减2，在拼接的时候，才不会出错
                 var ll = NewLine(offset, charCount - 2, true, (Global.LogType)(adbLine.LogType / 10));
                 ll.IsTerms = adbLine.IsTerms;
                 ll.IsCurSearch = adbLine.IsCurSearch;
@@ -1470,10 +1470,10 @@ namespace LogViewer
                 var bufferCount = buffer.Length;
                 var offset = this.fileStream.Seek(0, SeekOrigin.End);
                 this.fileStream.Write(buffer, 0, bufferCount);
-                
+
                 var ll = NewLine(offset + 13, udpLine.CharCount - 13, true, (Global.LogType)udpLine.LogType);
-                ll.StackTraceOffset = offset + udpLine.CharCount;
-                ll.StackTraceCharCount = bufferCount - udpLine.CharCount;
+                ll.StackTraceOffset = offset + udpLine.CharCount + 1;   // 因为行内容包括了LF，所以这里要偏移加1，在拼接的时候，才不会出错
+                ll.StackTraceCharCount = bufferCount - udpLine.CharCount - 1;
                 ll.IsTerms = udpLine.IsTerms;
                 ll.IsCurSearch = udpLine.IsCurSearch;
                 newLines.Add(ll);
@@ -1797,12 +1797,19 @@ namespace LogViewer
         const string textBeforeFilePath = ") (at ";
         const string fileInBuildSlave = "C:/buildslave/unity/";
         const string fileInBuildSlave2 = "D:/unity/";
+        const string fileNameStartStr = "(Filename: ";
 
         private bool ShowLineStackTraceCSharp(string line)
         {
             int methodLastIndex = line.IndexOf('(');
             if (methodLastIndex <= 0)
             {
+                if (methodLastIndex == 0 && line.StartsWith(fileNameStartStr, StringComparison.Ordinal))
+                {
+                    pageForm.StackTraceAppendText(line, Constants.colorPathAlpha);
+                    pageForm.StackTraceAppendText("\n");
+                    return true;
+                }
                 return false;
             }
 
@@ -1841,14 +1848,15 @@ namespace LogViewer
             string fileString = String.Empty;
             string fileNameString = String.Empty;
             string fileLineString = String.Empty;
-            bool alphaColor = true;
+            // 工具不要显示暗色，容易看不见内容，以及大部分都是没带文件，会被误以为内部源码
+            bool alphaColor = false;
 
             int filePathIndex = line.IndexOf(textBeforeFilePath, argsLastIndex, StringComparison.Ordinal);
             if (filePathIndex > 0)
             {
                 filePathIndex += textBeforeFilePath.Length;
-                if (line[filePathIndex] != '<'
-                ) // sometimes no url is given, just an id between <>, we can't do an hyperlink
+                if (line[filePathIndex] != '<')
+                // sometimes no url is given, just an id between <>, we can't do an hyperlink
                 {
                     string filePathPart = line.Substring(filePathIndex);
                     int lineIndex =
@@ -1863,18 +1871,19 @@ namespace LogViewer
                         {
                             string filePath = filePathPart.Substring(0, lineIndex);
 
-                            bool isInBuildSlave = filePath.StartsWith(fileInBuildSlave, StringComparison.Ordinal) ||
-                                                  filePath.StartsWith(fileInBuildSlave2, StringComparison.Ordinal);
-                            if (!isInBuildSlave)
-                            {
-                                alphaColor = false;
-                            }
-
                             fileNameString = System.IO.Path.GetFileName(filePath);
                             fileString = textBeforeFilePath.Substring(1) +
                                          filePath.Substring(0, filePath.Length - fileNameString.Length);
                             fileLineString = filePathPart.Substring(lineIndex, endLineIndex - lineIndex + 1);
                         }
+                        else
+                        {
+                            fileString = line.Substring(argsLastIndex + 1);
+                        }
+                    }
+                    else
+                    {
+                        fileString = line.Substring(argsLastIndex + 1);
                     }
                 }
                 else
@@ -1927,6 +1936,8 @@ namespace LogViewer
         {
             if (string.IsNullOrEmpty(line) || line[0] != '	')
             {
+                pageForm.StackTraceAppendText(line);
+                pageForm.StackTraceAppendText("\n");
                 return false;
             }
 
