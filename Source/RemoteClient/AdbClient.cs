@@ -53,6 +53,7 @@ namespace LogViewer
             public string LineText { get; set; } = String.Empty;
             public string StackTraceText { get; set; } = String.Empty;
             public string TimeText { get; set; } = String.Empty;
+            public bool IsReadyCrLine { get; set; } = false;
 
             public override string GetLineText()
             {
@@ -571,18 +572,27 @@ namespace LogViewer
             bool isNew = true;
             if (Lines.Count > 0)
             {
-                isNew = Lines[Lines.Count - 1].IsCrLine;
+                var lastLine = Lines[Lines.Count - 1];
+                isNew = lastLine.IsCrLine;
 
-                if (!isNew && Lines[Lines.Count - 1].LogType != logType)
+                // 过滤掉最后一个空行
+                if (!isNew && lastLine.IsReadyCrLine && line.Length == 0)
                 {
-                    Lines[Lines.Count - 1].IsCrLine = true;
+                    lastLine.IsReadyCrLine = false;
+                    lastLine.IsCrLine = true;
+                    return;
+                }
+
+                if (!isNew && lastLine.LogType != logType)
+                {
+                    lastLine.IsCrLine = true;
                     isNew = true;
                 }
 
                 // 鼠标点击连续输出日志，会没有空行来区分，所以增加时间来判断
-                if (!isNew && Lines[Lines.Count - 1].TimeText != timeText)
+                if (!isNew && lastLine.TimeText != timeText)
                 {
-                    Lines[Lines.Count - 1].IsCrLine = true;
+                    lastLine.IsCrLine = true;
                     isNew = true;
                 }
             }
@@ -601,6 +611,12 @@ namespace LogViewer
             else if (Lines.Count > 0)
             {
                 Lines[Lines.Count - 1].StackTraceText += line + "\r\n";
+
+                // 需要判断是否最后标记，有些日志可能不会有这个，那么就得依靠时间来比较。时间也会粘在一起，所以也判断这个
+                if (line.StartsWith("(Filename:", StringComparison.Ordinal))
+                {
+                    Lines[Lines.Count - 1].IsReadyCrLine = true;
+                }
             }
         }
     }
