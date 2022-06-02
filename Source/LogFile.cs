@@ -232,6 +232,10 @@ namespace LogViewer
                                             {
                                                 logType = Global.LogType.Error;
                                             }
+                                            else if (tempStr[startIndex + 20] == 'E' && tempStr[startIndex + 29] == ':')
+                                            {
+                                                logType = Global.LogType.Error;
+                                            }
 
                                             SetLastLineCr();
                                             AddLine(lineStartOffset + newStartOffset, charCount - newStartOffset, false,
@@ -2006,6 +2010,18 @@ namespace LogViewer
                 methodString = line.Substring(methodFirstIndex + methodPreString.Length);
                 preMethodString = preMethodString.Remove(methodFirstIndex + methodPreString.Length);
             }
+            else
+            {
+                methodPreString = String.Empty;
+
+                // 未知的前缀，但是又有冒号，如果出现在这里，要添加到上面
+                methodFirstIndex = line.IndexOf(": ", StringComparison.Ordinal);
+                if (methodFirstIndex > 0)
+                {
+                    methodString = line.Substring(methodFirstIndex);
+                    preMethodString = preMethodString.Remove(methodFirstIndex);
+                }
+            }
 
             bool isAdd = false;
             bool cFunction = line.IndexOf(luaCFunction, 1, StringComparison.Ordinal) == 1;
@@ -2015,7 +2031,7 @@ namespace LogViewer
                 if (lineIndex > 0)
                 {
                     int endLineIndex = line.IndexOf(':', lineIndex + 1);
-                    if (endLineIndex > 0)
+                    if (endLineIndex > 0 && line.Length > endLineIndex + 1 && line[endLineIndex + 1] == ' ')
                     {
                         string lineString =
                             line.Substring(lineIndex + 1, (endLineIndex) - (lineIndex + 1));
