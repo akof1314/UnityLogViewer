@@ -133,7 +133,8 @@ namespace LogViewer
                     int charCount;
                     // Return value from IndexOf function
                     int indexOf;
-                    bool isTiny = false;
+                    bool isTiny = false;    // 一种日志格式
+                    int inFormatTimeStart = -1; // 一种日志格式，以时间起始
 
                     while (position < this.fileStream.Length)
                     {
@@ -198,8 +199,51 @@ namespace LogViewer
                                         }
                                     }
 
+                                    // 第一行来检测是否B日志格式
+                                    if (inFormatTimeStart == -1 && newStartOffset != 13 && !isTiny)
+                                    {
+                                        inFormatTimeStart = 0;
+                                        // 格式：2022/06/01 06:11:54
+                                        if (indexOf - startIndex > 19 && tempStr[startIndex + 10] == ' ' && tempStr[startIndex + 19] == ' ')
+                                        {
+                                            var timeStr = tempStr.Substring(startIndex, 19);
+                                            timeStr = timeStr.Replace('/', '-');
+                                            if (DateTime.TryParse(timeStr, out var a))
+                                            {
+                                                inFormatTimeStart = 1;
+                                            }
+                                        }
+                                    }
+
+                                    if (inFormatTimeStart == 1)
+                                    {
+                                        // 每条日志以统一格式开头，否则都是堆栈
+                                        if (indexOf - startIndex > 19 && tempStr[startIndex + 10] == ' ' && tempStr[startIndex + 19] == ' ')
+                                        {
+                                            if (tempStr[startIndex + 20] == 'L' && tempStr[startIndex + 23] == ':')
+                                            {
+                                                logType = Global.LogType.Info;
+                                            }
+                                            else if (tempStr[startIndex + 20] == 'W' && tempStr[startIndex + 27] == ':')
+                                            {
+                                                logType = Global.LogType.Warning;
+                                            }
+                                            else if (tempStr[startIndex + 20] == 'E' && tempStr[startIndex + 25] == ':')
+                                            {
+                                                logType = Global.LogType.Error;
+                                            }
+
+                                            SetLastLineCr();
+                                            AddLine(lineStartOffset + newStartOffset, charCount - newStartOffset, false,
+                                                logType);
+                                        }
+                                        else
+                                        {
+                                            AppendLineStackTrace(lineStartOffset, charCount + (curCr ? 1 : 0), false);
+                                        }
+                                    }
                                     // 不是tiny格式的话，就当做unity默认的
-                                    if (newStartOffset != 13 && !isTiny)
+                                    else if (newStartOffset != 13 && !isTiny)
                                     {
                                         // unity格式不以当行结尾是否cr来判断，而是以下一行是否\r空行来判断
                                         if (charCount == 0)
@@ -1930,6 +1974,8 @@ namespace LogViewer
 
         const string luaCFunction = "[C]";
         const string luaMethodBefore = ": in function ";
+        const string luaMethodBefore2 = ": in upvalue ";
+        const string luaMethodBefore3 = ": in local ";
         const string luaFileExt = ".lua";
 
         private bool ShowLineStackTraceLua(string line)
@@ -1943,11 +1989,22 @@ namespace LogViewer
 
             string preMethodString = line;
             string methodString = String.Empty;
+            string methodPreString = luaMethodBefore;
             int methodFirstIndex = line.IndexOf(luaMethodBefore, StringComparison.Ordinal);
+            if (methodFirstIndex < 0)
+            {
+                methodPreString = luaMethodBefore2;
+                methodFirstIndex = line.IndexOf(luaMethodBefore2, StringComparison.Ordinal);
+                if (methodFirstIndex < 0)
+                {
+                    methodPreString = luaMethodBefore3;
+                    methodFirstIndex = line.IndexOf(luaMethodBefore3, StringComparison.Ordinal);
+                }
+            }
             if (methodFirstIndex > 0)
             {
-                methodString = line.Substring(methodFirstIndex + luaMethodBefore.Length);
-                preMethodString = preMethodString.Remove(methodFirstIndex + luaMethodBefore.Length);
+                methodString = line.Substring(methodFirstIndex + methodPreString.Length);
+                preMethodString = preMethodString.Remove(methodFirstIndex + methodPreString.Length);
             }
 
             bool isAdd = false;
@@ -1983,7 +2040,7 @@ namespace LogViewer
                         pageForm.StackTraceAppendText(classString, Constants.colorClass);
                         pageForm.StackTraceAppendText(":", Constants.colorPath);
                         pageForm.StackTraceAppendText(lineString, Constants.colorPath);
-                        pageForm.StackTraceAppendText(luaMethodBefore, Constants.colorPath);
+                        pageForm.StackTraceAppendText(methodPreString, Constants.colorPath);
                         pageForm.StackTraceAppendText(methodString, Constants.colorMethod);
                         isAdd = true;
                     }
