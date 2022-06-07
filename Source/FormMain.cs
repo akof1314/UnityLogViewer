@@ -144,6 +144,11 @@ namespace LogViewer
                 return;
             }
 
+            if (!File.Exists(files[0]))
+            {
+                return;
+            }
+
             LoadFile(files[0]);
         }
 
